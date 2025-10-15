@@ -148,12 +148,14 @@ public class PlayerInput : CharacterInputBase
                 if (hit.transform.gameObject.layer == LayerMask.NameToLayer("MapBlock"))
                 {
                     Vector3Int tpos = LevelGridGenerator.Instance.tilemap.WorldToCell(hit.point);
-
+                    
+                    Debug.Log(tpos);
                     LevelGridTileObject tile_obj_new;
                     LevelGridTileObject tile_obj_old;
                     if (this.characterCtrl.MySelectTarget!=tpos && LevelGridGenerator.Instance.tile_dictionary.TryGetValue(tpos , out tile_obj_new))
                     {
                         tile_obj_new.SetSelect(true);
+
                         this.HaveSelectTarget = true;
                         if(LevelGridGenerator.Instance.tile_dictionary.TryGetValue(this.characterCtrl.MySelectTarget, out tile_obj_old))
                         {
@@ -166,8 +168,6 @@ public class PlayerInput : CharacterInputBase
 
 
                 }
-
-                Debug.Log(this.characterCtrl.MySelectTarget);
                 //DrawXuLiState();
 
                 //this.AimTargetRoot.rotation = Quaternion.FromToRotation(Vector2.up, characterCtrl.TryAimRotDir.GetValue());

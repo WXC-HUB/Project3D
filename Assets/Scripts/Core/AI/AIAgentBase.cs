@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 using Defective.JSON;
+using Unity.VisualScripting;
 
 namespace Assets.Scripts.AI
 {
@@ -20,6 +21,8 @@ namespace Assets.Scripts.AI
 
     public class AIAgentBase : MonoBehaviour
     {
+       
+        
         public Dictionary<string , Vector2> mPosDict = new Dictionary<string , Vector2>();
         public Dictionary<string , CharacterCtrlBase> mCharacterDict = new Dictionary<string , CharacterCtrlBase>();
 
@@ -29,70 +32,110 @@ namespace Assets.Scripts.AI
         public CharacterCtrlBase bindCharacterCtrl = null;
         public AISensorBase sensor = null;
 
+        public int isFollowRoad = 0;
+        public Vector3Int curPos = new Vector3Int(-999,-999);
+        public int NowIndex = 0;
+
         private void Start()
         {
             sensor = this.GetComponent<AISensorBase>();
-            curTree = AIUtiles.LoadBTreeFromFile("BehaviorTreeConfig/Tower1" , this);
             bindCharacterCtrl = this.GetComponent<CharacterCtrlBase>(); 
         }
 
-        public bool DoAction( BTNode tNode )
+        public bool DoAction( string name , string my_params )
         {
-            if( tNode.name == "GetCharacterToDic")
+            List<string> properties = my_params.Split('|').ToList();
+            if( name == "GetCharacterToDic")
             {
-                CharacterCtrlBase resCtrl = sensor.getCharacterByKey(tNode.properties.getType);
-                if (mCharacterDict.ContainsKey(tNode.properties.toDic)) 
+                string getType = properties[0];
+                string toDic = properties[1];   
+                CharacterCtrlBase resCtrl = sensor.getCharacterByKey(getType);
+                if (mCharacterDict.ContainsKey(toDic)) 
                 {
-                    mCharacterDict[tNode.properties.toDic] = resCtrl;
+                    mCharacterDict[toDic] = resCtrl;
                 }
                 else
                 {
-                    mCharacterDict.Add(tNode.properties.toDic, resCtrl);
+                    mCharacterDict.Add(toDic, resCtrl);
                 }
             }
+            if (name == "FollowPath")
+            {
+                if (isFollowRoad == 0)
+                {
+                    return false;
+                }
+                SpawnRootInfo sp;
+                Vector3Int target_pos = new Vector3Int();
+                if(LevelGridGenerator.Instance.spawnroot_dictionay.TryGetValue(isFollowRoad , out sp))
+                {
+                    curPos = LevelGridGenerator.Instance.tilemap.WorldToCell(transform.position);
+                    
+                    if ( sp.move_points.Contains(curPos))
+                    {
+                        if(sp.move_points.IndexOf(curPos) == NowIndex)
+                        {
+                            NowIndex += 1;
+                        }
+                        if( NowIndex < sp.move_points.Count - 1)
+                        {
+                            target_pos = sp.move_points[NowIndex];
+                        }
+      
+                    }
+                    else
+                    {
+                        target_pos = sp.move_points[NowIndex];
+                    }
 
-            Debug.LogError(String.Format("未知的AI Action：{0} {1}", tNode.name, tNode.id));
+                    Debug.Log("goto:" +  target_pos);
+
+                    this.transform.position = Vector3.Lerp(transform.position, LevelGridGenerator.Instance.tilemap.CellToWorld(target_pos), 10* Time.deltaTime);
+                }
+                else
+                {
+                    return false ;
+                }
+            }
             return false;
         }
 
-        public bool DoCondition(BTNode tNode)
+        public bool DoCondition(string name, string my_params)
         {
-            if (tNode.name == "IsBool")
+            List<string> properties = my_params.Split('|').ToList();
+            if (name == "IsBool")
             {
-                if( bindCharacterCtrl.AttributesDicts.ContainsKey(tNode.properties.pName))
+                if(bindCharacterCtrl.AttributesDicts.ContainsKey(properties[0]))
                 {
-                    return Boolean.Parse(tNode.properties.pValue) 
-                        == (this.bindCharacterCtrl.AttributesDicts[tNode.properties.pName] as Character_Bool).GetValue();
+                    return (this.bindCharacterCtrl.AttributesDicts[properties[0]] as Character_Bool).GetValue();
                 }
                 else
                 {
                     return false;
                 }
             }
-            else if (tNode.name == "IsFloat")
+            else if (name == "IsFloat")
             {
-                if (bindCharacterCtrl.AttributesDicts.ContainsKey(tNode.properties.pName))
+                if (bindCharacterCtrl.AttributesDicts.ContainsKey(properties[0]) )
                 {
-                    return MathF.Abs(float.Parse(tNode.properties.pValue) -
-                        (this.bindCharacterCtrl.AttributesDicts[tNode.properties.pName] as Character_Float).GetValue() ) <= 0.001f ; 
+                    return MathF.Abs(float.Parse(properties[1]) -
+                        (this.bindCharacterCtrl.AttributesDicts[properties[1]] as Character_Float).GetValue() ) <= 0.001f ; 
                 }
             }
-            else if (tNode.name == "HasCharacter")
+            else if (name == "HasCharacter")
             {
-                return mCharacterDict.ContainsKey(tNode.properties.pName) && mCharacterDict[tNode.properties.pName] != null;
+                return mCharacterDict.ContainsKey(properties[0]) && mCharacterDict[properties[0]] != null;
             }
-            else if(tNode.name == "NearPos")
+            else if(name == "NearPos")
             {
-                if( mPosDict.ContainsKey(tNode.properties.pName) && mPosDict[tNode.properties.pName] != null)
+                if( mPosDict.ContainsKey(properties[0]) && mPosDict[properties[0]] != null)
                 {
-                    return ((this.bindCharacterCtrl.AttributesDicts[tNode.properties.pName] as Character_Vector2).GetValue()
-                        - this.mPosDict[tNode.properties.pName]).magnitude <= 0.001f;
+                    return ((this.bindCharacterCtrl.AttributesDicts[properties[0]] as Character_Vector2).GetValue()
+                        - this.mPosDict[properties[0]]).magnitude <= 0.001f;
                 }
 
-                
             }
 
-            Debug.LogError(String.Format("未知的AI Condition：{0} {1}", tNode.name, tNode.id));
             return false;
         }
 
@@ -101,7 +144,7 @@ namespace Assets.Scripts.AI
         {
             if (state == AIAgentState.Running  && curTree != null)
             {
-                curTree.RunNode();
+                //curTree.RunNode();
             }
         }
     }

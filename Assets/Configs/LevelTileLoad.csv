@@ -1,0 +1,2 @@
+LevelID,LayerID,TileMapType,TileMapPath,ExtraParam
+1,1,Wall,MapConfig\Level_1\Layer_Wall,

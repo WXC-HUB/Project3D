@@ -74,46 +74,6 @@ namespace Assets.Scripts.Core
             return null;
         }
 
-        void StartRoundGame()
-        {
-            RoundCnt = 1;
-            NowWorkTeamI = 0;
-            foreach (var item in levelTeams)
-            {
-                item.his_Character.SetInputEnable(false);
-            }
-
-            levelTeams[NowWorkTeamI].his_Character.SetInputEnable(true);    
-
-        }
-
-
-
-        void GoNextPlayer()
-        {
-            NowWorkTeamI++;
-            if(NowWorkTeamI == levelTeams.Count)
-            {
-                GoNextRound();
-            }
-            else
-            {
-                foreach (var item in levelTeams)
-                {
-                    item.his_Character.SetInputEnable(false);
-                }
-                levelTeams[NowWorkTeamI].his_Character.SetInputEnable(true);
-            }
-        }
-
-
-        void GoNextRound()
-        {
-            NowWorkTeamI = -1;
-            RoundCnt++;
-            GoNextPlayer();
-        }
-
         // Use this for initialization
         void Start()
         {
@@ -121,11 +81,13 @@ namespace Assets.Scripts.Core
             //Invoke("StartRoundGame", 1);
             //LevelEvnetManager.Instance.AddListener(EventType_Game2DCMD.GoNextPlayer, GameCMD_GoNextPlayer);
             //LevelEvnetManager.Instance.AddListener(EventType_Game2DPlayEvent.CharacterEndMove , GameCMD_GoNextPlayer);
+
+            Invoke("StartMyGame", 1);
         }
 
-        void GameCMD_GoNextPlayer(BaseEventArgs aa)
+        void StartMyGame()
         {
-            GoNextPlayer() ;
+            LevelGridGenerator.Instance.LoadLevelByID(1);
         }
 
         //事件系统通过回调，严格控制游戏的整体运行流程。但由于事件的触发分布在各个GameObject中，所以无法严格保证先后顺序

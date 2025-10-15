@@ -39,7 +39,17 @@ namespace Assets.Scripts.Core
         public string desc;
     }
 
-    public class GameObjects : TableDatabase
+    public class InGameObjects : TableDatabase
+    {
+        public int ObjectID;
+        public string ObjectName;
+        public int ObjectType;
+        public string BindPrefab;
+        public List<int> InitModifier;
+
+    }
+
+    public class GameCharacters : TableDatabase
     {
         public int ObjectID;
         public string ObjectName;
@@ -56,13 +66,34 @@ namespace Assets.Scripts.Core
         public string desc;
     }
 
+    public class LevelTileLoad : TableDatabase
+    {
+        public int LevelID;
+        public int LayerID;
+        public string TileMapType;
+        public string TileMapPath;
+        public string ExtraParam;
+    }
+
+    public class SpawnRoots : TableDatabase
+    {
+        public int RootID;
+        public int EnemyID;
+        public float SpawnGap;
+    }
+
     public class GameTableConfig : Singleton<GameTableConfig>
     {
         public ConfigTable<GameModifiers> Config_GameModifiers = new ConfigTable<GameModifiers>("Configs/GameModifiers.csv");
         public ConfigTable<GameFields> Config_GameFields = new ConfigTable<GameFields>("Configs/GameFields.csv");
         public ConfigTable<GameSkills> Config_GameSkills = new ConfigTable<GameSkills>("Configs/GameSkills.csv");
-        public ConfigTable<GameObjects> Config_GameObjects = new ConfigTable<GameObjects>("Configs/GameObjects.csv");
+        public ConfigTable<InGameObjects> Config_GameObjects = new ConfigTable<InGameObjects>("Configs/GameObjects.csv");
         public ConfigTable<TileBlocks> Config_TileBlocks = new ConfigTable<TileBlocks>("Configs/TileBlocks.csv");
+        public ConfigTable<LevelTileLoad> Config_LevelTileLoad = new ConfigTable<LevelTileLoad>("Configs/LevelTileLoad.csv");
+        public ConfigTable<SpawnRoots> Config_SpawnRoots = new ConfigTable<SpawnRoots>("Configs/SpawnRoots.csv");
+        public ConfigTable<GameCharacters> Config_GameCharacters = new ConfigTable<GameCharacters>("Configs/GameCharacters.csv");
+
+
         public void CallBlank() { }
     }
 

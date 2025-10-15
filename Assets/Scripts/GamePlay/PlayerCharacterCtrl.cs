@@ -10,7 +10,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
     public float XuLiSpeed = 1f;
     public int XuLiCnt = 0;
 
-    public Vector3Int MySelectTarget = new Vector3Int(0, 0, 0);
+    public Vector3Int MySelectTarget;
 
     public Character_Float XuliPower = new Character_Float("XuliPower", 10f);
 

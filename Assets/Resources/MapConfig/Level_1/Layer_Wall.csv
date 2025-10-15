@@ -1,0 +1,13 @@
+0,1,2,3,4,5,6,7,8,9,10,11,12
+1,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2
+2,Wall_2,,,,,Wall_1,,,,,,Wall_2
+3,Wall_2,Road_101,Road_101,Road_101,,Wall_1,,,,,,Wall_2
+4,Wall_1,Road_101,,Road_101,,Wall_1,,,,Wall_1,,Wall_1
+5,Wall_2,Road_101,Wall_1,Road_101,,Wall_1,,,Wall_1,,,Wall_2
+6,Wall_1,Road_101,Wall_1,Road_101,,Wall_3,,Road_101,Road_101,Road_101,Road_101|Home_1,Wall_1
+7,Wall_2,Road_101,Wall_1,Road_101,,Wall_3,,Road_101,,Wall_2,,Wall_2
+8,Wall_2,Road_101,Wall_1,Road_101,,,,Road_101,,Wall_1,,Wall_2
+9,Wall_1,Road_101,Wall_3,Road_101,Road_101,Road_101,Road_101,Road_101,,Wall_1,,Wall_1
+10,Wall_1,SpawnRoot_101,Wall_3,,,,,,,,,Wall_1
+11,Wall_2,,Wall_3,,,,,,,,,Wall_2
+12,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2,Wall_2

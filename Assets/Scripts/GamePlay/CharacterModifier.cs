@@ -170,7 +170,7 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             Vector3 spawn_pos = LevelGridGenerator.Instance.tilemap.GetCellCenterWorld(spawn_pos_tile);
 
             int spwan_id = Convert.ToInt32(action_params[0]);
-            GameObjects gameObjectConfig = GameTableConfig.Instance.Config_GameObjects.FindFirstLine((GameObjects gf) => gf.ObjectID == spwan_id);
+            InGameObjects gameObjectConfig = GameTableConfig.Instance.Config_GameObjects.FindFirstLine((InGameObjects gf) => gf.ObjectID == spwan_id);
 
             if (gameObjectConfig == null)
             {

@@ -27,6 +27,8 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public Dictionary<string , CharacterAttribute> AttributesDicts = new Dictionary<string , CharacterAttribute>();    
 
+    public Character_Bool isAlive = new Character_Bool("isAlive", true); 
+
     //float LinerDrag = 1.5f;
     public Character_Float LinerDrag = new Character_Float("LinerDrag", 1.5f);
     public Character_Float MaxSpeed = new Character_Float("MaxSpeed", 1.5f);
@@ -47,6 +49,8 @@ public class CharacterCtrlBase : MonoBehaviour
     public Character_Float doHitPower = new Character_Float("beHitDamage", 10f);
 
     public Character_Bool isFixedPosition = new Character_Bool("isFixedPosition", false);
+
+    public Character_Bool usePhysic = new Character_Bool("usePhysic", true);
 
     public List<int> Init_Modifier_List = new List<int>();  
 
@@ -70,6 +74,8 @@ public class CharacterCtrlBase : MonoBehaviour
 
     protected void Awake()
     {
+        isAlive.TakeEffect(this);
+        
         LinerDrag.TakeEffect(this);
         MaxSpeed.TakeEffect(this);
         EnableMoveInput.TakeEffect(this);
@@ -87,16 +93,25 @@ public class CharacterCtrlBase : MonoBehaviour
 
         isInvincible.TakeEffect(this);
         isFixedPosition.TakeEffect(this);
+
+        usePhysic.TakeEffect(this);
     }
 
     private void FixedUpdate()
     {
-        UpdateMoveState();   //重写物理
+        if (this.usePhysic.GetValue())
+        {
+            UpdateMoveState();   //重写物理
+        }
+        
     }
 
     private void UpdateMoveState()
     {
-        
+        if(col2D == null || rb == null)
+        {
+            return;
+        }
         //处理碰撞    
         RaycastHit2D[] hit2Ds = new RaycastHit2D[100];
         int hit_cnt = this.col2D.Cast(this.rb.velocity, hit2Ds, this.rb.velocity.magnitude * Time.fixedDeltaTime);
