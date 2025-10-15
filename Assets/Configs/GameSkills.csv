@@ -1,0 +1,5 @@
+SkillID,SkillName,CastImmediate,ShowInVirtualInput,ModifierID,ModifierDuration,SkillColor,desc
+1,基础冲撞,FALSE,FALSE,1001,-1,00AAEE,基础的碰撞技能
+2,撞击爆炸,TRUE,TRUE,2001,-1,66CCFF,撞击爆炸
+3,闪身,TRUE,TRUE,3001,-1,66CCFF,点击闪身
+4,放置一座防御塔,TRUE,TRUE,5001,-1,66CCFF,放置一座防御塔

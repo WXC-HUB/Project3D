@@ -1,0 +1,208 @@
+{
+  "version": "0.3.0",
+  "scope": "tree",
+  "id": "63ae2880-647e-41a9-9d5f-ecec2ab8696e",
+  "title": "A behavior tree",
+  "description": "",
+  "root": "d18ebe54-e7b8-4e66-8c93-b1077b8e334d",
+  "properties": {},
+  "nodes": {
+    "d18ebe54-e7b8-4e66-8c93-b1077b8e334d": {
+      "id": "d18ebe54-e7b8-4e66-8c93-b1077b8e334d",
+      "name": "Sequence",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 12,
+        "y": -24
+      },
+      "children": [
+        "1fdf313b-ba0f-4ca2-80a1-a8b55c29af9e",
+        "0cef5389-f661-45f9-8d2c-60683042ca32"
+      ]
+    },
+    "0cef5389-f661-45f9-8d2c-60683042ca32": {
+      "id": "0cef5389-f661-45f9-8d2c-60683042ca32",
+      "name": "Idle",
+      "title": "Idle",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 216,
+        "y": 156
+      }
+    },
+    "1fdf313b-ba0f-4ca2-80a1-a8b55c29af9e": {
+      "id": "1fdf313b-ba0f-4ca2-80a1-a8b55c29af9e",
+      "name": "Sequence",
+      "title": "Sequence",
+      "description": "",
+      "properties": {},
+      "display": {
+        "x": 144,
+        "y": -72
+      },
+      "children": [
+        "f1a907d3-e5d9-4872-9252-d45270398cfb",
+        "a8cf307f-0401-4f76-b9c4-1dbbb8819c24",
+        "0aa26227-6d70-4fc1-99ab-0bd8b2a94048",
+        "ff5504c7-55f2-4da3-9a41-6f06cb9b2558",
+        "21e3e6ac-71ad-497b-93b8-5bc3a5c41202",
+        "64366cd9-515b-4dde-86b1-5ee0de5a5fa6"
+      ]
+    },
+    "f1a907d3-e5d9-4872-9252-d45270398cfb": {
+      "id": "f1a907d3-e5d9-4872-9252-d45270398cfb",
+      "name": "IsBool",
+      "title": "IsBool",
+      "description": "",
+      "properties": {
+        "pName": "isActive"
+      },
+      "display": {
+        "x": 336,
+        "y": -228
+      }
+    },
+    "a8cf307f-0401-4f76-b9c4-1dbbb8819c24": {
+      "id": "a8cf307f-0401-4f76-b9c4-1dbbb8819c24",
+      "name": "GetCharacterToDic",
+      "title": "GetCharacterToDic",
+      "description": "",
+      "properties": {
+        "getType": "NearestEnemy",
+        "toDic": "TargetEnemy"
+      },
+      "display": {
+        "x": 336,
+        "y": -180
+      }
+    },
+    "0aa26227-6d70-4fc1-99ab-0bd8b2a94048": {
+      "id": "0aa26227-6d70-4fc1-99ab-0bd8b2a94048",
+      "name": "HasCharacter",
+      "title": "HasCharacter",
+      "description": "",
+      "properties": {
+        "pName": "TargetEnemy"
+      },
+      "display": {
+        "x": 336,
+        "y": -132
+      }
+    },
+    "ff5504c7-55f2-4da3-9a41-6f06cb9b2558": {
+      "id": "ff5504c7-55f2-4da3-9a41-6f06cb9b2558",
+      "name": "LookTarget",
+      "title": "LookTarget",
+      "description": "",
+      "properties": {
+        "target": "TargetEnemy"
+      },
+      "display": {
+        "x": 336,
+        "y": -84
+      }
+    },
+    "21e3e6ac-71ad-497b-93b8-5bc3a5c41202": {
+      "id": "21e3e6ac-71ad-497b-93b8-5bc3a5c41202",
+      "name": "IsFloat",
+      "title": "IsFloat",
+      "description": "",
+      "properties": {
+        "pName": "mAttackCD",
+        "pValue": 0
+      },
+      "display": {
+        "x": 336,
+        "y": -36
+      }
+    },
+    "64366cd9-515b-4dde-86b1-5ee0de5a5fa6": {
+      "id": "64366cd9-515b-4dde-86b1-5ee0de5a5fa6",
+      "name": "AttackTarget",
+      "title": "AttackTarget",
+      "description": "",
+      "properties": {
+        "target": "TargetEnemy"
+      },
+      "display": {
+        "x": 336,
+        "y": 12
+      }
+    }
+  },
+  "display": {
+    "camera_x": 853.5,
+    "camera_y": 399.5,
+    "camera_z": 1,
+    "x": -108,
+    "y": -12
+  },
+  "custom_nodes": [
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "HasCharacter",
+      "category": "condition",
+      "title": "HasCharacter",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "IsBool",
+      "category": "condition",
+      "title": "IsBool",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "IsFloat",
+      "category": "condition",
+      "title": "IsFloat",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "GetCharacterToDic",
+      "category": "action",
+      "title": "GetCharacterToDic",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "LookTarget",
+      "category": "action",
+      "title": "LookTarget",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "AttackTarget",
+      "category": "action",
+      "title": "AttackTarget",
+      "description": null,
+      "properties": {}
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
+      "name": "Idle",
+      "category": "action",
+      "title": "Idle",
+      "description": null,
+      "properties": {}
+    }
+  ]
+}
