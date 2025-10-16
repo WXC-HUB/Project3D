@@ -1,71 +1,71 @@
 ModifierID,ModifierSubID,ActType,ModifierParam,desc
-1,1,AddSimpleDect,bool_set|EnableMoveInput|false,1001:¾Ü¾øÊäÈë
-1,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,1001:ÎŞÊÓËÙ¶ÈÉÏÏŞ
-1,3,AddSimpleDect,bool_set|IsAnimationRoll|true,1001:ÉèÖÃ¹ö¶¯×´Ì¬
-1,4,BindVFX,VFX_PlayerRoll,1001:ÉèÖÃÎ²¼£
-1,5,AddSimpleDect,bool_set|IsFOVLock|true,1001:Ëø¶¨FOV
-1,6,AddSimpleDect,float_set|LinerDrag|0,1001:È¡ÏûÏßĞÔ×èÄá
-2,1,SyncInputValue,Vector2_set|TryInputDir|Left,Í¬²½ÏµÍ³ÒÆ¶¯ÊäÈë
-2,1,SyncInputValue,Vector2_set|TryAimRotDir|Right,Í¬²½ÏµÍ³Ãé×¼ÊäÈë
-3,1,MoveRandomlyTemp,Vector2_set|TryInputDir,ÁÙÊ±µÄËæ»úÒÆ¶¯Buff
-4,1,AddSimpleDect,bool_set|EnableMoveInput|false,±»Åö×²£º¾Ü¾øÊäÈë
-4,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,±»Åö×²£ºÎŞÊÓËÙ¶ÈÉÏÏŞ
-5,1,SyncClassValue,Vector2_set|MoveSpeedBuffer|FieldCenter,ºÚ¶´ËÙ¶ÈÖĞĞÄ
-2001,1,ListenGameEvent,CharacterDoCollide|SpawnField|1|HitPointX|HitPointY,¼¼ÄÜ£ºÅö×²Ê±Òı·¢±¬Õ¨
-2001,2,BindVFX,VFX_Player_ThinkBoom,°ó¶¨Ë¼¿¼Ğ§¹û
-2001,3,ListenGameEvent,CharacterDoCollide|DispelModifier|2001|DoHitCharacter,¼¼ÄÜ£ºÅö×²Ê±ÇıÉ¢×ÔÉí
-1001,1,AddSimpleDect,float_add|NaiLi_Reduce|1,ĞîÁ¦¼¼ÄÜ£ºÔö¼Ó³ÖĞøÄÍÁ¦Ï÷Èõ
-1001,2,AddSimpleDect,float_set|NaiLi_Regain|0,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1001,3,AddSimpleDect,float_add|MaxSpeed|-2,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1001,4,AddSimpleDect,float_add|targetCameraFOV|0.5,ĞîÁ¦¼¼ÄÜ£ºÌ§¸ß¾µÍ·FOV
-1001,5,ListenGameEvent,CharacterXuLiStageUp|AddModifier|1002|MainCharacter|-1,ĞîÁ¦Éı¶ÎÊ±£ºÌí¼ÓÏÂÒ»½×¶ÎBuff
-1001,6,ListenGameEvent,CharacterXuLiStageUp|SpawnVFX|VFX_XuLiUp|MainCharacter,ĞîÁ¦Éı¶ÎÊ±£ºÌí¼ÓÉı¶ÎÌØĞ§
-1001,7,ListenGameEvent,CharacterXuLiStageUp|DispelModifier|1001|MainCharacter,ĞîÁ¦Éı¶ÎÊ±£ºÇıÉ¢×ÔÉí
-1001,8,ListenGameEvent,CharacterCastSkill|DispelModifier|1001|MainCharacter,ÊÍ·Å¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1001,9,ListenGameEvent,CharacterCancelSkill|DispelModifier|1001|MainCharacter,È¡Ïû¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1002,1,AddSimpleDect,float_add|NaiLi_Reduce|2,ĞîÁ¦¼¼ÄÜ£ºÔö¼Ó³ÖĞøÄÍÁ¦Ï÷Èõ
-1002,2,AddSimpleDect,float_set|NaiLi_Regain|0,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1002,3,AddSimpleDect,float_add|MaxSpeed|-3,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1002,4,AddSimpleDect,float_add|targetCameraFOV|1,ĞîÁ¦¼¼ÄÜ£ºÌ§¸ß¾µÍ·FOV
-1002,5,ListenGameEvent,CharacterXuLiStageUp|AddModifier|1003|MainCharacter|-1,ĞîÁ¦Éı¶ÎÊ±£ºÌí¼ÓÏÂÒ»½×¶ÎBuff
-1002,6,ListenGameEvent,CharacterXuLiStageUp|SpawnVFX|VFX_XuLiUp|MainCharacter,ĞîÁ¦Éı¶ÎÊ±£ºÌí¼ÓÉı¶ÎÌØĞ§
-1002,7,ListenGameEvent,CharacterXuLiStageUp|DispelModifier|1002|MainCharacter,ĞîÁ¦Éı¶ÎÊ±£ºÇıÉ¢×ÔÉí
-1002,8,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|AimDirX|AimDirY|15|true,ÊÍ·Å¼¼ÄÜÊ±£º×ÔÉí¼ÓÁ¦
-1002,9,ListenGameEvent,CharacterCastSkill|AddModifier|1|MainCharacter|0.3,ÊÍ·Å¼¼ÄÜÊ±£ºÌí¼ÓType1 Buff
-1002,10,ListenGameEvent,CharacterCastSkill|DispelModifier|1002|MainCharacter,ÊÍ·Å¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1002,11,ListenGameEvent,CharacterCancelSkill|DispelModifier|1002|MainCharacter,È¡Ïû¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1003,1,AddSimpleDect,float_add|NaiLi_Reduce|4,ĞîÁ¦¼¼ÄÜ£ºÔö¼Ó³ÖĞøÄÍÁ¦Ï÷Èõ
-1003,2,AddSimpleDect,float_set|NaiLi_Regain|0,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1003,3,AddSimpleDect,float_add|MaxSpeed|-5,ĞîÁ¦¼¼ÄÜ£º½µµÍÒÆ¶¯ËÙ¶È
-1003,4,AddSimpleDect,float_add|targetCameraFOV|2,ĞîÁ¦¼¼ÄÜ£ºÌ§¸ß¾µÍ·FOV
-1003,5,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|AimDirX|AimDirY|21|true,ÊÍ·Å¼¼ÄÜÊ±£º×ÔÉí¼ÓÁ¦
-1003,6,ListenGameEvent,CharacterXuLiStageUp|SpawnVFX|VFX_XuLiUp|MainCharacter,ĞîÁ¦Éı¶ÎÊ±£ºÌí¼ÓÉı¶ÎÌØĞ§
-1003,7,ListenGameEvent,CharacterCastSkill|AddModifier|1|MainCharacter|1.0,ÊÍ·Å¼¼ÄÜÊ±£ºÌí¼ÓType1 Buff
-1003,8,ListenGameEvent,CharacterCastSkill|DispelModifier|1003|MainCharacter,ÊÍ·Å¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1003,9,ListenGameEvent,CharacterXuLiStageUp|AddModifier|1004|MainCharacter|-1,ĞîÁ¦Éı¶ÎÊ±£ºÌí¼ÓÏÂÒ»½×¶ÎBuff
-1003,10,ListenGameEvent,CharacterXuLiStageUp|DispelModifier|1003|MainCharacter,ĞîÁ¦Éı¶ÎÊ±£ºÇıÉ¢×ÔÉí
-1003,11,ListenGameEvent,CharacterCancelSkill|DispelModifier|1003|MainCharacter,È¡Ïû¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1004,1,AddSimpleDect,float_add|NaiLi_Reduce|4,ĞîÁ¦¼¼ÄÜ£ºÔö¼Ó³ÖĞøÄÍÁ¦Ï÷Èõ
-1004,2,AddSimpleDect,float_set|NaiLi_Regain|0,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1004,3,AddSimpleDect,float_add|MaxSpeed|-6,ĞîÁ¦¼¼ÄÜ£º½ûÖ¹ÄÍÁ¦»Ø¸´
-1004,4,AddSimpleDect,float_add|targetCameraFOV|4,ĞîÁ¦¼¼ÄÜ£ºÌ§¸ß¾µÍ·FOV
-1004,5,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|AimDirX|AimDirY|25|true,ÊÍ·Å¼¼ÄÜÊ±£º×ÔÉí¼ÓÁ¦
-1004,6,ListenGameEvent,CharacterCastSkill|AddModifier|1|MainCharacter|1.5,ÊÍ·Å¼¼ÄÜÊ±£ºÌí¼ÓType1 Buff
-1004,7,ListenGameEvent,CharacterCastSkill|DispelModifier|1004|MainCharacter,ÊÍ·Å¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-1004,8,ListenGameEvent,CharacterCancelSkill|DispelModifier|1003|MainCharacter,È¡Ïû¼¼ÄÜÊ±£ºÇıÉ¢×ÔÉí
-3001,1,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|InputDirX|InputDirY|5|true,ÉÁÉí¶¯×÷£º×ÔÉí¼ÓÁ¦
-3001,2,ListenGameEvent,CharacterCastSkill|AddModifier|3002|MainCharacter|0.25,ÉÁÉí¶¯×÷£ºÊ©¼ÓÎŞÊÓËÙ¶ÈµÈBuff
-3001,3,ListenGameEvent,CharacterCastSkill|DispelModifier|3001|MainCharacter,ÉÁÉí¶¯×÷£ºÊÍ·ÅÊ±ÇıÉ¢×ÔÉí
-3002,1,AddSimpleDect,bool_set|EnableMoveInput|false,ÉÁÉí¶¯×÷£º¾Ü¾øÊäÈë
-3002,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,ÉÁÉí¶¯×÷£ºÎŞÊÓËÙ¶ÈÉÏÏŞ
-3002,3,AddSimpleDect,float_set|LinerDrag|0,ÉÁÉí¶¯×÷£ºÈ¡ÏûÏßĞÔ×èÄá
-4001,1,ListenGameEvent,CharacterBeCollide|AddModifier|4002|BeHitCharacter|3,Õ¨µ¯ÎïÌå£º±»´¥ÅöÊ±±¬Õ¨
-4001,2,ListenGameEvent,CharacterBeCollide|DispelModifier|4001|BeHitCharacter,Õ¨µ¯ÎïÌå£º±»´¥ÅöÊ±±¬Õ¨
-4002,1,LifeTimeEvent,ModifierLifeTime_Start|SetAnimationParam|MainCharacter|bool|IsCountingDown|true,Õ¨µ¯ÎïÌåµ¹¼ÆÊ±
-4002,2,LifeTimeEvent,ModifierLifeTime_End|SetAnimationParam|MainCharacter|bool|IsCountingDown|false,Õ¨µ¯ÎïÌåµ¹¼ÆÊ±
-4002,3,LifeTimeEvent,ModifierLifeTime_End|DoDamage|MainCharacter|99999,Õ¨µ¯ÎïÌåµ¹¼ÆÊ±
-4002,4,ListenGameEvent,CharacterDie|SpawnField|1|PositionX|PositionY,¼¼ÄÜ£ºÅö×²Ê±Òı·¢±¬Õ¨
-5001,1,ListenGameEvent,CharacterCastSkill|SpawnInGameObjectToTile|1|MainCharacter|SelectPosIntX|SelectPosIntY,·ÀÓùËşÉú³É£ºÉú³ÉÒ»¸ö1ºÅ·ÀÓùËş
-5001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|5001|MainCharacter,·ÀÓùËşÉú³É£ºÇıÉ¢×ÔÉí
-6001,1,BindAISensor,AISensor_FindEnemyNearby,°ó¶¨AI¸ĞÖªÆ÷
-6001,2,BindAIAgent,AIAgent_BasicAttack,°ó¶¨AIË¼¿¼Æ÷
+1,1,AddSimpleDect,bool_set|EnableMoveInput|false,1001:æ‹’ç»è¾“å…¥
+1,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,1001:æ— è§†é€Ÿåº¦ä¸Šé™
+1,3,AddSimpleDect,bool_set|IsAnimationRoll|true,1001:è®¾ç½®æ»šåŠ¨çŠ¶æ€
+1,4,BindVFX,VFX_PlayerRoll,1001:è®¾ç½®å°¾è¿¹
+1,5,AddSimpleDect,bool_set|IsFOVLock|true,1001:é”å®šFOV
+1,6,AddSimpleDect,float_set|LinerDrag|0,1001:å–æ¶ˆçº¿æ€§é˜»å°¼
+2,1,SyncInputValue,Vector2_set|TryInputDir|Left,åŒæ­¥ç³»ç»Ÿç§»åŠ¨è¾“å…¥
+2,1,SyncInputValue,Vector2_set|TryAimRotDir|Right,åŒæ­¥ç³»ç»Ÿç„å‡†è¾“å…¥
+3,1,MoveRandomlyTemp,Vector2_set|TryInputDir,ä¸´æ—¶çš„éšæœºç§»åŠ¨Buff
+4,1,AddSimpleDect,bool_set|EnableMoveInput|false,è¢«ç¢°æ’ï¼šæ‹’ç»è¾“å…¥
+4,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,è¢«ç¢°æ’ï¼šæ— è§†é€Ÿåº¦ä¸Šé™
+5,1,SyncClassValue,Vector2_set|MoveSpeedBuffer|FieldCenter,é»‘æ´é€Ÿåº¦ä¸­å¿ƒ
+2001,1,ListenGameEvent,CharacterDoCollide|SpawnField|1|HitPointX|HitPointY,æŠ€èƒ½ï¼šç¢°æ’æ—¶å¼•å‘çˆ†ç‚¸
+2001,2,BindVFX,VFX_Player_ThinkBoom,ç»‘å®šæ€è€ƒæ•ˆæœ
+2001,3,ListenGameEvent,CharacterDoCollide|DispelModifier|2001|DoHitCharacter,æŠ€èƒ½ï¼šç¢°æ’æ—¶é©±æ•£è‡ªèº«
+1001,1,AddSimpleDect,float_add|NaiLi_Reduce|1,è“„åŠ›æŠ€èƒ½ï¼šå¢åŠ æŒç»­è€åŠ›å‰Šå¼±
+1001,2,AddSimpleDect,float_set|NaiLi_Regain|0,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1001,3,AddSimpleDect,float_add|MaxSpeed|-2,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1001,4,AddSimpleDect,float_add|targetCameraFOV|0.5,è“„åŠ›æŠ€èƒ½ï¼šæŠ¬é«˜é•œå¤´FOV
+1001,5,ListenGameEvent,CharacterXuLiStageUp|AddModifier|1002|MainCharacter|-1,è“„åŠ›å‡æ®µæ—¶ï¼šæ·»åŠ ä¸‹ä¸€é˜¶æ®µBuff
+1001,6,ListenGameEvent,CharacterXuLiStageUp|SpawnVFX|VFX_XuLiUp|MainCharacter,è“„åŠ›å‡æ®µæ—¶ï¼šæ·»åŠ å‡æ®µç‰¹æ•ˆ
+1001,7,ListenGameEvent,CharacterXuLiStageUp|DispelModifier|1001|MainCharacter,è“„åŠ›å‡æ®µæ—¶ï¼šé©±æ•£è‡ªèº«
+1001,8,ListenGameEvent,CharacterCastSkill|DispelModifier|1001|MainCharacter,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1001,9,ListenGameEvent,CharacterCancelSkill|DispelModifier|1001|MainCharacter,å–æ¶ˆæŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1002,1,AddSimpleDect,float_add|NaiLi_Reduce|2,è“„åŠ›æŠ€èƒ½ï¼šå¢åŠ æŒç»­è€åŠ›å‰Šå¼±
+1002,2,AddSimpleDect,float_set|NaiLi_Regain|0,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1002,3,AddSimpleDect,float_add|MaxSpeed|-3,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1002,4,AddSimpleDect,float_add|targetCameraFOV|1,è“„åŠ›æŠ€èƒ½ï¼šæŠ¬é«˜é•œå¤´FOV
+1002,5,ListenGameEvent,CharacterXuLiStageUp|AddModifier|1003|MainCharacter|-1,è“„åŠ›å‡æ®µæ—¶ï¼šæ·»åŠ ä¸‹ä¸€é˜¶æ®µBuff
+1002,6,ListenGameEvent,CharacterXuLiStageUp|SpawnVFX|VFX_XuLiUp|MainCharacter,è“„åŠ›å‡æ®µæ—¶ï¼šæ·»åŠ å‡æ®µç‰¹æ•ˆ
+1002,7,ListenGameEvent,CharacterXuLiStageUp|DispelModifier|1002|MainCharacter,è“„åŠ›å‡æ®µæ—¶ï¼šé©±æ•£è‡ªèº«
+1002,8,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|AimDirX|AimDirY|15|true,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šè‡ªèº«åŠ åŠ›
+1002,9,ListenGameEvent,CharacterCastSkill|AddModifier|1|MainCharacter|0.3,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šæ·»åŠ Type1 Buff
+1002,10,ListenGameEvent,CharacterCastSkill|DispelModifier|1002|MainCharacter,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1002,11,ListenGameEvent,CharacterCancelSkill|DispelModifier|1002|MainCharacter,å–æ¶ˆæŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1003,1,AddSimpleDect,float_add|NaiLi_Reduce|4,è“„åŠ›æŠ€èƒ½ï¼šå¢åŠ æŒç»­è€åŠ›å‰Šå¼±
+1003,2,AddSimpleDect,float_set|NaiLi_Regain|0,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1003,3,AddSimpleDect,float_add|MaxSpeed|-5,è“„åŠ›æŠ€èƒ½ï¼šé™ä½ç§»åŠ¨é€Ÿåº¦
+1003,4,AddSimpleDect,float_add|targetCameraFOV|2,è“„åŠ›æŠ€èƒ½ï¼šæŠ¬é«˜é•œå¤´FOV
+1003,5,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|AimDirX|AimDirY|21|true,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šè‡ªèº«åŠ åŠ›
+1003,6,ListenGameEvent,CharacterXuLiStageUp|SpawnVFX|VFX_XuLiUp|MainCharacter,è“„åŠ›å‡æ®µæ—¶ï¼šæ·»åŠ å‡æ®µç‰¹æ•ˆ
+1003,7,ListenGameEvent,CharacterCastSkill|AddModifier|1|MainCharacter|1.0,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šæ·»åŠ Type1 Buff
+1003,8,ListenGameEvent,CharacterCastSkill|DispelModifier|1003|MainCharacter,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1003,9,ListenGameEvent,CharacterXuLiStageUp|AddModifier|1004|MainCharacter|-1,è“„åŠ›å‡æ®µæ—¶ï¼šæ·»åŠ ä¸‹ä¸€é˜¶æ®µBuff
+1003,10,ListenGameEvent,CharacterXuLiStageUp|DispelModifier|1003|MainCharacter,è“„åŠ›å‡æ®µæ—¶ï¼šé©±æ•£è‡ªèº«
+1003,11,ListenGameEvent,CharacterCancelSkill|DispelModifier|1003|MainCharacter,å–æ¶ˆæŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1004,1,AddSimpleDect,float_add|NaiLi_Reduce|4,è“„åŠ›æŠ€èƒ½ï¼šå¢åŠ æŒç»­è€åŠ›å‰Šå¼±
+1004,2,AddSimpleDect,float_set|NaiLi_Regain|0,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1004,3,AddSimpleDect,float_add|MaxSpeed|-6,è“„åŠ›æŠ€èƒ½ï¼šç¦æ­¢è€åŠ›å›å¤
+1004,4,AddSimpleDect,float_add|targetCameraFOV|4,è“„åŠ›æŠ€èƒ½ï¼šæŠ¬é«˜é•œå¤´FOV
+1004,5,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|AimDirX|AimDirY|25|true,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šè‡ªèº«åŠ åŠ›
+1004,6,ListenGameEvent,CharacterCastSkill|AddModifier|1|MainCharacter|1.5,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šæ·»åŠ Type1 Buff
+1004,7,ListenGameEvent,CharacterCastSkill|DispelModifier|1004|MainCharacter,é‡Šæ”¾æŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+1004,8,ListenGameEvent,CharacterCancelSkill|DispelModifier|1003|MainCharacter,å–æ¶ˆæŠ€èƒ½æ—¶ï¼šé©±æ•£è‡ªèº«
+3001,1,ListenGameEvent,CharacterCastSkill|AddForce|MainCharacter|InputDirX|InputDirY|5|true,é—ªèº«åŠ¨ä½œï¼šè‡ªèº«åŠ åŠ›
+3001,2,ListenGameEvent,CharacterCastSkill|AddModifier|3002|MainCharacter|0.25,é—ªèº«åŠ¨ä½œï¼šæ–½åŠ æ— è§†é€Ÿåº¦ç­‰Buff
+3001,3,ListenGameEvent,CharacterCastSkill|DispelModifier|3001|MainCharacter,é—ªèº«åŠ¨ä½œï¼šé‡Šæ”¾æ—¶é©±æ•£è‡ªèº«
+3002,1,AddSimpleDect,bool_set|EnableMoveInput|false,é—ªèº«åŠ¨ä½œï¼šæ‹’ç»è¾“å…¥
+3002,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,é—ªèº«åŠ¨ä½œï¼šæ— è§†é€Ÿåº¦ä¸Šé™
+3002,3,AddSimpleDect,float_set|LinerDrag|0,é—ªèº«åŠ¨ä½œï¼šå–æ¶ˆçº¿æ€§é˜»å°¼
+4001,1,ListenGameEvent,CharacterBeCollide|AddModifier|4002|BeHitCharacter|3,ç‚¸å¼¹ç‰©ä½“ï¼šè¢«è§¦ç¢°æ—¶çˆ†ç‚¸
+4001,2,ListenGameEvent,CharacterBeCollide|DispelModifier|4001|BeHitCharacter,ç‚¸å¼¹ç‰©ä½“ï¼šè¢«è§¦ç¢°æ—¶çˆ†ç‚¸
+4002,1,LifeTimeEvent,ModifierLifeTime_Start|SetAnimationParam|MainCharacter|bool|IsCountingDown|true,ç‚¸å¼¹ç‰©ä½“å€’è®¡æ—¶
+4002,2,LifeTimeEvent,ModifierLifeTime_End|SetAnimationParam|MainCharacter|bool|IsCountingDown|false,ç‚¸å¼¹ç‰©ä½“å€’è®¡æ—¶
+4002,3,LifeTimeEvent,ModifierLifeTime_End|DoDamage|MainCharacter|99999,ç‚¸å¼¹ç‰©ä½“å€’è®¡æ—¶
+4002,4,ListenGameEvent,CharacterDie|SpawnField|1|PositionX|PositionY,æŠ€èƒ½ï¼šç¢°æ’æ—¶å¼•å‘çˆ†ç‚¸
+5001,1,ListenGameEvent,CharacterCastSkill|SpawnInGameObjectToTile|1|MainCharacter|SelectPosIntX|SelectPosIntY,é˜²å¾¡å¡”ç”Ÿæˆï¼šç”Ÿæˆä¸€ä¸ª1å·é˜²å¾¡å¡”
+5001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|5001|MainCharacter,é˜²å¾¡å¡”ç”Ÿæˆï¼šé©±æ•£è‡ªèº«
+6001,1,BindAISensor,AISensor_FindEnemyNearby,ç»‘å®šAIæ„ŸçŸ¥å™¨
+6001,2,BindAIAgent,AIAgent_BasicAttack,ç»‘å®šAIæ€è€ƒå™¨
