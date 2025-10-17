@@ -125,8 +125,7 @@ namespace Assets.Scripts.AI
                 {
                     mCharacterDict.Add(toDic, resCtrl);
                 }
-            }
-            if (name == "FollowPath")
+            }else if (name == "FollowPath")
             {
                 if( spawnRootInfo == null)
                 {
@@ -149,6 +148,18 @@ namespace Assets.Scripts.AI
                     // 移动到下一个路径点
                     MoveToNextPoint();
                 }
+            }else if ( name == "AttackTarget")
+            {
+                string toDic = properties[0];
+                CharacterCtrlBase characterCtrlBase;
+                if (mCharacterDict.TryGetValue( toDic, out characterCtrlBase))
+                {
+                    if (characterCtrlBase != null)
+                    {
+                        (bindCharacterCtrl as PlayerCharacterCtrl).Attack(characterCtrlBase);
+                    }
+                }
+                return false;
             }
             return false;
         }
@@ -167,12 +178,18 @@ namespace Assets.Scripts.AI
                     return false;
                 }
             }
-            else if (name == "IsFloat")
+            else if (name == "IsFloatSmaller")
             {
                 if (bindCharacterCtrl.AttributesDicts.ContainsKey(properties[0]) )
                 {
-                    return MathF.Abs(float.Parse(properties[1]) -
-                        (this.bindCharacterCtrl.AttributesDicts[properties[1]] as Character_Float).GetValue() ) <= 0.001f ; 
+                    return (this.bindCharacterCtrl.AttributesDicts[properties[0]] as Character_Float).GetValue() < float.Parse(properties[1]);
+                }
+            }
+            else if (name == "IsFloatBigger")
+            {
+                if (bindCharacterCtrl.AttributesDicts.ContainsKey(properties[0]))
+                {
+                    return (this.bindCharacterCtrl.AttributesDicts[properties[0]] as Character_Float).GetValue() > float.Parse(properties[1]);
                 }
             }
             else if (name == "HasCharacter")

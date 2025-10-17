@@ -1,2 +1,4 @@
-ï»¿ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
-1,åŸºç¡€é˜²å¾¡å¡”,1,CC_Enemy_01,6001|6002
+ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
+1,»ù´¡µÐÈË,Enemy,CC_Enemy_01,0
+2,»ù´¡·ÀÓùËþ,Tower,CC_Object_Tower,0
+3,»ù´¡×Óµ¯,Bullet,CC_Bullet_1,8001

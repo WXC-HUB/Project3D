@@ -25,6 +25,7 @@ namespace Assets.Scripts.Core
         CharacterXuLiStageUp,
         CharacterCancelSkill,
         CharacterDie,
+        CharacterHitTarget,
 
         ModifierLifeTime_Start,
         ModifierLifeTime_End,

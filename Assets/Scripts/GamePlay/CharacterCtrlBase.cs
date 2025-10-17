@@ -12,6 +12,7 @@ public class SkillUseInfo
     public Vector2 SkillDispatchDir = Vector2.zero;
     public Vector2 SkillCastPos = Vector2.zero; 
     public CharacterCtrlBase dispatcher;
+    public CharacterCtrlBase AimTarget;
 }
 
 public class CharacterCtrlBase : MonoBehaviour
@@ -52,9 +53,9 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public Character_Bool usePhysic = new Character_Bool("usePhysic", true);
 
-    public List<int> Init_Modifier_List = new List<int>();  
-
-
+    public List<int> Init_Modifier_List = new List<int>();
+    public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
+    public CharacterCtrlBase followTarget, from_char;
 
     // Start is called before the first frame update
     protected void Start()
@@ -95,6 +96,8 @@ public class CharacterCtrlBase : MonoBehaviour
         isFixedPosition.TakeEffect(this);
 
         usePhysic.TakeEffect(this);
+
+        IsFollowTarget.TakeEffect(this);
     }
 
     private void FixedUpdate()
@@ -108,6 +111,31 @@ public class CharacterCtrlBase : MonoBehaviour
 
     private void UpdateMoveState()
     {
+        if (this.IsFollowTarget.GetValue()) 
+        {
+            Vector3 target_pos = this.followTarget.transform.position;
+            Vector3 move_len = target_pos - transform.position;
+            float move_dis = MaxSpeed.GetValue() * Time.deltaTime;
+            if(move_len.magnitude > move_dis)
+            {
+                transform.position = target_pos;
+
+                Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterHitTarget, followTarget.gameObject);
+                beCollideEvent.doCharacter = this;
+                beCollideEvent.beCharacter = followTarget;
+                beCollideEvent.event_param_dics.Add("HitPointX", transform.position.x);
+                beCollideEvent.event_param_dics.Add("HitPointY", transform.position.y);
+                beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
+                beCollideEvent.event_param_dics.Add("BeHitCharacter", followTarget);
+                LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
+            }
+            else
+            {
+                transform.position += move_len.normalized * move_dis;
+            }
+
+        }
+        
         if(col2D == null || rb == null)
         {
             return;
@@ -139,8 +167,6 @@ public class CharacterCtrlBase : MonoBehaviour
             }
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                
-                
                 CharacterCtrlBase beCollideCtr = hit.transform.GetComponent<CharacterCtrlBase>();
                 if(beCollideCtr == null)
                 {
@@ -148,6 +174,16 @@ public class CharacterCtrlBase : MonoBehaviour
                 }
                 else
                 {
+                    Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterBeCollide, beCollideCtr.gameObject);
+                    beCollideEvent.doCharacter = this;
+                    beCollideEvent.beCharacter = beCollideCtr;
+                    beCollideEvent.event_param_dics.Add("HitPointX", hit.point.x);
+                    beCollideEvent.event_param_dics.Add("HitPointY", hit.point.y);
+                    beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
+                    beCollideEvent.event_param_dics.Add("BeHitCharacter", beCollideCtr);
+                    LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
+
+                    /*
                     //校准碰撞位置
                     this.rb.position = PhysicUtils.getNewPositionAfterCircleHit2D(this.rb, hit);
 
@@ -172,24 +208,14 @@ public class CharacterCtrlBase : MonoBehaviour
                         this.rb.velocity = PhysicUtils.getNewMoveSpeedAfterCircleHit2D(this.rb, hit);
                     }
                     SkillDispatchCenter.Instance.AddModifierToCharacter(this, .5f, 4);
+                    */
 
 
-                    
                     //this.rb.velocity = this.rb.velocity.normalized * beCollideCtr.beHitPower.GetValue() / this.Mass.GetValue();
 
                     //施加伤害
                     //this.NowHP -= beCollideCtr.beHitDamage.GetValue();
-                    this.TakeDamage(beCollideCtr.beHitDamage.GetValue());
-                    beCollideCtr.TakeDamage(this.doHitDamage.GetValue());
 
-                    Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterBeCollide, beCollideCtr.gameObject);
-                    beCollideEvent.doCharacter = this;
-                    beCollideEvent.beCharacter = beCollideCtr;
-                    beCollideEvent.event_param_dics.Add("HitPointX", hit.point.x);
-                    beCollideEvent.event_param_dics.Add("HitPointY", hit.point.y);
-                    beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
-                    beCollideEvent.event_param_dics.Add("BeHitCharacter", beCollideCtr);
-                    LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
 
                     //this.rb.velocity = Vector2.zero;
                 }

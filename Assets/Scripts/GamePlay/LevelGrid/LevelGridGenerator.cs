@@ -46,7 +46,6 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         string tile_obj_name = GameTableConfig.Instance.Config_TileBlocks.FindFirstLine(x => x.TileSpriteName == go_name).BlockObject;
 
         GameObject new_obj = Resources.Load<GameObject>("GameObjectPrefabs/" + tile_obj_name);
-        Debug.Log(new_obj);
 
         GameObject sp_obj = Instantiate(new_obj, LevelManager.Instance.LevelObjectsRoot);
         sp_obj.transform.position = objpos;
@@ -139,13 +138,17 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
             spawnroot_dictionay[id] = sp;
         }
 
-        Debug.Log(sp.move_points.Count);
     }
     
     // Start is called before the first frame update
     void Start()
     {
         tilemap = GetComponent<Tilemap>();
+    }
+
+    void Update_Check_Spawn()
+    {
+
     }
 
     // Update is called once per frame
@@ -159,16 +162,15 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
                 sp.spawn_timer += Time.deltaTime;
                 if (sp.spawn_timer > sp.sp_config.SpawnGap)
                 {
-                    string enemy_obj_name = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == sp.sp_config.EnemyID).BindPrefab;
-                    GameObject newobj = Resources.Load<GameObject>("CharacterPrefabs/" + enemy_obj_name);
-                    Debug.Log("CharacterPrefabs/" + enemy_obj_name);
-                    if (newobj != null)
+                    PlayerCharacterCtrl sp_chr = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(sp.sp_config.EnemyID);
+
+
+                    if (sp_chr != null)
                     {
-                        GameObject sp_obj = Instantiate(newobj, LevelManager.Instance.LevelObjectsRoot);
-                        sp_obj.transform.position = tilemap.GetCellCenterWorld(sp.start_point);
-                        if (sp_obj.GetComponent<AIAgentBase>() != null)
+                        sp_chr.transform.position = tilemap.GetCellCenterWorld(sp.start_point);
+                        if (sp_chr.GetComponent<AIAgentBase>() != null)
                         {
-                            sp_obj.GetComponent<AIAgentBase>().followPath = sp.rootID;
+                            sp_chr.GetComponent<AIAgentBase>().followPath = sp.rootID;
                         }
                     }
 
@@ -178,7 +180,7 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         }
     }
 
-    public void TryAttach(Vector3Int pos, GameObject obj)
+    public void TryAttach(Vector3Int pos, CharacterCtrlBase obj)
     {
 
         if (tile_dictionary.ContainsKey(pos))

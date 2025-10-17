@@ -35,6 +35,7 @@ public class PlayerInput : CharacterInputBase
         //添加一个碰撞时爆炸的Buff
         //SkillDispatchCenter.Instance.AddModifierToCharacter(characterCtrl, -1, 1001);
 
+        UI_PlayerHUD.instance.SetSkillFocusPlayer(this.characterCtrl);
 
     }
 
@@ -65,10 +66,7 @@ public class PlayerInput : CharacterInputBase
         VirtualInputEvnetArgs inputEvnet = (VirtualInputEvnetArgs)s;
         if (inputEvnet.InputOperKey == "Right")
         {
-            SkillUseInfo skinfo = new SkillUseInfo();
-            skinfo.SkillID = characterCtrl.ClickSkill.GetValue();
-            skinfo.SkillDispatchDir = inputEvnet.InputDir;
-            characterCtrl.StartUseSkill(skinfo);
+            
         }
     }
 
@@ -80,11 +78,7 @@ public class PlayerInput : CharacterInputBase
 
         if (inputEvent.InputOperKey == "Right")
         {
-            SkillUseInfo skinfo = new SkillUseInfo();
-            skinfo.SkillID = characterCtrl.XuliSkill.GetValue();
-            skinfo.SkillDispatchDir = inputEvent.InputDir;
-            characterCtrl.StartUseSkill(skinfo);
-            //characterCtrl.isObserve = true;
+           
         }
     }
 
@@ -96,11 +90,7 @@ public class PlayerInput : CharacterInputBase
 
         if (inputEvent.InputOperKey == "Right")
         {
-            SkillUseInfo skinfo = new SkillUseInfo();
-            skinfo.SkillID = characterCtrl.XuliSkill.GetValue();
-            skinfo.SkillDispatchDir = inputEvent.InputDir;
-            characterCtrl.CastSkill(skinfo);
-            //characterCtrl.isObserve = true;
+            
         }
     }
 
@@ -122,10 +112,7 @@ public class PlayerInput : CharacterInputBase
         VirtualInputEvnetArgs inputEvent = (VirtualInputEvnetArgs)s;
         if (inputEvent.InputOperKey == "Right")
         {
-            SkillUseInfo skinfo = new SkillUseInfo();
-            skinfo.SkillID = characterCtrl.XuliSkill.GetValue();
-            skinfo.SkillDispatchDir = inputEvent.InputDir;
-            characterCtrl.CancelUseSkill(skinfo);
+            
         }
     }
 
@@ -149,7 +136,6 @@ public class PlayerInput : CharacterInputBase
                 {
                     Vector3Int tpos = LevelGridGenerator.Instance.tilemap.WorldToCell(hit.point);
                     
-                    Debug.Log(tpos);
                     LevelGridTileObject tile_obj_new;
                     LevelGridTileObject tile_obj_old;
                     if (this.characterCtrl.MySelectTarget!=tpos && LevelGridGenerator.Instance.tile_dictionary.TryGetValue(tpos , out tile_obj_new))

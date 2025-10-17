@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
 using Assets.Scripts.UI;
+using TMPro;
+using Assets.Scripts.AI;
+using UnityEngine.Tilemaps;
+using System;
 
 namespace Assets.Scripts.Core
 {
@@ -22,6 +26,15 @@ namespace Assets.Scripts.Core
         public CharacterInputBase his_Character;
     }
 
+    public enum InGameCharacterType
+    {
+        Player,
+        Tower,
+        Enemy,
+        Bullet
+    }
+
+
     //一个关卡对应一个LevelManager，允许跨场景使用。但是玩家切换关卡时，必须重新初始化LevelManager。如果需要跨大关卡传参，那么往更上层的GameManager缓存里放。
     public class LevelManager : MonoSingleton<LevelManager>
     {
@@ -35,6 +48,37 @@ namespace Assets.Scripts.Core
 
         public int RoundCnt;
         public int NowWorkTeamI;
+
+        public Dictionary<InGameCharacterType, List<CharacterCtrlBase>> Character_Dict = new Dictionary<InGameCharacterType, List<CharacterCtrlBase>>();
+
+        public T_CHar SpawnCharacterByID<T_CHar>(int ID , SkillUseInfo call_by_skill = null) where T_CHar : CharacterCtrlBase
+        {
+            GameCharacters g_config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == ID);
+            string enemy_obj_name = g_config.BindPrefab;
+            InGameCharacterType characterType = (InGameCharacterType)Enum.Parse(typeof(InGameCharacterType) , g_config.ObjectType);
+            GameObject newobj = Resources.Load<GameObject>("CharacterPrefabs/" + enemy_obj_name);
+
+            if (newobj != null)
+            {
+                GameObject sp_obj = Instantiate(newobj, LevelManager.Instance.LevelObjectsRoot);
+                if (!Character_Dict.ContainsKey(characterType))
+                {
+                    Character_Dict.Add(characterType , new List<CharacterCtrlBase>());
+                }
+                T_CHar newsp = sp_obj.GetComponent<T_CHar>();
+                foreach (int buff in g_config.InitModifier)
+                {
+
+                    SkillDispatchCenter.Instance.AddModifierToCharacter(newsp, -1, buff);
+                }
+                Character_Dict[characterType].Add(newsp);
+                return newsp;
+            }
+
+            return null;
+
+            
+        } 
 
         private void Awake()
         {

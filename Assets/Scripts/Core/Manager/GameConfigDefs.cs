@@ -43,7 +43,7 @@ namespace Assets.Scripts.Core
     {
         public int ObjectID;
         public string ObjectName;
-        public int ObjectType;
+        public string ObjectType;
         public string BindPrefab;
         public List<int> InitModifier;
 
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Core
     {
         public int ObjectID;
         public string ObjectName;
-        public int ObjectType;
+        public string ObjectType;
         public string BindPrefab;
         public List<int> InitModifier;
 
@@ -84,6 +84,7 @@ namespace Assets.Scripts.Core
 
     public class GameTableConfig : Singleton<GameTableConfig>
     {
+
         public ConfigTable<GameModifiers> Config_GameModifiers = new ConfigTable<GameModifiers>("Configs/GameModifiers");
         public ConfigTable<GameFields> Config_GameFields = new ConfigTable<GameFields>("Configs/GameFields");
         public ConfigTable<GameSkills> Config_GameSkills = new ConfigTable<GameSkills>("Configs/GameSkills");
@@ -92,6 +93,7 @@ namespace Assets.Scripts.Core
         public ConfigTable<LevelTileLoad> Config_LevelTileLoad = new ConfigTable<LevelTileLoad>("Configs/LevelTileLoad");
         public ConfigTable<SpawnRoots> Config_SpawnRoots = new ConfigTable<SpawnRoots>("Configs/SpawnRoots");
         public ConfigTable<GameCharacters> Config_GameCharacters = new ConfigTable<GameCharacters>("Configs/GameCharacters");
+
 
 
         public void CallBlank() { }
