@@ -1,3 +1,4 @@
+using Assets.Scripts.AI;
 using Assets.Scripts.BaseUtils;
 using Assets.Scripts.Core;
 using System.Collections;
@@ -14,11 +15,17 @@ public class SpawnRootInfo
     public List<Vector3Int> move_points;
     public Vector3Int start_point;
 
+    public SpawnRoots sp_config;
+
+    public float spawn_timer = 0;
+
     public SpawnRootInfo(int rootID , List<Vector3Int> move_point , Vector3Int start_point)
     {
         this.rootID = rootID;
         this.move_points = move_point;
         this.start_point = start_point;
+
+        sp_config = GameTableConfig.Instance.Config_SpawnRoots.FindFirstLine(x => x.RootID == rootID);  
     }
 }
 
@@ -39,6 +46,7 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         string tile_obj_name = GameTableConfig.Instance.Config_TileBlocks.FindFirstLine(x => x.TileSpriteName == go_name).BlockObject;
 
         GameObject new_obj = Resources.Load<GameObject>("GameObjectPrefabs/" + tile_obj_name);
+        Debug.Log(new_obj);
 
         GameObject sp_obj = Instantiate(new_obj, LevelManager.Instance.LevelObjectsRoot);
         sp_obj.transform.position = objpos;
@@ -143,7 +151,31 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
     // Update is called once per frame
     void Update()
     {
+        foreach (var spawn_pair in spawnroot_dictionay)
+        {
+            SpawnRootInfo sp = spawn_pair.Value;
+            if (sp.sp_config != null)
+            {
+                sp.spawn_timer += Time.deltaTime;
+                if (sp.spawn_timer > sp.sp_config.SpawnGap)
+                {
+                    string enemy_obj_name = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == sp.sp_config.EnemyID).BindPrefab;
+                    GameObject newobj = Resources.Load<GameObject>("CharacterPrefabs/" + enemy_obj_name);
+                    Debug.Log("CharacterPrefabs/" + enemy_obj_name);
+                    if (newobj != null)
+                    {
+                        GameObject sp_obj = Instantiate(newobj, LevelManager.Instance.LevelObjectsRoot);
+                        sp_obj.transform.position = tilemap.GetCellCenterWorld(sp.start_point);
+                        if (sp_obj.GetComponent<AIAgentBase>() != null)
+                        {
+                            sp_obj.GetComponent<AIAgentBase>().followPath = sp.rootID;
+                        }
+                    }
 
+                    sp.spawn_timer = 0;
+                }
+            }
+        }
     }
 
     public void TryAttach(Vector3Int pos, GameObject obj)

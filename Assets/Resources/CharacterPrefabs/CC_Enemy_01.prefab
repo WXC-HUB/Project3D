@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2969451307541855738}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -151,6 +151,9 @@ MonoBehaviour:
   state: 2
   bindCharacterCtrl: {fileID: 0}
   sensor: {fileID: 0}
+  path: []
+  speed: 2
+  followPath: 101
 --- !u!114 &3059794734853917733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +178,7 @@ GameObject:
   - component: {fileID: 5003225689994097386}
   - component: {fileID: 5979436381066622496}
   - component: {fileID: 2713542954777200806}
+  - component: {fileID: 8133867606321303592}
   m_Layer: 0
   m_Name: Spine GameObject (enemy_10001_trslim)
   m_TagString: Untagged
@@ -284,3 +288,21 @@ MonoBehaviour:
   _animationName: Move_A
   loop: 1
   timeScale: 1
+--- !u!114 &8133867606321303592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8913449014687062202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 2
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

@@ -8,6 +8,7 @@ using System.Collections;
 using UnityEngine;
 using Defective.JSON;
 using Unity.VisualScripting;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.AI
 {
@@ -32,14 +33,80 @@ namespace Assets.Scripts.AI
         public CharacterCtrlBase bindCharacterCtrl = null;
         public AISensorBase sensor = null;
 
-        public int isFollowRoad = 0;
-        public Vector3Int curPos = new Vector3Int(-999,-999);
-        public int NowIndex = 0;
+        public List<Vector3Int> path; // 在Inspector中设置的路径
+        public float speed = 2f; // 移动速度
+
+        private int currentIndex = 0;
+        private Vector3 currentWorldPos;
+
+        private Tilemap tilemap;
+        private bool isMoving = true;
+
+        SpawnRootInfo spawnRootInfo = null;
+
+        public int followPath = 101;
+
+        private Vector3 GridToWorld(Vector3Int gridPos)
+        {
+            if ( tilemap != null)
+            {
+                // 通过GridLayout和Tilemap获取精确的世界坐标
+                return tilemap.GetCellCenterWorld(gridPos);// + tilemap.tileAnchor;
+                //tilemap.GetCellCenterWorld
+            }
+
+            return new Vector3Int();
+        }
+
+
+        public void SetFollowPath(SpawnRootInfo root)
+        {
+            if(spawnRootInfo == root)
+            {
+                return;
+            }
+
+            spawnRootInfo = root;
+            tilemap = LevelGridGenerator.Instance.tilemap;
+            path = root.move_points;
+            transform.position = GridToWorld(path[0]);
+            currentWorldPos = transform.position;
+            
+            spawnRootInfo = root;
+
+            // 如果路径只有一个点，直接设置到目标位置
+            if (path.Count > 1)
+            {
+                currentWorldPos = GridToWorld(path[1]);
+            }
+        }
+
+
 
         private void Start()
         {
             sensor = this.GetComponent<AISensorBase>();
-            bindCharacterCtrl = this.GetComponent<CharacterCtrlBase>(); 
+            bindCharacterCtrl = this.GetComponent<CharacterCtrlBase>();
+
+            speed = bindCharacterCtrl.MaxSpeed.GetValue();
+            
+        }
+
+        void MoveToNextPoint()
+        {
+            currentIndex++;
+
+            // 路径结束检查
+            if (currentIndex >= path.Count)
+            {
+                isMoving = false;
+                return;
+            }
+            else
+            {
+                // 设置下一个目标世界坐标
+                currentWorldPos = GridToWorld(path[currentIndex]);
+            }
         }
 
         public bool DoAction( string name , string my_params )
@@ -61,40 +128,26 @@ namespace Assets.Scripts.AI
             }
             if (name == "FollowPath")
             {
-                if (isFollowRoad == 0)
+                if( spawnRootInfo == null)
                 {
-                    return false;
-                }
-                SpawnRootInfo sp;
-                Vector3Int target_pos = new Vector3Int();
-                if(LevelGridGenerator.Instance.spawnroot_dictionay.TryGetValue(isFollowRoad , out sp))
-                {
-                    curPos = LevelGridGenerator.Instance.tilemap.WorldToCell(transform.position);
-                    
-                    if ( sp.move_points.Contains(curPos))
+                    SpawnRootInfo sp;
+                    if(LevelGridGenerator.Instance.spawnroot_dictionay.TryGetValue(followPath , out sp))
                     {
-                        if(sp.move_points.IndexOf(curPos) == NowIndex)
-                        {
-                            NowIndex += 1;
-                        }
-                        if( NowIndex < sp.move_points.Count - 1)
-                        {
-                            target_pos = sp.move_points[NowIndex];
-                        }
-      
+                        SetFollowPath(sp);
+                        
                     }
-                    else
-                    {
-                        target_pos = sp.move_points[NowIndex];
-                    }
-
-                    Debug.Log("goto:" +  target_pos);
-
-                    this.transform.position = Vector3.Lerp(transform.position, LevelGridGenerator.Instance.tilemap.CellToWorld(target_pos), 10* Time.deltaTime);
                 }
-                else
+                // 计算移动
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    currentWorldPos,
+                    speed * Time.deltaTime
+                );
+                // 检查是否到达当前目标点
+                if (Vector3.Distance(transform.position, currentWorldPos) < 0.01f)
                 {
-                    return false ;
+                    // 移动到下一个路径点
+                    MoveToNextPoint();
                 }
             }
             return false;
