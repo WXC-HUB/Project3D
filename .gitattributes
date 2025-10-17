@@ -1,2 +1,15 @@
 # Auto detect text files and perform LF normalization
-* text=auto
+#* text=auto
+
+# Default all text files to LF
+* text eol=lf
+
+# But keep Unity meta files and binary assets untouched
+*.meta -text
+*.png -text
+*.jpg -text
+*.fbx -text
+*.anim -text
+*.prefab -text
+*.unity -text
+*.asset -text
