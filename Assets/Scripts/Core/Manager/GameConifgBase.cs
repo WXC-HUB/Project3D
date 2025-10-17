@@ -29,12 +29,16 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase, new()
     {
         MemoryStream tableStream;
 
-        //开发期，Asset/Configs下的csv文件
-        var srcPath = Application.dataPath + "/" + tablePath;
-        tableStream = new MemoryStream(File.ReadAllBytes(srcPath));
+        // //开发期，Asset/Configs下的csv文件
+        // var srcPath = Application.dataPath + "/" + tablePath;
+        // tableStream = new MemoryStream(File.ReadAllBytes(srcPath));
+
+        var textAsset = Resources.Load<TextAsset>(tablePath);
+        tableStream = new MemoryStream(textAsset.bytes);
+        Resources.UnloadAsset(textAsset);
 
         //内存流读取器 using 自动关闭流
-        using (var reader = new StreamReader(tableStream, Encoding.GetEncoding("gb2312")))
+        using (var reader = new StreamReader(tableStream, Encoding.UTF8))
         {
             //存储第一行的属性
             var fieldNameStr = reader.ReadLine();
