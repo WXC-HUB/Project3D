@@ -8,12 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7897719908118241967}
-											
-											
-											
-											
-											
+  - component: {fileID: 7897719908118241967}							
   - component: {fileID: 4624673836637855471}
   - component: {fileID: 186982171239525016}
   - component: {fileID: -4304883815043316796}
@@ -76,38 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86cee09b21cd5324b81905170894c41e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-4304883815043316796
-					  
-						   
-					 
-						 
-						 
-					   
-			  
-																				  
-																				  
-					
-				   
-				   
-								
-							
-										 
-					  
-				
-				  
-									 
-				  
-						  
-								
-					   
-						  
-					  
-								   
-					 
-				   
-				   
-										
-							   
+--- !u!114 &-4304883815043316796			   
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,19 +129,8 @@ MonoBehaviour:
   IsFOVLock:
     real_value: 0
   targetCameraFOV:
-    real_value: 10
-			  
-					  
-										  
-  spriteAnimator: {fileID: 0}
-							
-											
-			  
-					  
-																			   
-		  
-						   
-								  
+    real_value: 10						  
+  spriteAnimator: {fileID: 0}						  
   mAttackCD_Cur:
     real_value: -1
   mAttackCDReduce:
@@ -185,15 +138,7 @@ MonoBehaviour:
   mAttackCD:
     real_value: 5
   myAttackSkillID:
-    real_value: 7
-					 
-				  
-				   
-								   
-							
-				
-					 
-											
+    real_value: 7										
 --- !u!114 &8186480304645192483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,9 +183,7 @@ MonoBehaviour:
   _preInitializeSubGraphs: 0
   _updateMode: 0
   _graph: {fileID: 0}
-  _blackboard: {fileID: 8186480304645192483}
-		  
-						   
+  _blackboard: {fileID: 8186480304645192483}			   
 --- !u!1 &8767905067406918152
 GameObject:
   m_ObjectHideFlags: 0
