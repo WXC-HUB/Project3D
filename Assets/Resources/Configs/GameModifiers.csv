@@ -69,3 +69,6 @@
 5001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|5001|MainCharacter,防御塔生成：驱散自身
 6001,1,BindAISensor,AISensor_FindEnemyNearby,绑定AI感知器
 6001,2,BindAIAgent,AIAgent_BasicAttack,绑定AI思考器
+7001,1,ListenGameEvent,CharacterCastSkill|ShootToTarget|3|MainCharacter|AimTarget,子弹生成
+8001,1,AddSimpleDect,bool_set|IsFollowTarget|true,设置跟随状态
+8001,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|10,碰撞时造成伤害
