@@ -1,48 +1,60 @@
 ﻿using Assets.Scripts.BaseUtils;
 using Assets.Scripts.Core;
+using Spine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCharacterCtrl : CharacterCtrlBase
 {
-    public float XuLiProgress = 0.0f;
-    public float XuLiSpeed = 1f;
-    public int XuLiCnt = 0;
+
 
     public Vector3Int MySelectTarget;
-
-    public Character_Float XuliPower = new Character_Float("XuliPower", 10f);
-
-    public Character_Bool isXuLi = new Character_Bool("IsXuLi" , false);
-
-    
-    public float NaiLi_Cur = 100f;
-    public Character_Bool canXuLi = new Character_Bool("CanXuLi" , true);
-    public Character_Float NaiLi_Max = new Character_Float("NaiLi_Max", 100f);
-    public Character_Float NaiLi_Reduce = new Character_Float("NaiLi_Reduce", 0f);
-    public Character_Float NaiLi_Regain = new Character_Float("NaiLi_Regain", 1f);
-
-    //public int XuliSkill = 1;
-    public Character_Int XuliSkill = new Character_Int("XuliSkill", 1);
-    public Character_Int ClickSkill = new Character_Int("ClickSkill", 3);
-    //public int TapSkill = 3;
-
-    public Character_Bool IsAnimationRoll = new Character_Bool("IsAnimationRoll", false);
 
     public Character_Bool IsFOVLock = new Character_Bool("IsFOVLock", false);
     public Character_Float targetCameraFOV = new Character_Float("targetCameraFOV", 10F);
 
     public Animator spriteAnimator;
 
+    public Character_Float mAttackCD_Cur = new Character_Float("mAttackCD_Cur", -1);
+    public Character_Float mAttackCDReduce = new Character_Float("mAttackCDReduce", 1);
+    public Character_Float mAttackCD = new Character_Float("mAttackCD", 0);
+
+    public Character_Int myAttackSkillID = new Character_Int("myAttackSkillID", 7);
+
+
+
     // Update is called once per frame
     private void Update()
     {
-        this.NaiLi_Cur = this.NaiLi_Cur + (this.NaiLi_Regain.GetValue() - this.NaiLi_Reduce.GetValue()) * Time.deltaTime;
-        this.NaiLi_Cur = Mathf.Min(NaiLi_Max.GetValue(), this.NaiLi_Cur);
 
         UpdateAnimationStates();
-        
+
+        if (mAttackCD_Cur.real_value > 0)
+        {
+            mAttackCD_Cur.real_value -= mAttackCDReduce.GetValue() * Time.deltaTime;
+            mAttackCD_Cur.real_value = Math.Max(0, mAttackCD_Cur.real_value);
+        }
+        if(transform.name.StartsWith( "CC_Object_Tower" ))
+        {
+
+            Debug.Log(string.Format( "{0} {1} {2}" , transform.name , Time.frameCount.ToString() , mAttackCD_Cur.GetValue()));
+        }
+    }
+
+
+    public bool Attack(CharacterCtrlBase target)
+    {
+        mAttackCD_Cur.real_value = mAttackCD.GetValue();
+
+        SkillUseInfo skinfo = new SkillUseInfo();
+        skinfo.SkillID = myAttackSkillID.GetValue();
+        skinfo.AimTarget = target;
+        //skinfo.SkillCastPos = transform.position;
+        StartUseSkill(skinfo);
+
+        return true;
     }
 
     void UpdateAnimationStates()
@@ -51,15 +63,15 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         {
             return;
         }
-
-        spriteAnimator.SetBool("IsRoll" , this.IsAnimationRoll.GetValue());
     }
 
     private void Start()
     {
         base.Start();
-        UI_PlayerHUD.instance.SetSkillFocusPlayer(this);
-        
+
+        mAttackCD_Cur.TakeEffect(this);
+        mAttackCD.TakeEffect(this);
+        mAttackCDReduce.TakeEffect(this);
 
     }
 
@@ -76,20 +88,6 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
     private void Awake()
     {
         base.Awake();
-        XuliPower.TakeEffect(this);
-        canXuLi.TakeEffect(this);
-        isXuLi.TakeEffect(this);
-
-        NaiLi_Max.TakeEffect(this);
-        NaiLi_Reduce.TakeEffect(this);
-        NaiLi_Regain.TakeEffect(this);
-
-        XuliSkill.TakeEffect(this); 
-        ClickSkill.TakeEffect(this);
-
-        IsAnimationRoll.TakeEffect(this);   
-
-       
 
         IsFOVLock.TakeEffect(this);
         targetCameraFOV.TakeEffect(this);
@@ -97,41 +95,9 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
 
     }
 
-    public float getProtMoveLength()
-    {
-        float start_speed = 10 * ( XuLiCnt + XuLiProgress);
-        float end_speed = MaxSpeed.GetValue();
-
-        float range_speed = start_speed - end_speed;
-
-        float res = (start_speed / 2) * (range_speed / LinerDrag.GetValue());
-
-        return Mathf.Min(res, 20f);
-
-    }
-    public void DoXuli()
-    {
-        XuLiProgress += XuLiSpeed * Time.deltaTime;
-        if (XuLiCnt <= 3)
-        {
-            if (XuLiProgress >= 1f)
-            {
-                XuLiCnt += 1;
-                XuLiProgress = 0f;
-
-                Game2D_GamePlayEvent evt = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterXuLiStageUp, this.gameObject);
-                evt.event_param_dics.Add("MainCharacter", this);
-
-                LevelEventQueue.Instance.EnqueueEvent(evt);
-
-            }
-        }
-    }
-
     public void CancelUseSkill(SkillUseInfo skillUseInfo)
     {
-        XuLiProgress = 0;
-        XuLiCnt = 0;
+
         Game2D_GamePlayEvent evt = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterCancelSkill, this.gameObject);
         evt.event_param_dics.Add("MainCharacter", this);
         evt.event_param_dics.Add("AimDirX", skillUseInfo.SkillDispatchDir.normalized.x);
@@ -160,8 +126,6 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
     public void CastSkill(SkillUseInfo skillUseInfo)
     {
         //this.rb.velocity = skillUseInfo.SkillDispatchDir.normalized * XuliPower.GetValue() * XuLiCnt;
-        XuLiProgress = 0;
-        XuLiCnt = 0;
         Game2D_GamePlayEvent evt = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterCastSkill, this.gameObject);
         evt.event_param_dics.Add("MainCharacter" , this);
         evt.event_param_dics.Add("AimDirX", skillUseInfo.SkillDispatchDir.normalized.x);
@@ -175,6 +139,8 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
 
         evt.event_param_dics.Add("SelectPosIntX", this.MySelectTarget.x);
         evt.event_param_dics.Add("SelectPosIntY", this.MySelectTarget.y);
+
+        evt.event_param_dics.Add("AimTarget", skillUseInfo.AimTarget);
         Debug.Log(this.MySelectTarget.x);
 
         LevelEventQueue.Instance.EnqueueEvent(evt);

@@ -57,11 +57,21 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase, new()
             int line_cnt = 0;
             while (lineStr != null)
             {   //读取每一条数据 存储到缓存中
-                TDatabase DataDB = readLine(allFieldInfo, lineStr);
-                //_cache[DataDB.ID] = DataDB;
-                _cache[line_cnt] = DataDB;
-                lineStr = reader.ReadLine();
-                line_cnt++;
+
+                try
+                {
+                    TDatabase DataDB = readLine(allFieldInfo, lineStr);
+                    //_cache[DataDB.ID] = DataDB;
+                    _cache[line_cnt] = DataDB;
+                    lineStr = reader.ReadLine();
+                    line_cnt++;
+                }
+                catch (Exception ex) 
+                {
+                    Debug.LogError(tablePath + "读取错误" +  ex.Message + " at " + line_cnt);
+                    break;
+                }
+                
             }
         }
     }
@@ -81,7 +91,6 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase, new()
         {
             var field = allFieldInfo[i];//当前属性的类型
             var data = itemStrArray[i];//当前属性对应的具体数据
-
             //整数
             if (field.FieldType == typeof(int))
             {
@@ -107,13 +116,22 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase, new()
             //整数数组
             else if (field.FieldType == typeof(List<int>))
             {
+
                 var list = new List<int>();
-                //1|2|3|4| 以分割数组中的数据
-                foreach (var itemStr in data.Split('|'))
+                if(data.Split('|').Length <= 0)
                 {
-                    list.Add(int.Parse(itemStr));
+                    field.SetValue(DataDB, list);
                 }
-                field.SetValue(DataDB, list);
+                else
+                {
+                    //1|2|3|4| 以分割数组中的数据
+                    foreach (var itemStr in data.Split('|'))
+                    {
+                        list.Add(int.Parse(itemStr));
+                    }
+                    field.SetValue(DataDB, list);
+                }
+                
             }
             //浮点数数组
             else if (field.FieldType == typeof(List<float>))

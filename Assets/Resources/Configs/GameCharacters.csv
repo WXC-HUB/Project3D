@@ -1,2 +1,4 @@
 ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
-1,基础防御塔,1,CC_Enemy_01,6001|6002
+1,基础敌人,Enemy,CC_Enemy_01,0
+2,基础防御塔,Tower,CC_Object_Tower,0
+3,基础子弹,Bullet,CC_Bullet_1,8001

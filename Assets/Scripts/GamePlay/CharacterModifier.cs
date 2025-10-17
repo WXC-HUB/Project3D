@@ -160,31 +160,34 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
         else if (actionType == "SpawnInGameObjectToTile")
         {
 
-
             Vector3Int spawn_pos_tile = new Vector3Int(
-                Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[2], (string x) => (int)Convert.ToInt64(x)),
                 Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[3], (string x) => (int)Convert.ToInt64(x)),
+                Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[4], (string x) => (int)Convert.ToInt64(x)),
                 0
             );
 
             Vector3 spawn_pos = LevelGridGenerator.Instance.tilemap.GetCellCenterWorld(spawn_pos_tile);
 
             int spwan_id = Convert.ToInt32(action_params[0]);
-            InGameObjects gameObjectConfig = GameTableConfig.Instance.Config_GameObjects.FindFirstLine((InGameObjects gf) => gf.ObjectID == spwan_id);
 
-            if (gameObjectConfig == null)
+            CharacterCtrlBase spawn_char = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(spwan_id );
+
+            Debug.Log(spawn_char);
+            if (spawn_char != null)
             {
-                Debug.LogError("没有找到物体配置！" + spwan_id.ToString());
-            }
-            else
-            {
-                GameObject ori_go = Resources.Load<GameObject>("GameObjectPrefabs/" + gameObjectConfig.BindPrefab) as GameObject;
-                GameObject newgo = GameObject.Instantiate(ori_go, LevelManager.Instance.LevelObjectsRoot);
-                
-                LevelGridGenerator.Instance.TryAttach(spawn_pos_tile, newgo);
-                //newgo.GetComponent<GameFieldBase>().InitField();
+                LevelGridGenerator.Instance.TryAttach(spawn_pos_tile, spawn_char);
             }
 
+        }else if (actionType == "ShootToTarget")
+        {
+            int bullet_type = Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[0], (string x) => (int)Convert.ToInt64(x));
+            CharacterCtrlBase from_char = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[1], (string x) => null);
+            CharacterCtrlBase to_char = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[2], (string x) => null);
+
+            PlayerCharacterCtrl bullet_ctrl = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(bullet_type);
+            bullet_ctrl.followTarget = to_char;
+            bullet_ctrl.from_char = from_char;
+            bullet_ctrl.transform.position = from_char.transform.position;  
         }
 
     }

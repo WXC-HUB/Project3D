@@ -43,7 +43,7 @@ namespace Assets.Scripts.Core
     {
         public int ObjectID;
         public string ObjectName;
-        public int ObjectType;
+        public string ObjectType;
         public string BindPrefab;
         public List<int> InitModifier;
 
@@ -53,7 +53,7 @@ namespace Assets.Scripts.Core
     {
         public int ObjectID;
         public string ObjectName;
-        public int ObjectType;
+        public string ObjectType;
         public string BindPrefab;
         public List<int> InitModifier;
 
@@ -84,6 +84,7 @@ namespace Assets.Scripts.Core
 
     public class GameTableConfig : Singleton<GameTableConfig>
     {
+<<<<<<< Updated upstream
         public ConfigTable<GameModifiers> Config_GameModifiers = new ConfigTable<GameModifiers>("Configs/GameModifiers");
         public ConfigTable<GameFields> Config_GameFields = new ConfigTable<GameFields>("Configs/GameFields");
         public ConfigTable<GameSkills> Config_GameSkills = new ConfigTable<GameSkills>("Configs/GameSkills");
@@ -92,6 +93,15 @@ namespace Assets.Scripts.Core
         public ConfigTable<LevelTileLoad> Config_LevelTileLoad = new ConfigTable<LevelTileLoad>("Configs/LevelTileLoad");
         public ConfigTable<SpawnRoots> Config_SpawnRoots = new ConfigTable<SpawnRoots>("Configs/SpawnRoots");
         public ConfigTable<GameCharacters> Config_GameCharacters = new ConfigTable<GameCharacters>("Configs/GameCharacters");
+=======
+        public ConfigTable<GameModifiers> Config_GameModifiers = new ConfigTable<GameModifiers>("Configs/GameModifiers.csv");
+        public ConfigTable<GameFields> Config_GameFields = new ConfigTable<GameFields>("Configs/GameFields.csv");
+        public ConfigTable<GameSkills> Config_GameSkills = new ConfigTable<GameSkills>("Configs/GameSkills.csv");
+        public ConfigTable<TileBlocks> Config_TileBlocks = new ConfigTable<TileBlocks>("Configs/TileBlocks.csv");
+        public ConfigTable<LevelTileLoad> Config_LevelTileLoad = new ConfigTable<LevelTileLoad>("Configs/LevelTileLoad.csv");
+        public ConfigTable<SpawnRoots> Config_SpawnRoots = new ConfigTable<SpawnRoots>("Configs/SpawnRoots.csv");
+        public ConfigTable<GameCharacters> Config_GameCharacters = new ConfigTable<GameCharacters>("Configs/GameCharacters.csv");
+>>>>>>> Stashed changes
 
 
         public void CallBlank() { }

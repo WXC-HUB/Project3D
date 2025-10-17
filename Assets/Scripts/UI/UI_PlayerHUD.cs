@@ -93,30 +93,10 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
         {
 
             if (item.Key == null) return;
-            for (int i = 0; i < item.Value.observe_xuli_sliders.Count; i++)
-            {
-                float xuli_v = 0f;
-                if (item.Key.XuLiCnt > i)
-                {
-                    xuli_v = 1f;
-                }
-                else if (item.Key.XuLiCnt == i)
-                {
-                    xuli_v = item.Key.XuLiProgress;
-                }
-
-                if (item.Value.observe_xuli_sliders.Count > i)
-                {
-                    item.Value.observe_xuli_sliders[i].value = xuli_v;
-                }
-
-            }
 
             item.Value.m_Slider_HP.value = (float)item.Key.NowHP / (float)item.Key.MaxHP.GetValue();
             item.Value.m_Text_NowHP.text = string.Format("{0}/{1}", item.Key.NowHP, item.Key.MaxHP.GetValue());
 
-            item.Value.m_Text_NowNaili.text = string.Format("{0:F0}/{1:F0}", item.Key.NaiLi_Cur, item.Key.NaiLi_Max.GetValue());
-            item.Value.m_Slider_LastPower.value = (float)item.Key.NaiLi_Cur / (float)item.Key.NaiLi_Max.GetValue();
 
         }
             

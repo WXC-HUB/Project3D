@@ -25,9 +25,8 @@ public class LevelGridTileObject : MonoBehaviour
         this.GetComponent<Outline>().enabled = isSelect;
     }
 
-    public void TryAttachObject(GameObject go)
+    public void TryAttachObject(CharacterCtrlBase go)
     {
-        go.transform.SetParent(transform,true);
-        go.transform.position = transform.position + new Vector3(0 , 0 ,-0.5f);  
+        go.transform.position = transform.position + new Vector3(0 , 0 ,-1.6f);  
     }
 }

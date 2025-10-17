@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6643584234967930415}
   - component: {fileID: 6726047083722890983}
-  - component: {fileID: 7518043824907034335}
   - component: {fileID: 8407586755036171545}
+  - component: {fileID: 7518043824907034335}
   - component: {fileID: 3562711584364690425}
   - component: {fileID: 3059794734853917733}
   m_Layer: 0
@@ -29,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2969451307541855738}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalPosition: {x: -4.5, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1443202871144951012}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6726047083722890983
 MonoBehaviour:
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2969451307541855738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a694eb5d8ef40d4182ef5a29bc6cb20, type: 3}
+  m_Script: {fileID: 11500000, guid: 92f8b4e11e697f042ba59cf0ee5e3bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -87,6 +87,36 @@ MonoBehaviour:
   usePhysic:
     real_value: 1
   Init_Modifier_List: 
+  MySelectTarget: {x: 0, y: 0, z: 0}
+  IsFOVLock:
+    real_value: 0
+  targetCameraFOV:
+    real_value: 10
+  spriteAnimator: {fileID: 0}
+  mAttackCD_Cur:
+    real_value: -1
+  mAttackCDReduce:
+    real_value: 1
+  mAttackCD:
+    real_value: 0
+  myAttackSkillID:
+    real_value: 7
+--- !u!114 &8407586755036171545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2969451307541855738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98a6db0b653f764eac834f85857a9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parentBlackboard: {fileID: 0}
+  _serializedBlackboard: '{"_variables":{}}'
+  _objectReferences: []
+  _serializedVariables: []
 --- !u!114 &7518043824907034335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +138,7 @@ MonoBehaviour:
     _comments: 
     _translation: {x: 182, y: -42}
     _zoomFactor: 1
-  _firstActivation: 0
+  _firstActivation: 1
   _enableAction: 0
   _disableAction: 0
   _lockBoundGraphPrefabOverrides: 1
@@ -116,22 +146,6 @@ MonoBehaviour:
   _updateMode: 0
   _graph: {fileID: 0}
   _blackboard: {fileID: 8407586755036171545}
---- !u!114 &8407586755036171545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2969451307541855738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b98a6db0b653f764eac834f85857a9dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _parentBlackboard: {fileID: 0}
-  _serializedBlackboard: '{"_variables":{}}'
-  _objectReferences: []
-  _serializedVariables: []
 --- !u!114 &3562711584364690425
 MonoBehaviour:
   m_ObjectHideFlags: 0

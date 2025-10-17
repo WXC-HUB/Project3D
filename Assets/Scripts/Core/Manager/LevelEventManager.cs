@@ -23,6 +23,7 @@ namespace Assets.Scripts.Core
         }
     }
 
+
     public class LevelEvnetManager : Singleton<LevelEvnetManager>
     {
         /// <summary>
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Core
         /// </summary>
         private Dictionary<Enum, List<Action<BaseEventArgs>>> eventEntitys = null;
 
+        
         private LevelEvnetManager()
         {
             InitEvent();
