@@ -1,4 +1,4 @@
-ModifierID,ModifierSubID,ActType,ModifierParam,desc
+﻿ModifierID,ModifierSubID,ActType,ModifierParam,desc
 1,1,AddSimpleDect,bool_set|EnableMoveInput|false,1001:拒绝输入
 1,2,AddSimpleDect,bool_set|IgnoreSpeedLimit|true,1001:无视速度上限
 1,3,AddSimpleDect,bool_set|IsAnimationRoll|true,1001:设置滚动状态
