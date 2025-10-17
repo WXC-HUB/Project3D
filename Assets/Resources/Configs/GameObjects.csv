@@ -1,2 +1,2 @@
-ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
+﻿ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
 1,基础防御塔,1,GO_Object_Tower,6001|6002
