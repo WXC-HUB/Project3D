@@ -329,6 +329,13 @@ public class CharacterCtrlBase : MonoBehaviour
         }
         LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
 
+        // 烹饪系统：掉落食材
+        var ingredientDropper = GetComponent<Assets.Scripts.Cooking.IngredientDropper>();
+        if (ingredientDropper != null)
+        {
+            ingredientDropper.DropIngredients();
+        }
+
         GameObject.Destroy(gameObject , .2f); 
     }
 

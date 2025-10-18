@@ -99,6 +99,12 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
             return new Vector2(Input.GetAxis("Horizontal") , Input.GetAxis("Vertical")).normalized;
         }
         
+        // 添加空检查
+        if (thumbInfoDic == null)
+        {
+            return Vector2.zero;
+        }
+        
         if(thumbInfoDic.ContainsKey( key))
         {
             return thumbInfoDic[key].v.normalized;
@@ -110,12 +116,19 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     private void Start()
     {
+        // 添加空检查，防止未初始化UI时报错
+        if (nodeDics == null || !nodeDics.ContainsKey("m_Button_Skill1") || !nodeDics.ContainsKey("m_Button_Skill2"))
+        {
+            return;
+        }
+        
         this.nodeDics["m_Button_Skill1"].GetComponent<Button>().onClick.AddListener(UseSKill1);
         this.nodeDics["m_Button_Skill2"].GetComponent<Button>().onClick.AddListener(UseSkill2);
     }
 
     void UseSKill1()
     {
+        if (LevelEventQueue.Instance == null) return;
         
         VirtualInputEvnetArgs inputEvent = new VirtualInputEvnetArgs(
                 EventType_VirtualInputEvent.SkillButtonClick, this.gameObject, "m_Button_Skill1", Vector2.zero
@@ -126,6 +139,7 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     void UseSkill2()
     {
+        if (LevelEventQueue.Instance == null) return;
 
         VirtualInputEvnetArgs inputEvent = new VirtualInputEvnetArgs(
                 EventType_VirtualInputEvent.SkillButtonClick, this.gameObject, "m_Button_Skill2", Vector2.zero
@@ -138,17 +152,23 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // 添加空检查
+        if (thumbInfoDic == null) return;
 
         foreach(var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null) continue;
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 info.inDrag = true;
                 VirtualInputEvnetArgs inputEvent = new VirtualInputEvnetArgs(
                     EventType_VirtualInputEvent.ThumbStartDrag, this.gameObject, pair.Key, info.v
-                );
-                LevelEventQueue.Instance.EnqueueEvent(inputEvent);
+                    );
+                if (LevelEventQueue.Instance != null)
+                {
+                    LevelEventQueue.Instance.EnqueueEvent(inputEvent);
+                }
 
             }
         }
@@ -156,8 +176,12 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+        // 添加空检查
+        if (thumbInfoDic == null) return;
+        
         foreach (var info in thumbInfoDic.Values)
         {
+            if (info == null || info.thumb == null) continue;
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 Vector2 targetLocalPos = Screen2UI(eventData.position, info.thumb.parent as RectTransform, eventData.pressEventCamera);
@@ -179,9 +203,13 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        // 添加空检查
+        if (thumbInfoDic == null || thumbDragTime == null) return;
+        
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null) continue;
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
 
@@ -200,7 +228,11 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
                         EventType_VirtualInputEvent.ThumbEndDrag, this.gameObject, pair.Key, info.v
                     );
                 }
-                LevelEventQueue.Instance.EnqueueEvent(inputEvent);
+                
+                if (LevelEventQueue.Instance != null)
+                {
+                    LevelEventQueue.Instance.EnqueueEvent(inputEvent);
+                }
 
                 info.v = Vector2.zero;
                 info.inDrag = false;
@@ -210,9 +242,17 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     private void Update()
     {
+        // 添加空检查，防止未初始化时报错
+        if (thumbInfoDic == null || thumbInfoDic.Count == 0)
+        {
+            return;
+        }
+        
         foreach(var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null) continue;
+            
             if (!info.inDrag)
             {
                 info.thumb.anchoredPosition = Vector2.Lerp(info.thumb.anchoredPosition, Vector2.zero, 0.1f);
@@ -224,7 +264,10 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
                 VirtualInputEvnetArgs inputEvent = new VirtualInputEvnetArgs(
                     EventType_VirtualInputEvent.ThumbKeepDragging, this.gameObject, pair.Key, info.v
                 );
-                LevelEventQueue.Instance.EnqueueEvent(inputEvent );
+                if (LevelEventQueue.Instance != null)
+                {
+                    LevelEventQueue.Instance.EnqueueEvent(inputEvent);
+                }
             }
         }
 
@@ -239,9 +282,13 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        // 添加空检查
+        if (thumbInfoDic == null || thumbDragTime == null) return;
+        
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null) continue;
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 if (thumbDragTime.ContainsKey(pair.Key))
@@ -259,9 +306,13 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        // 添加空检查
+        if (thumbInfoDic == null || thumbDragTime == null) return;
+        
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null) continue;
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 if (thumbDragTime.ContainsKey(pair.Key))

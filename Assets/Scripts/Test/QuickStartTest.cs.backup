@@ -1,0 +1,108 @@
+using UnityEngine;
+using Assets.Scripts.Tower;
+using Assets.Scripts.Level;
+using Assets.Scripts.Wave;
+
+/// <summary>
+/// 快速启动测试脚本 - 用于在空场景中测试核心系统
+/// 使用方法：
+/// 1. 创建一个空GameObject
+/// 2. 添加此组件
+/// 3. 点击Play按钮
+/// </summary>
+public class QuickStartTest : MonoBehaviour
+{
+    [Header("测试配置")]
+    [SerializeField] private bool enableDebugLogs = true;
+    
+    private void Start()
+    {
+        Log("=== 游戏系统快速启动测试 ===");
+        
+        // 测试1：关卡生命系统
+        TestLevelHealthSystem();
+        
+        // 测试2：波次管理系统
+        TestWaveManager();
+        
+        Log("=== 所有核心系统已初始化 ===");
+        Log("提示：查看Console窗口查看系统状态");
+    }
+    
+    private void TestLevelHealthSystem()
+    {
+        if (LevelHealthSystem.Instance != null)
+        {
+            Log("✓ 关卡生命系统已激活");
+            Log($"  当前生命值: {LevelHealthSystem.Instance.CurrentHealth}/{LevelHealthSystem.Instance.MaxHealth}");
+        }
+        else
+        {
+            LogWarning("✗ 关卡生命系统未找到");
+        }
+    }
+    
+    private void TestWaveManager()
+    {
+        if (Assets.Scripts.Wave.WaveManager.Instance != null)
+        {
+            Log("✓ 波次管理系统已激活");
+            Log($"  当前波次: {Assets.Scripts.Wave.WaveManager.Instance.CurrentWaveIndex + 1}");
+        }
+        else
+        {
+            LogWarning("✗ 波次管理系统未找到（需要手动添加到场景）");
+        }
+    }
+    
+    private void OnGUI()
+    {
+        // 绘制简单的调试UI
+        GUILayout.BeginArea(new Rect(10, 10, 300, 200));
+        GUILayout.Box("=== 游戏系统状态 ===");
+        
+        // 显示关卡生命
+        if (LevelHealthSystem.Instance != null)
+        {
+            GUILayout.Label($"关卡生命: {LevelHealthSystem.Instance.CurrentHealth}/{LevelHealthSystem.Instance.MaxHealth}");
+        }
+        
+        // 显示波次信息
+        if (Assets.Scripts.Wave.WaveManager.Instance != null)
+        {
+            var wm = Assets.Scripts.Wave.WaveManager.Instance;
+            GUILayout.Label($"当前波次: {wm.CurrentWaveIndex + 1}");
+            GUILayout.Label($"波次状态: {(wm.IsWaveActive ? "进行中" : "准备中")}");
+        }
+        
+        GUILayout.Space(10);
+        
+        if (GUILayout.Button("测试：扣除关卡生命"))
+        {
+            if (LevelHealthSystem.Instance != null)
+            {
+                LevelHealthSystem.Instance.TakeDamage(1, gameObject);
+                Log("手动扣除1点关卡生命");
+            }
+        }
+        
+        GUILayout.EndArea();
+    }
+    
+    private void Log(string message)
+    {
+        if (enableDebugLogs)
+        {
+            Debug.Log($"[QuickStartTest] {message}");
+        }
+    }
+    
+    private void LogWarning(string message)
+    {
+        if (enableDebugLogs)
+        {
+            Debug.LogWarning($"[QuickStartTest] {message}");
+        }
+    }
+}
+

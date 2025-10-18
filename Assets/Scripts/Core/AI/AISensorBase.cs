@@ -22,6 +22,12 @@ namespace Assets.Scripts.AI
         {
             if (key == "NearestEnemy")
             {
+                // 检查LevelManager是否存在
+                if (LevelManager.Instance == null || LevelManager.Instance.Character_Dict == null)
+                {
+                    return null;
+                }
+                
                 List<CharacterCtrlBase> list;
                 if (LevelManager.Instance.Character_Dict.TryGetValue(InGameCharacterType.Enemy, out list))
                 {
