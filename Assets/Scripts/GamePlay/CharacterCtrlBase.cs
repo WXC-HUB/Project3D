@@ -20,13 +20,17 @@ public class CharacterCtrlBase : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D col2D;
 
+    public bool isAttachedToOther = false;
+
     bool isStill;
 
     public float MoveSpeed_a = 2f;
 
     public float TargetRotation = 0.0f;
 
-    public Dictionary<string , CharacterAttribute> AttributesDicts = new Dictionary<string , CharacterAttribute>();    
+    public Dictionary<string , CharacterAttribute> AttributesDicts = new Dictionary<string , CharacterAttribute>();   
+    
+    public List<CharacterCtrlBase> nowAttachList = new List<CharacterCtrlBase>();
 
     public Character_Bool isAlive = new Character_Bool("isAlive", true); 
 
@@ -52,6 +56,10 @@ public class CharacterCtrlBase : MonoBehaviour
     public Character_Bool isFixedPosition = new Character_Bool("isFixedPosition", false);
 
     public Character_Bool usePhysic = new Character_Bool("usePhysic", true);
+
+    public Character_Bool canBeGrabed = new Character_Bool("canBeGrabed", false);
+
+    public Character_Float grabDistance = new Character_Float("grabDistance", 0.2f);
 
     public List<int> Init_Modifier_List = new List<int>();
     public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
@@ -98,6 +106,8 @@ public class CharacterCtrlBase : MonoBehaviour
         usePhysic.TakeEffect(this);
 
         IsFollowTarget.TakeEffect(this);
+
+        canBeGrabed.TakeEffect(this);
     }
 
 
@@ -350,6 +360,27 @@ public class CharacterCtrlBase : MonoBehaviour
 
         GameObject.Destroy(gameObject );
         LevelManager.Instance.ClearCharDic();
+    }
+
+    public virtual bool TryAttachObject(CharacterCtrlBase attach_obj)
+    {
+        attach_obj.transform.SetParent(transform, false);
+        nowAttachList.Add(attach_obj);
+        attach_obj.isAttachedToOther = true;    
+        return true;
+    }
+
+    public virtual bool TryDropObject(CharacterCtrlBase attach_obj)
+    {
+        if (nowAttachList.Contains(attach_obj))
+        {
+            attach_obj.transform.SetParent(LevelManager.Instance.LevelObjectsRoot);
+            nowAttachList.Remove(attach_obj);
+            attach_obj.isAttachedToOther = false;   
+            return true;
+        }
+
+        return false;
     }
 
     void UpdateAllInput()

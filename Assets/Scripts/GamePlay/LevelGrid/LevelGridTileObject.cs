@@ -25,8 +25,13 @@ public class LevelGridTileObject : CharacterCtrlBase
         this.GetComponent<Outline>().enabled = isSelect;
     }
 
-    public void TryAttachObject(CharacterCtrlBase go)
+    public override bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
-        go.transform.position = transform.position + new Vector3(0 , 0 ,-1.6f);  
+        attach_obj.transform.SetParent(transform, false);
+
+        attach_obj.transform.position = transform.position + new Vector3(0, 0, -1.6f);
+        nowAttachList.Add(attach_obj);
+        attach_obj.isAttachedToOther = true;
+        return true;
     }
 }

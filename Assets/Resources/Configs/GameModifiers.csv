@@ -74,3 +74,4 @@ ModifierID,ModifierSubID,ActType,ModifierParam,desc
 8001,1,AddSimpleDect,bool_set|IsFollowTarget|true,设置跟随状态
 8001,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|10,碰撞时造成伤害
 8001,3,ListenGameEvent,CharacterHitTarget|AddModifier|6|DoHitCharacter|-1,子弹消失
+9001,1,ListenGameEvent,CharacterCastSkill|GrabNearByObject|MainCharacter|Food;Tower,抓起附近的物品
