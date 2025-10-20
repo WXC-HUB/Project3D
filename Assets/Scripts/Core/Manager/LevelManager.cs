@@ -74,11 +74,22 @@ namespace Assets.Scripts.Core
                 Character_Dict[characterType].Add(newsp);
                 return newsp;
             }
+            else
+            {
+                Debug.LogError("尝试生成未定义的物体:" + ID);
+            }
 
             return null;
 
-            
-        } 
+        }
+
+        public void ClearCharDic()
+        {
+            foreach (var list_i in Character_Dict.Values)
+            {
+                list_i.RemoveAll(i => null==i);
+            }
+        }
 
         private void Awake()
         {

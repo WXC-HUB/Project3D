@@ -117,7 +117,7 @@ Transform:
   m_Children:
   - {fileID: 5371579585858659504}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4436998975057222299
 MonoBehaviour:
@@ -138,9 +138,9 @@ MonoBehaviour:
   isAlive:
     real_value: 1
   LinerDrag:
-    real_value: 1.5
+    real_value: 0
   MaxSpeed:
-    real_value: 1.5
+    real_value: 4
   EnableMoveInput:
     real_value: 1
   IgnoreSpeedLimit:

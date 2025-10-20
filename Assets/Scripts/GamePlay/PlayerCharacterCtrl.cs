@@ -36,25 +36,22 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
             mAttackCD_Cur.real_value -= mAttackCDReduce.GetValue() * Time.deltaTime;
             mAttackCD_Cur.real_value = Math.Max(0, mAttackCD_Cur.real_value);
         }
-        if(transform.name.StartsWith( "CC_Object_Tower" ))
-        {
-
-            Debug.Log(string.Format( "{0} {1} {2}" , transform.name , Time.frameCount.ToString() , mAttackCD_Cur.GetValue()));
-        }
     }
 
 
-    public bool Attack(CharacterCtrlBase target)
+    public void Attack(CharacterCtrlBase target)
     {
         mAttackCD_Cur.real_value = mAttackCD.GetValue();
 
+        
         SkillUseInfo skinfo = new SkillUseInfo();
+        
         skinfo.SkillID = myAttackSkillID.GetValue();
         skinfo.AimTarget = target;
         //skinfo.SkillCastPos = transform.position;
+        
         StartUseSkill(skinfo);
 
-        return true;
     }
 
     void UpdateAnimationStates()
@@ -91,6 +88,8 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
 
         IsFOVLock.TakeEffect(this);
         targetCameraFOV.TakeEffect(this);
+
+        myAttackSkillID.TakeEffect(this);   
 
 
     }
@@ -130,18 +129,23 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         evt.event_param_dics.Add("MainCharacter" , this);
         evt.event_param_dics.Add("AimDirX", skillUseInfo.SkillDispatchDir.normalized.x);
         evt.event_param_dics.Add("AimDirY", skillUseInfo.SkillDispatchDir.normalized.y);
-        evt.event_param_dics.Add("MoveDirX" , rb.velocity.x);
-        evt.event_param_dics.Add("MoveDirY", rb.velocity.y);
+
+        if (rb)
+        {
+            evt.event_param_dics.Add("MoveDirX", rb.velocity.x);
+            evt.event_param_dics.Add("MoveDirY", rb.velocity.y);
+
+            evt.event_param_dics.Add("CastPosX", rb.transform.position.x);
+            evt.event_param_dics.Add("CastPosY", rb.transform.position.y);
+        }
+
         evt.event_param_dics.Add("InputDirX", UI_VirtualInput.instance.GetDir("Left").x);
         evt.event_param_dics.Add("InputDirY", UI_VirtualInput.instance.GetDir("Left").y);
-        evt.event_param_dics.Add("CastPosX" , rb.transform.position.x);
-        evt.event_param_dics.Add("CastPosY" , rb.transform.position.y);
 
         evt.event_param_dics.Add("SelectPosIntX", this.MySelectTarget.x);
         evt.event_param_dics.Add("SelectPosIntY", this.MySelectTarget.y);
 
         evt.event_param_dics.Add("AimTarget", skillUseInfo.AimTarget);
-        Debug.Log(this.MySelectTarget.x);
 
         LevelEventQueue.Instance.EnqueueEvent(evt);
 

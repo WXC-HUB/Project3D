@@ -26,12 +26,6 @@ namespace Assets.Scripts.Core
             {
                 var aa = eventQueue.Dequeue();
                 LevelEvnetManager.Instance.EventDispatch(aa);
-                if (aa.m_Type is EventType_Game2DPlayEvent.CharacterDie)
-                {
-                    Debug.Log(aa.sender);
-                    Debug.Log("12122323");
-                }
-
             }
         }
 

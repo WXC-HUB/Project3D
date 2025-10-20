@@ -100,12 +100,20 @@ public class CharacterCtrlBase : MonoBehaviour
         IsFollowTarget.TakeEffect(this);
     }
 
+
     private void FixedUpdate()
     {
+        if (!isAlive.GetValue())
+        {
+            Die( );   
+        }
+        
         if (this.usePhysic.GetValue())
         {
             UpdateMoveState();   //重写物理
         }
+
+
         
     }
 
@@ -113,25 +121,30 @@ public class CharacterCtrlBase : MonoBehaviour
     {
         if (this.IsFollowTarget.GetValue()) 
         {
-            Vector3 target_pos = this.followTarget.transform.position;
-            Vector3 move_len = target_pos - transform.position;
-            float move_dis = MaxSpeed.GetValue() * Time.deltaTime;
-            if(move_len.magnitude > move_dis)
+            if(this.followTarget != null)
             {
-                transform.position = target_pos;
 
-                Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterHitTarget, followTarget.gameObject);
-                beCollideEvent.doCharacter = this;
-                beCollideEvent.beCharacter = followTarget;
-                beCollideEvent.event_param_dics.Add("HitPointX", transform.position.x);
-                beCollideEvent.event_param_dics.Add("HitPointY", transform.position.y);
-                beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
-                beCollideEvent.event_param_dics.Add("BeHitCharacter", followTarget);
-                LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
-            }
-            else
-            {
-                transform.position += move_len.normalized * move_dis;
+                Vector3 target_pos = this.followTarget.transform.position;
+                Vector3 move_len = target_pos - transform.position;
+                float move_dis = MaxSpeed.GetValue() * Time.deltaTime;
+                if (move_len.magnitude <= move_dis)
+                {
+                    transform.position = target_pos;
+
+                    Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterHitTarget, gameObject);
+                    beCollideEvent.doCharacter = this;
+                    beCollideEvent.beCharacter = followTarget;
+                    beCollideEvent.event_param_dics.Add("HitPointX", transform.position.x);
+                    beCollideEvent.event_param_dics.Add("HitPointY", transform.position.y);
+                    beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
+                    beCollideEvent.event_param_dics.Add("BeHitCharacter", followTarget);
+
+                    LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
+                }
+                else
+                {
+                    transform.position += move_len.normalized * move_dis;
+                }
             }
 
         }
@@ -175,6 +188,7 @@ public class CharacterCtrlBase : MonoBehaviour
                 else
                 {
                     Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterBeCollide, beCollideCtr.gameObject);
+                    
                     beCollideEvent.doCharacter = this;
                     beCollideEvent.beCharacter = beCollideCtr;
                     beCollideEvent.event_param_dics.Add("HitPointX", hit.point.x);
@@ -318,7 +332,7 @@ public class CharacterCtrlBase : MonoBehaviour
         }
     }
 
-    public void Die(SkillUseInfo skillUseInfo)
+    public void Die(SkillUseInfo skillUseInfo = null)
     {
         Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterDie, gameObject);
         beCollideEvent.event_param_dics.Add("PositionX", transform.position.x);
@@ -329,7 +343,13 @@ public class CharacterCtrlBase : MonoBehaviour
         }
         LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
 
-        GameObject.Destroy(gameObject , .2f); 
+        foreach(var i in GetComponents<CharacterModifier>())
+        {
+            i.ModifierDispel();
+        }
+
+        GameObject.Destroy(gameObject );
+        LevelManager.Instance.ClearCharDic();
     }
 
     void UpdateAllInput()

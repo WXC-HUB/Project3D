@@ -25,6 +25,7 @@ namespace Assets.Scripts.AI
                 List<CharacterCtrlBase> list;
                 if (LevelManager.Instance.Character_Dict.TryGetValue(InGameCharacterType.Enemy, out list))
                 {
+                    list.RemoveAll(x => x == null);
                     if (list.Count > 0) 
                     {
                         list = list.OrderBy(get_dis).ToList();

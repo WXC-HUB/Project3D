@@ -148,7 +148,8 @@ namespace Assets.Scripts.AI
                     // 移动到下一个路径点
                     MoveToNextPoint();
                 }
-            }else if ( name == "AttackTarget")
+            }
+            else if ( name == "AttackTarget")
             {
                 string toDic = properties[0];
                 CharacterCtrlBase characterCtrlBase;
@@ -158,8 +159,8 @@ namespace Assets.Scripts.AI
                     {
                         (bindCharacterCtrl as PlayerCharacterCtrl).Attack(characterCtrlBase);
                     }
+                    
                 }
-                return false;
             }
             return false;
         }

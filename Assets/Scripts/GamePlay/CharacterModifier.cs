@@ -15,8 +15,11 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             (
                 (GameModifiers x) => x.ModifierID == ModifierID
             );
+        if(toCharacter == null)
+        {
 
-
+            Debug.LogError("try add to NULL target AS mod id:" + ModifierID);
+        }
         CharacterModifier newMod = toCharacter.gameObject.AddComponent<CharacterModifier>();
         newMod.duration = duration;
         newMod.isPermant = (duration <= 0f);
@@ -83,6 +86,7 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
         else if(actionType == "DoDamage")
         {
             //ModifierLifeTime_End|DoDamage|MainCharacter|99999
+            
             CharacterCtrlBase target = to_character != null ? to_character : Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[0], (string a) => null);
             int dmg_value = Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[1], (string a) => (int)Convert.ToInt32(a));
 
@@ -159,10 +163,10 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
         }
         else if (actionType == "SpawnInGameObjectToTile")
         {
-
+            Debug.Log(action_params.ToString());
             Vector3Int spawn_pos_tile = new Vector3Int(
+                Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[2], (string x) => (int)Convert.ToInt64(x)),
                 Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[3], (string x) => (int)Convert.ToInt64(x)),
-                Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[4], (string x) => (int)Convert.ToInt64(x)),
                 0
             );
 
@@ -187,7 +191,8 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             PlayerCharacterCtrl bullet_ctrl = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(bullet_type);
             bullet_ctrl.followTarget = to_char;
             bullet_ctrl.from_char = from_char;
-            bullet_ctrl.transform.position = from_char.transform.position;  
+            bullet_ctrl.transform.position = from_char.transform.position;
+
         }
 
     }
@@ -444,13 +449,8 @@ public class CharacterModifier : MonoBehaviour
 
     void OnTriggerEvent( BaseEventArgs aa)
     {
-        if(aa.m_Type is EventType_Game2DPlayEvent.CharacterDie)
-        {
-            Debug.Log(aa.sender);
-            Debug.Log(this.gameObject);
-            Debug.Log("12122323");
-        }
-        if (aa.sender != this.gameObject) return;
+
+        if (aa.sender == null || aa.sender != this.gameObject) return;
         
         List<List<string>> param_lists = this.listen_gameevent_list[ (EventType_Game2DPlayEvent)aa.m_Type ];
 
