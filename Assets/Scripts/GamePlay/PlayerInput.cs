@@ -64,10 +64,7 @@ public class PlayerInput : CharacterInputBase
     public void OnThumbClick(BaseEventArgs s)
     {
         VirtualInputEvnetArgs inputEvnet = (VirtualInputEvnetArgs)s;
-        if (inputEvnet.InputOperKey == "Right")
-        {
-            
-        }
+        // 右摇杆已删除，不再处理Right事件
     }
 
     public void OnThumbDown(BaseEventArgs s)
@@ -76,10 +73,7 @@ public class PlayerInput : CharacterInputBase
 
         VirtualInputEvnetArgs inputEvent = (VirtualInputEvnetArgs)s;
 
-        if (inputEvent.InputOperKey == "Right")
-        {
-           
-        }
+        // 右摇杆已删除，不再处理Right事件
     }
 
     public void OnThumbUp(BaseEventArgs s)
@@ -88,10 +82,7 @@ public class PlayerInput : CharacterInputBase
 
         VirtualInputEvnetArgs inputEvent = (VirtualInputEvnetArgs)s;
 
-        if (inputEvent.InputOperKey == "Right")
-        {
-            
-        }
+        // 右摇杆已删除，不再处理Right事件
     }
 
     public void OnThumbKeep(BaseEventArgs s)
@@ -99,10 +90,7 @@ public class PlayerInput : CharacterInputBase
         if (!isInputEnable) return;
         VirtualInputEvnetArgs inputEvent = (VirtualInputEvnetArgs)s;
 
-        if (inputEvent.InputOperKey == "Right")
-        {
-            // characterCtrl.DoXuli();
-        }
+        // 右摇杆已删除，不再处理Right事件
     }
 
     public void OnThumbCancel(BaseEventArgs s)
@@ -110,10 +98,7 @@ public class PlayerInput : CharacterInputBase
         if (!isInputEnable) return;
 
         VirtualInputEvnetArgs inputEvent = (VirtualInputEvnetArgs)s;
-        if (inputEvent.InputOperKey == "Right")
-        {
-            
-        }
+        // 右摇杆已删除，不再处理Right事件
     }
 
     // Update is called once per frame

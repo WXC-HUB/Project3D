@@ -13,3 +13,5 @@
 *.prefab -text
 *.unity -text
 *.asset -text
+*.bat -text
+*.exe -text
