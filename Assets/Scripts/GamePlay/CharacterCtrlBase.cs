@@ -20,6 +20,8 @@ public class CharacterCtrlBase : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D col2D;
 
+    public int MyGameObjectID = 0;
+
     public bool isAttachedToOther = false;
 
     bool isStill;
@@ -68,6 +70,7 @@ public class CharacterCtrlBase : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
+
         rb = this.GetComponent<Rigidbody2D>();  
         col2D = this.GetComponent<Collider2D>();
 

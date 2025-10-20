@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
 --- !u!212 &4511947002060231692
 SpriteRenderer:
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   col2D: {fileID: 0}
+  MyGameObjectID: 0
   isAttachedToOther: 0
   MoveSpeed_a: 2
   TargetRotation: 0
@@ -137,7 +138,7 @@ MonoBehaviour:
   isFixedPosition:
     real_value: 0
   usePhysic:
-    real_value: 1
+    real_value: 0
   canBeGrabed:
     real_value: 0
   grabDistance:

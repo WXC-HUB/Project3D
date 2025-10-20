@@ -77,3 +77,4 @@
 9001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|9001|MainCharacter,抓起附近的物品
 10001,1,ListenGameEvent,CharacterCastSkill|DropCurObject|MainCharacter,放下手里的物品
 10001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|10001|MainCharacter,放下手里的物品
+11001,1,BindVFX,VFX_PlayerRoll,烹饪中，设置特效

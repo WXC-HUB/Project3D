@@ -269,11 +269,16 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                         {
                             if (ctrlBase.nowAttachList.Count > 0)
                             {
+                                var toDropList = new List<CharacterCtrlBase>();
                                 foreach (var item in ctrlBase.nowAttachList)
+                                {
+                                    toDropList.Add(item);
+                                }
+                                foreach(var item in toDropList)
                                 {
                                     ctrlBase.TryDropObject(item);
                                 }
-
+                                
                             }
                         }
                     }

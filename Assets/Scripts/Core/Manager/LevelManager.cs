@@ -74,6 +74,7 @@ namespace Assets.Scripts.Core
                     SkillDispatchCenter.Instance.AddModifierToCharacter(newsp, -1, buff);
                 }
                 Character_Dict[characterType].Add(newsp);
+                newsp.MyGameObjectID = ID;
                 return newsp;
             }
             else
