@@ -86,14 +86,14 @@ namespace Assets.Scripts.Core
     {
         public int DishID;
         public string Name;
-        public int GameCharacterID;
+        public int GameCharacter;
     }
 
     public class Dish : TableDatabase
     {
         public int DishID;
         public string Name;
-        public int GameCharacterID;
+        public int GameCharacter;
     }
 
     public class GameTableConfig : Singleton<GameTableConfig>

@@ -102,7 +102,7 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
         {
             return thumbInfoDic[key].v.normalized;
         } 
-        Debug.LogError("摇杆不存在：" +  key); 
+        //Debug.LogError("摇杆不存在：" +  key); 
         return Vector2.zero;
     }
 
