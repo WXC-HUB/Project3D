@@ -68,8 +68,6 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
         //this.background = nodeDics["m_LeftConBG"].transform as RectTransform;
         //this.thumb = nodeDics["m_LeftConTouchPos"].transform as RectTransform ;
 
-        //this.background_right = nodeDics["m_RightConBG"].transform as RectTransform;
-        //this.thumb_right = nodeDics["m_RightConTouchPos"].transform as RectTransform;
         this.thumbDragTime = new Dictionary<string, float>();   
         this.thumbInfoDic = new Dictionary<string, ThumbInfo> ();
         this.thumbInfoDic.Add(
@@ -77,13 +75,6 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
                 _InitThumbOperate(
                     nodeDics["m_LeftConBG"].transform as RectTransform,
                     nodeDics["m_LeftConTouchPos"].transform as RectTransform
-                    )
-            );
-        this.thumbInfoDic.Add(
-                "Right",
-                _InitThumbOperate(
-                    nodeDics["m_RightConBG"].transform as RectTransform,
-                    nodeDics["m_RightConTouchPos"].transform as RectTransform
                     )
             );
 
