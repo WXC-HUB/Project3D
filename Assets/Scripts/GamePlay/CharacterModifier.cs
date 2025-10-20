@@ -182,7 +182,8 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                 LevelGridGenerator.Instance.TryAttach(spawn_pos_tile, spawn_char);
             }
 
-        }else if (actionType == "ShootToTarget")
+        }
+        else if (actionType == "ShootToTarget")
         {
             int bullet_type = Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[0], (string x) => (int)Convert.ToInt64(x));
             CharacterCtrlBase from_char = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[1], (string x) => null);
@@ -194,9 +195,92 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             bullet_ctrl.transform.position = from_char.transform.position;
 
         }
+        else if (actionType == "GrabNearByObject")
+        {
+            CharacterCtrlBase ctrlBase = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[0], (string x) => null);
+            if(ctrlBase != null)
+            {
+                if(ctrlBase is PlayerCharacterCtrl)
+                {
+                    Vector3Int sel = (ctrlBase as PlayerCharacterCtrl).MySelectTarget;
+                    if(sel.x != -999 && sel.y != -999 && LevelGridGenerator.Instance.tile_dictionary.ContainsKey(sel))
+                    {
+                        //如果玩家当前选中了目标
+                        foreach (var item in LevelGridGenerator.Instance.tile_dictionary[sel].nowAttachList)
+                        {
+                            if (LevelGridGenerator.Instance.tile_dictionary[sel].TryDropObject(item))
+                            {
+                                ctrlBase.TryAttachObject(item);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //如果玩家当前没有选中目标
+                        string[] grap_layers = action_params[1].Split(';');
+                        foreach(string test_layer in grap_layers)
+                        {
+                            var test_type = (InGameCharacterType)Enum.Parse(typeof(InGameCharacterType), test_layer);
+                            if (LevelManager.Instance.Character_Dict.ContainsKey( test_type ))
+                            {
+                                List<CharacterCtrlBase> mylist = LevelManager.Instance.Character_Dict[test_type];
+                                mylist.Sort((a, b) => (
+                                    (a.transform.position - ctrlBase.transform.position).magnitude.CompareTo( 
+                                        (b.transform.position - ctrlBase.transform.position).magnitude)
+                                    )
+                                );
+                                if(mylist.Count > 0 && (mylist[0].transform.position - ctrlBase.transform.position).magnitude <= ctrlBase.grabDistance.GetValue() && !mylist[0].isAttachedToOther)
+                                {
+                                    ctrlBase.TryAttachObject(mylist[0]); 
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
 
+        }
+        else if (actionType == "DropCurObject")
+        {
+            CharacterCtrlBase ctrlBase = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[0], (string x) => null);
+            if (ctrlBase != null)
+            {
+                if (ctrlBase is PlayerCharacterCtrl)
+                {
+                    Vector3Int sel = (ctrlBase as PlayerCharacterCtrl).MySelectTarget;
+                    if (sel.x != -999 && sel.y != -999 && LevelGridGenerator.Instance.tile_dictionary.ContainsKey(sel))
+                    {
+                        //如果玩家当前选中了目标
+                        foreach (var item in LevelGridGenerator.Instance.tile_dictionary[sel].nowAttachList)
+                        {
+                            if (ctrlBase.TryDropObject(item))
+                            {
+                                LevelGridGenerator.Instance.tile_dictionary[sel].TryAttachObject(item);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(ctrlBase is PlayerCharacterCtrl)
+                        {
+                            if (ctrlBase.nowAttachList.Count > 0) 
+                            {
+                                foreach(var item in ctrlBase.nowAttachList)
+                                {
+                                    ctrlBase.TryDropObject(item);
+                                }
+                            
+                            }
+                    }
+                }
+            }
+
+        }
     }
-}
 
 
 public class CharacterModifier : MonoBehaviour
