@@ -31,7 +31,9 @@ namespace Assets.Scripts.Core
         Player,
         Tower,
         Enemy,
-        Bullet
+        Bullet,
+        Ingredient,
+        Dish
     }
 
 
