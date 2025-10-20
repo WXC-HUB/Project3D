@@ -45,7 +45,15 @@ public class PlayerInput : CharacterInputBase
         if (inputEvnet.InputOperKey == "m_Button_Skill1")
         {
             SkillUseInfo skinfo = new SkillUseInfo();
-            skinfo.SkillID = 2;
+            if (characterCtrl.nowAttachList.Count > 0)
+            {
+
+                skinfo.SkillID = 7;
+            }
+            else
+            {
+                skinfo.SkillID = 6;
+            }
             skinfo.SkillDispatchDir = inputEvnet.InputDir;
             //skinfo.SkillCastPos = transform.position;
             characterCtrl.StartUseSkill(skinfo);
