@@ -93,11 +93,19 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
     /// </summary>
     public Vector2 GetDir(string key = "Left")
     {
-        if( key == "Left")
-        {
-            
-            return new Vector2(Input.GetAxis("Horizontal") , Input.GetAxis("Vertical")).normalized;
-        }
+		if( key == "Left")
+		{
+			// 优先使用左侧摇杆的UI输入；若未拖拽则回退到键盘轴
+			if (thumbInfoDic != null && thumbInfoDic.ContainsKey("Left"))
+			{
+				Vector2 leftThumb = thumbInfoDic["Left"].v;
+				if (leftThumb.sqrMagnitude > 0.0001f)
+				{
+					return leftThumb.normalized;
+				}
+			}
+			return new Vector2(Input.GetAxis("Horizontal") , Input.GetAxis("Vertical")).normalized;
+		}
         
         if(thumbInfoDic.ContainsKey( key))
         {
@@ -156,23 +164,32 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-        foreach (var info in thumbInfoDic.Values)
+        foreach (var pair in thumbInfoDic)
         {
-            if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
+            var info = pair.Value;
+            // 检查是否正在拖拽这个摇杆
+            if (info.inDrag)
             {
-                Vector2 targetLocalPos = Screen2UI(eventData.position, info.thumb.parent as RectTransform, eventData.pressEventCamera);
-                Vector2 targetDir = targetLocalPos.normalized;
-                float dist = Vector2.Distance(targetLocalPos, Vector2.zero);
+                // 获取鼠标相对于背景中心的位置
+                Vector2 backgroundCenter = info.background.position;
+                Vector2 mousePos = eventData.position;
+                Vector2 offset = mousePos - backgroundCenter;
+                
+                // 计算距离和方向
+                float dist = offset.magnitude;
+                Vector2 direction = offset.normalized;
+                
+                // 限制在最大拖拽距离内
                 if (dist > info.maxDragDist)
                 {
-                    info.thumb.localPosition = targetDir * info.maxDragDist;
+                    dist = info.maxDragDist;
                 }
-                else
-                {
-                    info.thumb.localPosition = targetDir * dist;
-                }
-
-                info.v = targetDir * dist;
+                
+                // 设置摇杆位置（相对于背景中心）
+                info.thumb.position = backgroundCenter + direction * dist;
+                
+                // 更新输入向量（归一化）
+                info.v = direction * (dist / info.maxDragDist);
             }
         }
     }
@@ -182,9 +199,9 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
-            if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
+            // 检查是否正在拖拽这个摇杆
+            if (info.inDrag)
             {
-
                 VirtualInputEvnetArgs inputEvent;
 
                 if (thumbDragTime.ContainsKey(pair.Key) && (Time.time - thumbDragTime[pair.Key])<thumbClickDuration )
@@ -202,6 +219,8 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
                 }
                 LevelEventQueue.Instance.EnqueueEvent(inputEvent);
 
+                // 重置摇杆位置到背景中心
+                info.thumb.position = info.background.position;
                 info.v = Vector2.zero;
                 info.inDrag = false;
             }
@@ -215,7 +234,8 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
             var info = pair.Value;
             if (!info.inDrag)
             {
-                info.thumb.anchoredPosition = Vector2.Lerp(info.thumb.anchoredPosition, Vector2.zero, 0.1f);
+                // 平滑回弹到背景中心
+                info.thumb.position = Vector2.Lerp(info.thumb.position, info.background.position, 0.1f);
             }
             else
             {
