@@ -4,4 +4,6 @@
 3,基础子弹,Bullet,CC_Bullet_1,8001
 101,番茄,Dish,GO_Dish_Potato,0
 102,鸡蛋,Dish,GO_Dish_Egg,0
-201,番茄炒蛋,Dish,GO_Dish_PotatoChaoEgg,0
+201,炒番茄,Dish,GO_Dish_Dish1,0
+202,炒鸡蛋,Dish,GO_Dish_Dish2,0
+203,番茄炒蛋,Dish,GO_Dish_Dish3,0

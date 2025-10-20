@@ -138,7 +138,13 @@ public class LevelGridTileObject : CharacterCtrlBase
         bool is_dish = !(null == GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID));
         if (is_dish && this.CookType.GetValue() >0)
         {
+            nowAttachList.Add(attach_obj);
+            attach_obj.transform.SetParent(transform, true);
+            attach_obj.transform.position = transform.position + new Vector3(0 + nowAttachList.Count * 0.3F, 0, -1.6f);
+            attach_obj.isAttachedToOther = true;
             return TryAttachDish(attach_obj);
+
+            
         }
         
         else

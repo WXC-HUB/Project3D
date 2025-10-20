@@ -63,6 +63,9 @@ public class PlayerInput : CharacterInputBase
         {
             var newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(101);
             newgo.transform.position = transform.position;
+
+            var newgo2= LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(102);
+            newgo2.transform.position = transform.position + new Vector3(0.4F , 0.4F , 0);
         }
 
     }
