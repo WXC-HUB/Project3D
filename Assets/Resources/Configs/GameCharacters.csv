@@ -2,6 +2,6 @@
 1,基础敌人,Enemy,CC_Enemy_01,0
 2,基础防御塔,Tower,CC_Object_Tower,0
 3,基础子弹,Bullet,CC_Bullet_1,8001
-101,番茄,Ingredient,CC_Object_Tower,0
-102,鸡蛋,Ingredient,CC_Object_Tower,0
-201,番茄炒蛋,Dish,CC_Object_Tower,0
+101,番茄,Dish,GO_Dish_Potato,0
+102,鸡蛋,Dish,GO_Dish_Egg,0
+201,番茄炒蛋,Dish,GO_Dish_PotatoChaoEgg,0

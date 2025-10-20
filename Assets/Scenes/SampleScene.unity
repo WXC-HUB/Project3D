@@ -230,18 +230,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 673574371}
     m_Modifications:
-    - target: {fileID: -4304883815043316796, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
-      propertyPath: mAttackCD.real_value
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -4304883815043316796, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
-      propertyPath: mAttackCD_Cur.real_value
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -4304883815043316796, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
-      propertyPath: myAttackSkillID.real_value
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 334450563920756660, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
       propertyPath: m_Name
       value: CC_Object_Tower
@@ -249,14 +237,6 @@ PrefabInstance:
     - target: {fileID: 1421593338508686698, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114800071087374649, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
-      propertyPath: _boundGraphSource._translation.x
-      value: 139
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114800071087374649, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
-      propertyPath: _boundGraphSource._translation.y
-      value: -44
       objectReference: {fileID: 0}
     - target: {fileID: 7897719908118241967, guid: 878c379455321b0448b0bf31d9aaa4db, type: 3}
       propertyPath: m_RootOrder
@@ -1368,8 +1348,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   col2D: {fileID: 0}
+  isAttachedToOther: 0
   MoveSpeed_a: 30
   TargetRotation: 0
+  nowAttachList: []
   isAlive:
     real_value: 1
   LinerDrag:
@@ -1402,6 +1384,10 @@ MonoBehaviour:
   isFixedPosition:
     real_value: 0
   usePhysic:
+    real_value: 1
+  canBeGrabed:
+    real_value: 0
+  grabDistance:
     real_value: 1
   Init_Modifier_List: 
   IsFollowTarget:

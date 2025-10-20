@@ -108,6 +108,7 @@ public class CharacterCtrlBase : MonoBehaviour
         IsFollowTarget.TakeEffect(this);
 
         canBeGrabed.TakeEffect(this);
+        grabDistance.TakeEffect(this);
     }
 
 
@@ -364,7 +365,7 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public virtual bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
-        attach_obj.transform.SetParent(transform, false);
+        attach_obj.transform.SetParent(transform, true);
         nowAttachList.Add(attach_obj);
         attach_obj.isAttachedToOther = true;    
         return true;

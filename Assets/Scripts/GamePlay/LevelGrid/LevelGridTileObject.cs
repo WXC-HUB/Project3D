@@ -18,16 +18,13 @@ public class LevelGridTileObject : CharacterCtrlBase
 
     public void SetSelect(bool isSelect)
     {
-        if (isSelect)
-        {
-            Debug.Log(transform.name);
-        }
+
         this.GetComponent<Outline>().enabled = isSelect;
     }
 
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
-        attach_obj.transform.SetParent(transform, false);
+        attach_obj.transform.SetParent(transform, true);
 
         attach_obj.transform.position = transform.position + new Vector3(0, 0, -1.6f);
         nowAttachList.Add(attach_obj);

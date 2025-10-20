@@ -73,7 +73,7 @@
 8001,1,AddSimpleDect,bool_set|IsFollowTarget|true,设置跟随状态
 8001,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|10,碰撞时造成伤害
 8001,3,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
-9001,1,ListenGameEvent,CharacterCastSkill|GrabNearByObject|MainCharacter|Food;Tower,抓起附近的物品
+9001,1,ListenGameEvent,CharacterCastSkill|GrabNearByObject|MainCharacter|Dish,抓起附近的物品
 9001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|9001|MainCharacter,抓起附近的物品
-10001,1,ListenGameEvent,CharacterCastSkill|GrabNearByObject|MainCharacter,放下手里的物品
+10001,1,ListenGameEvent,CharacterCastSkill|DropCurObject|MainCharacter,放下手里的物品
 10001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|10001|MainCharacter,放下手里的物品

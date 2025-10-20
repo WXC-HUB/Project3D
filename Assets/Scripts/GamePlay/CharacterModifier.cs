@@ -254,7 +254,7 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                     if (sel.x != -999 && sel.y != -999 && LevelGridGenerator.Instance.tile_dictionary.ContainsKey(sel))
                     {
                         //如果玩家当前选中了目标
-                        foreach (var item in LevelGridGenerator.Instance.tile_dictionary[sel].nowAttachList)
+                        foreach (var item in ctrlBase.nowAttachList)
                         {
                             if (ctrlBase.TryDropObject(item))
                             {
