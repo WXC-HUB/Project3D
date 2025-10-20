@@ -186,7 +186,7 @@ public class ConfigTable<TDatabase> where TDatabase : TableDatabase, new()
             }
         }
 
-        Debug.Log("No Re");
+        Debug.LogError("No Re IN" + typeof(TDatabase).Name );
         return null;
     }
 
