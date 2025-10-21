@@ -247,6 +247,10 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                             if (LevelManager.Instance.Character_Dict.ContainsKey(test_type))
                             {
                                 List<CharacterCtrlBase> mylist = LevelManager.Instance.Character_Dict[test_type];
+                                
+                                // 先清理已销毁的对象，避免排序时访问空引用
+                                mylist.RemoveAll(item => item == null);
+                                
                                 mylist.Sort((a, b) => (
                                     (a.transform.position - ctrlBase.transform.position).magnitude.CompareTo(
                                         (b.transform.position - ctrlBase.transform.position).magnitude)
