@@ -154,8 +154,8 @@ MonoBehaviour:
   TryAimRotDir:
     real_value: {x: 0, y: 0}
   MaxHP:
-    real_value: 30
-  NowHP: 30
+    real_value: 1
+  NowHP: 1
   isInvincible:
     real_value: 0
   Mass:
@@ -184,8 +184,8 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
   MaxMP:
-    real_value: 30
-  NowMP: 0
+    real_value: 100
+  NowMP: 100
   Reduce_MP_PerSecond:
     real_value: 0
   have_reduce_MP: 0

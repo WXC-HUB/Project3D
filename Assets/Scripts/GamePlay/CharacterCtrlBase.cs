@@ -84,7 +84,7 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public Character_Bool canBeGrabed = new Character_Bool("canBeGrabed", false);
 
-    public Character_Float grabDistance = new Character_Float("grabDistance", 0.2f);
+    public Character_Float grabDistance = new Character_Float("grabDistance", 1f);
 
     public List<int> Init_Modifier_List = new List<int>();
     public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
@@ -170,7 +170,7 @@ public class CharacterCtrlBase : MonoBehaviour
             UpdateMoveState();   //重写物理
         }
 
-        NowMP = (int)Mathf.Min(NowMP, MaxHP.GetValue());
+        NowMP = (int)Mathf.Min(NowMP, MaxMP.GetValue());
 
         if(Reduce_MP_PerSecond.GetValue() > 0)
         {
