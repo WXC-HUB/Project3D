@@ -205,7 +205,7 @@ public class LevelGridTileObject : CharacterCtrlBase
         {
             nowAttachList.Add(attach_obj);
             attach_obj.transform.SetParent(transform, true);
-            attach_obj.transform.position = transform.position + new Vector3(0 + nowAttachList.Count * 0.3F, 0, -1.6f);
+            attach_obj.transform.position = transform.position + new Vector3(0 + nowAttachList.Count * 0.3F, 0, -0.5f);
             attach_obj.isAttachedToOther = true;
             return TryAttachDish(attach_obj);
         }
@@ -216,8 +216,8 @@ public class LevelGridTileObject : CharacterCtrlBase
         else
         {
             attach_obj.transform.SetParent(transform, true);
-            
-            attach_obj.transform.position = transform.position + new Vector3(0, 0, -1.6f);
+
+            attach_obj.transform.position = transform.position + new Vector3(0, 0,-0.5f);
             nowAttachList.Add(attach_obj);
             attach_obj.isAttachedToOther = true;
             return true;
