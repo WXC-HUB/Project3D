@@ -15,3 +15,12 @@
 *.asset -text
 *.bat -text
 *.exe -text
+
+# Third-party assets - binary files, no line ending conversion
+*.tga binary
+*.max binary
+*.psk binary
+*.dds binary
+*.tif binary
+*.tiff binary
+*.psd binary
