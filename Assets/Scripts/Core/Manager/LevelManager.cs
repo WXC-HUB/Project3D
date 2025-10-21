@@ -70,6 +70,13 @@ namespace Assets.Scripts.Core
 
         public void GoNextRound()
         {
+            // 防止延迟调用时 Instance 已被销毁
+            if (LevelGridGenerator.Instance == null)
+            {
+                Debug.LogWarning("GoNextRound called but LevelGridGenerator.Instance is null");
+                return;
+            }
+
             LevelGridGenerator.Instance.StartSpawn(true);   
             NowRoundID += 1;
         }
@@ -80,8 +87,16 @@ namespace Assets.Scripts.Core
             {
                 return false;
             }
-            if(RoundNextFlag.All( x => x.isReadyForNextRound))
+
+            // 过滤掉已被销毁的对象
+            if(RoundNextFlag.All( x => x != null && x.isReadyForNextRound))
             {
+                if (LevelGridGenerator.Instance == null)
+                {
+                    Debug.LogWarning("TestNextRound: LevelGridGenerator.Instance is null");
+                    return false;
+                }
+
                 Invoke("GoNextRound", 5f);
                 LevelGridGenerator.Instance.GoNextRound();
                 if(NowRoundID > MaxRoundID)

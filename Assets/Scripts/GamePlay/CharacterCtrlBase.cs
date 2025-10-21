@@ -33,6 +33,16 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public bool isAttachedToOther = false;
 
+    /// <summary>
+    /// 尸体预制体，敌人死亡后会生成此预制体供子弹继续追踪
+    /// </summary>
+    public GameObject corpsePrefab;
+
+    /// <summary>
+    /// 终点标记预制体（静态，全局共享）
+    /// </summary>
+    private static GameObject endPointMarkerPrefab;
+
     bool isStill;
 
     public float MoveSpeed_a = 2f;
@@ -379,6 +389,61 @@ public class CharacterCtrlBase : MonoBehaviour
         foreach(var i in GetComponents<CharacterModifier>())
         {
             i.ModifierDispel();
+        }
+
+        // 创建替代目标（尸体或终点标记）
+        CharacterCtrlBase replaceTarget = null;
+        
+        if (cause == DeathCause.Killed && corpsePrefab != null)
+        {
+            // 被击杀：生成尸体
+            GameObject corpse = Instantiate(corpsePrefab, transform.position, transform.rotation, LevelManager.Instance.LevelObjectsRoot);
+            corpse.name = $"Corpse_{gameObject.name}";
+            replaceTarget = corpse.GetComponent<CharacterCtrlBase>();
+            if (replaceTarget != null)
+            {
+                Debug.Log($"生成尸体: {corpse.name} at {transform.position}");
+            }
+        }
+        else if (cause == DeathCause.ReachedEnd)
+        {
+            // 到达终点：生成临时标记
+            if (endPointMarkerPrefab == null)
+            {
+                endPointMarkerPrefab = new GameObject("EndPointMarker_Prefab");
+                endPointMarkerPrefab.AddComponent<EndPointMarker>();
+                endPointMarkerPrefab.SetActive(false);
+            }
+            
+            GameObject marker = Instantiate(endPointMarkerPrefab, transform.position, Quaternion.identity, LevelManager.Instance.LevelObjectsRoot);
+            marker.name = $"EndPointMarker_{gameObject.name}";
+            marker.SetActive(true);
+            replaceTarget = marker.GetComponent<CharacterCtrlBase>();
+            if (replaceTarget != null)
+            {
+                Debug.Log($"生成终点标记: {marker.name} at {transform.position}");
+            }
+        }
+
+        // 转移所有追踪此对象的子弹到新目标
+        if (replaceTarget != null)
+        {
+            int transferredCount = 0;
+            foreach (var charType in LevelManager.Instance.Character_Dict.Values)
+            {
+                foreach (var character in charType)
+                {
+                    if (character != null && character.followTarget == this)
+                    {
+                        character.followTarget = replaceTarget;
+                        transferredCount++;
+                    }
+                }
+            }
+            if (transferredCount > 0)
+            {
+                Debug.Log($"转移了 {transferredCount} 个子弹到新目标: {replaceTarget.gameObject.name}");
+            }
         }
 
         // 根据死亡原因决定是否掉落食材

@@ -111,6 +111,13 @@ public class PlayerInput : CharacterInputBase
 
     void TestSelect()
     {
+        // 添加空引用检查
+        if (this.characterCtrl == null || this.characterCtrl.col2D == null)
+            return;
+
+        if (LevelGridGenerator.Instance == null || LevelGridGenerator.Instance.tilemap == null || LevelGridGenerator.Instance.tile_dictionary == null)
+            return;
+
         bool onMoveDirectionHaveBlock = false;
         if (this.characterCtrl.EnableMoveInput.GetValue() && this.characterCtrl.TryInputDir.GetValue().magnitude > 0)
         {
@@ -158,9 +165,12 @@ public class PlayerInput : CharacterInputBase
         if (onMoveDirectionHaveBlock == false)
         {
             LevelGridTileObject tile_obj_old;
-            if (LevelGridGenerator.Instance.tile_dictionary.TryGetValue(this.characterCtrl.MySelectTarget, out tile_obj_old))
+            if (LevelGridGenerator.Instance != null && 
+                LevelGridGenerator.Instance.tile_dictionary != null &&
+                LevelGridGenerator.Instance.tile_dictionary.TryGetValue(this.characterCtrl.MySelectTarget, out tile_obj_old))
             {
-                if (this.characterCtrl.MySelectTarget != null && characterCtrl.MySelectTarget.x != -999 && (tile_obj_old.transform.position - transform.position).magnitude > JudgeSelectRange + 0.5f)
+                if (tile_obj_old != null && this.characterCtrl.MySelectTarget.x != -999 && 
+                    (tile_obj_old.transform.position - transform.position).magnitude > JudgeSelectRange + 0.5f)
                 {
                     tile_obj_old.SetSelect(false);
 

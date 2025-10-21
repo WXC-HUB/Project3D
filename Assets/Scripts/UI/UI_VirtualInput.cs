@@ -137,10 +137,15 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (thumbInfoDic == null || eventData == null || eventData.pointerCurrentRaycast.gameObject == null)
+            return;
 
         foreach(var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null)
+                continue;
+
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 info.inDrag = true;
@@ -155,9 +160,15 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (thumbInfoDic == null)
+            return;
+
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null || info.background == null)
+                continue;
+
             // 检查是否正在拖拽这个摇杆
             if (info.inDrag)
             {
@@ -187,9 +198,15 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (thumbInfoDic == null)
+            return;
+
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null || info.background == null)
+                continue;
+
             // 检查是否正在拖拽这个摇杆
             if (info.inDrag)
             {
@@ -220,9 +237,15 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     private void Update()
     {
+        if (thumbInfoDic == null)
+            return;
+
         foreach(var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null || info.background == null)
+                continue;
+
             if (!info.inDrag)
             {
                 // 平滑回弹到背景中心
@@ -250,9 +273,15 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (thumbInfoDic == null || eventData == null || eventData.pointerCurrentRaycast.gameObject == null)
+            return;
+
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null)
+                continue;
+
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 if (thumbDragTime.ContainsKey(pair.Key))
@@ -270,9 +299,15 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (thumbInfoDic == null || eventData == null || eventData.pointerCurrentRaycast.gameObject == null)
+            return;
+
         foreach (var pair in thumbInfoDic)
         {
             var info = pair.Value;
+            if (info == null || info.thumb == null)
+                continue;
+
             if (eventData.pointerCurrentRaycast.gameObject == info.thumb.gameObject)
             {
                 if (thumbDragTime.ContainsKey(pair.Key))
