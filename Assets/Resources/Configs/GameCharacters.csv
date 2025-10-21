@@ -1,5 +1,5 @@
 ﻿ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
-2,基础防御塔,Tower,CC_Object_Tower,0
+2,基础防御塔,Tower,CC_Object_Tower,12001
 3,基础子弹,Bullet,CC_Bullet_1,8001
 4,空Character作为SpawenRoot,SpawnRoot,GO_SpawnRoot_1,0
 101,番茄,Dish,GO_Dish_Potato,0
@@ -10,3 +10,12 @@
 1001,基础敌人,Enemy,CC_Enemy_01,0
 1002,基础敌人,Enemy,CC_Enemy_02,0
 1003,基础敌人,Enemy,CC_Enemy_03,0
+103,牛肉,Dish,GO_Dish_steak,0
+104,卷心菜,Dish,GO_Dish_lettuce,0
+105,鸡腿,Dish,GO_Dish_ham,0
+106,土豆,Dish,GO_Dish_Potato,0
+107,番茄,Dish,GO_Dish_tomato,0
+108,鱼,Dish,GO_Dish_fish,0
+204,烤鱼,Dish,GO_Dish_Grilled_Fish,0
+205,土豆咖喱牛腩,Dish,GO_Dish_Potato_curry_beef_brisket,0
+206,葱鸡腿,Dish,GO_Dish_Scallion_Chicken_Drumsticks,0
