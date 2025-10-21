@@ -11,7 +11,7 @@ namespace Assets.Scripts.Core
 	public class DishSubmissionManager : Singleton<DishSubmissionManager>
 	{
 		// 菜品ID -> 提交次数（key 即为可用菜品列表）
-		private readonly Dictionary<int, int> dishIdToCount = new Dictionary<int, int>();
+		public readonly Dictionary<int, int> dishIdToCount = new Dictionary<int, int>();
 
 		/// <summary>
 		/// (dishId, newCount)
