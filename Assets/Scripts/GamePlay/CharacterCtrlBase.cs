@@ -368,8 +368,145 @@ public class CharacterCtrlBase : MonoBehaviour
             i.ModifierDispel();
         }
 
+        // 掉落食材逻辑
+        DropIngredient();
+
         GameObject.Destroy(gameObject );
         LevelManager.Instance.ClearCharDic();
+    }
+
+    /// <summary>
+    /// 掉落食材逻辑
+    /// </summary>
+    private void DropIngredient()
+    {
+        // 判断是否是敌人类型
+        if (MyGameObjectID == 0)
+        {
+            return; // 没有配置ID，不处理
+        }
+
+        GameCharacters config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == MyGameObjectID);
+        if (config == null || config.ObjectType != "Enemy")
+        {
+            return; // 不是敌人类型，不掉落
+        }
+
+        // 掉落概率检查（50%概率掉落，可调整）
+        float dropChance = 0.5f;
+        if (Random.value > dropChance)
+        {
+            Debug.Log("敌人死亡：未掉落食材（概率未命中）");
+            return;
+        }
+
+        // 获取可提交菜品列表
+        List<int> submittableDishIds = DishSubmissionManager.Instance.GetAllDishIds();
+        if (submittableDishIds == null || submittableDishIds.Count == 0)
+        {
+            return;
+        }
+
+        // 统计食材出现次数作为权重
+        Dictionary<int, int> ingredientWeights = new Dictionary<int, int>();
+
+        foreach (int dishId in submittableDishIds)
+        {
+            // 检查是否是成品菜（在Recipe中作为CookResult）
+            Recipe recipe = GameTableConfig.Instance.Config_Recipe.FindFirstLine(x => x.CookResult == dishId);
+            
+            if (recipe != null)
+            {
+                // 是成品菜，取原料列表
+                foreach (int ingredientId in recipe.DishList)
+                {
+                    // 验证原料在Dish表中存在
+                    Dish dish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == ingredientId);
+                    if (dish != null)
+                    {
+                        // 统计该食材出现次数
+                        if (ingredientWeights.ContainsKey(ingredientId))
+                        {
+                            ingredientWeights[ingredientId]++;
+                        }
+                        else
+                        {
+                            ingredientWeights[ingredientId] = 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // 不是成品菜，取自己
+                Dish dish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == dishId);
+                if (dish != null)
+                {
+                    if (ingredientWeights.ContainsKey(dishId))
+                    {
+                        ingredientWeights[dishId]++;
+                    }
+                    else
+                    {
+                        ingredientWeights[dishId] = 1;
+                    }
+                }
+            }
+        }
+
+        // 如果没有可掉落的食材，直接返回
+        if (ingredientWeights.Count == 0)
+        {
+            return;
+        }
+
+        // 基于权重随机选择食材
+        int selectedDishId = WeightedRandomSelect(ingredientWeights);
+
+        // 获取食材配置
+        Dish selectedDish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == selectedDishId);
+        if (selectedDish != null)
+        {
+            // 生成食材GameObject
+            CharacterCtrlBase droppedItem = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(selectedDish.GameCharacter);
+            if (droppedItem != null)
+            {
+                droppedItem.transform.position = transform.position;
+                Debug.Log($"敌人死亡掉落食材: {selectedDish.Name} (DishID: {selectedDishId}, 权重: {ingredientWeights[selectedDishId]})");
+            }
+        }
+    }
+
+    /// <summary>
+    /// 基于权重的随机选择
+    /// </summary>
+    /// <param name="weights">物品ID及其权重</param>
+    /// <returns>被选中的物品ID</returns>
+    private int WeightedRandomSelect(Dictionary<int, int> weights)
+    {
+        // 计算总权重
+        int totalWeight = 0;
+        foreach (var weight in weights.Values)
+        {
+            totalWeight += weight;
+        }
+
+        // 生成随机值
+        int randomValue = Random.Range(0, totalWeight);
+
+        // 根据权重选择
+        int cumulativeWeight = 0;
+        foreach (var kvp in weights)
+        {
+            cumulativeWeight += kvp.Value;
+            if (randomValue < cumulativeWeight)
+            {
+                return kvp.Key;
+            }
+        }
+
+        // 默认返回第一个（理论上不会到达这里）
+        return new List<int>(weights.Keys)[0];
     }
 
     public virtual bool TryAttachObject(CharacterCtrlBase attach_obj)
