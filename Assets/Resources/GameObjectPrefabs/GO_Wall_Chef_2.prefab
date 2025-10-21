@@ -99,9 +99,9 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
   CookType:
-    real_value: 0
-  DishOutletType:
     real_value: 1
+  DishOutletType:
+    real_value: 0
   NowRecipeID: 0
   NowRecipeTime: 0
   NowRecipeAddedDish: 
