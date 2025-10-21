@@ -182,7 +182,7 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         foreach (var spawn_pair in spawnroot_dictionay)
         {
             SpawnRootInfo sp = spawn_pair.Value;
-            if (sp.sp_config != null)
+            if (sp.sp_config != null && sp.isSpawnGoOn)
             {
                 sp.spawn_timer += Time.deltaTime;
                 SpawnRoots this_config = sp.sp_config.Find( x => x.RoundID == LevelManager.Instance.NowRoundID );

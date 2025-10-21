@@ -87,6 +87,7 @@ namespace Assets.Scripts.Core
                 {
                     LevelWin();
                 }
+                
                 return true;
             }
             else
