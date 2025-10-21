@@ -89,6 +89,7 @@ namespace Assets.Scripts.Core
         public int DishID;
         public string Name;
         public int GameCharacter;
+        public string IconPath;
     }
 
     public class Recipe : TableDatabase
@@ -100,6 +101,7 @@ namespace Assets.Scripts.Core
         public List<float> CookTime;
         public int CookResult;
         public List<int> OnCookBuffList;
+        public string cookTypeIconPath;
     }
 
     public class GameTableConfig : Singleton<GameTableConfig>

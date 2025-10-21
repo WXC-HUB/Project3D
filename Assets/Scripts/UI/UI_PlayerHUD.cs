@@ -142,14 +142,6 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
         //}
         
 
-        foreach (var item in player_follow_dics)
-        {
-            if(item.Key != null)
-            {
-                item.Value.root.position
-                    = Camera.main.WorldToScreenPoint(item.Key.transform.position);
-            }
-        }
 
         UpdatePlayerDate();
 
