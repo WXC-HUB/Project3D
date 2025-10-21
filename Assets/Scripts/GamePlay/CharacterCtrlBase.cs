@@ -162,6 +162,10 @@ public class CharacterCtrlBase : MonoBehaviour
                     transform.position += move_len.normalized * move_dis;
                 }
             }
+            else
+            {
+                Die();
+            }
 
         }
         
