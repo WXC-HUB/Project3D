@@ -138,6 +138,7 @@ namespace Assets.Scripts.Core
 
         public void ClearCharDic()
         {
+            // 清理全局角色字典中的 null 引用
             foreach (var list_i in Character_Dict.Values)
             {
                 list_i.RemoveAll(i => null==i);

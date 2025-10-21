@@ -6,6 +6,13 @@ using UnityEngine.UI;
 using Assets.Scripts.BaseUtils;
 using TMPro;
 
+public enum DeathCause
+{
+    Killed,          // 被击杀
+    ReachedEnd,      // 到达终点
+    Other            // 其他原因
+}
+
 public class SkillUseInfo
 {
     public int SkillID = 0;
@@ -348,15 +355,21 @@ public class CharacterCtrlBase : MonoBehaviour
 
         if(this.NowHP < 0)
         {
-            this.Die(skillUseInfo);
+            this.Die(DeathCause.Killed, skillUseInfo);
         }
     }
 
-    public void Die(SkillUseInfo skillUseInfo = null)
+    /// <summary>
+    /// 角色死亡/消失的统一方法
+    /// </summary>
+    /// <param name="cause">死亡原因</param>
+    /// <param name="skillUseInfo">技能信息（可选）</param>
+    public void Die(DeathCause cause = DeathCause.Other, SkillUseInfo skillUseInfo = null)
     {
         Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterDie, gameObject);
         beCollideEvent.event_param_dics.Add("PositionX", transform.position.x);
         beCollideEvent.event_param_dics.Add("PositionY", transform.position.y);
+        beCollideEvent.event_param_dics.Add("DeathCause", cause.ToString());
         if (null != skillUseInfo) 
         {
             beCollideEvent.event_param_dics.Add("Killer", skillUseInfo.dispatcher);
@@ -368,11 +381,41 @@ public class CharacterCtrlBase : MonoBehaviour
             i.ModifierDispel();
         }
 
-        // 掉落食材逻辑
-        DropIngredient();
+        // 根据死亡原因决定是否掉落食材
+        if (cause == DeathCause.Killed)
+        {
+            DropIngredient();
+        }
+        else if (cause == DeathCause.ReachedEnd)
+        {
+            // 到达终点，扣除基地血量
+            OnEnemyReachedEnd();
+        }
 
-        GameObject.Destroy(gameObject );
+        GameObject.Destroy(gameObject);
         LevelManager.Instance.ClearCharDic();
+    }
+
+    /// <summary>
+    /// 敌人到达终点的处理
+    /// </summary>
+    private void OnEnemyReachedEnd()
+    {
+        // 判断是否是敌人类型
+        if (MyGameObjectID == 0)
+        {
+            return;
+        }
+
+        GameCharacters config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == MyGameObjectID);
+        if (config == null || config.ObjectType != "Enemy")
+        {
+            return;
+        }
+
+        // TODO: 扣除基地血量的逻辑
+        // 例如: LevelManager.Instance.BaseHP -= 10;
+        Debug.Log($"敌人 {config.ObjectName} 到达终点！基地受到伤害！");
     }
 
     /// <summary>

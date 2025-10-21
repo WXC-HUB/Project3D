@@ -51,14 +51,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   col2D: {fileID: 0}
+  MyGameObjectID: 0
+  MyObjectLayer: 0
+  isReadyForNextRound: 0
+  isAttachedToOther: 0
   MoveSpeed_a: 2
   TargetRotation: 0
+  nowAttachList: []
   isAlive:
     real_value: 1
   LinerDrag:
     real_value: 1.5
   MaxSpeed:
-    real_value: 1.5
+    real_value: 0.5
   EnableMoveInput:
     real_value: 1
   IgnoreSpeedLimit:
@@ -86,7 +91,15 @@ MonoBehaviour:
     real_value: 0
   usePhysic:
     real_value: 1
+  canBeGrabed:
+    real_value: 0
+  grabDistance:
+    real_value: 0.2
   Init_Modifier_List: 
+  IsFollowTarget:
+    real_value: 0
+  followTarget: {fileID: 0}
+  from_char: {fileID: 0}
   MySelectTarget: {x: 0, y: 0, z: 0}
   IsFOVLock:
     real_value: 0
