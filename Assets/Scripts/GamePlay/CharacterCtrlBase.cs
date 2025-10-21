@@ -435,7 +435,7 @@ public class CharacterCtrlBase : MonoBehaviour
             return; // 不是敌人类型，不掉落
         }
 
-        // 掉落概率检查（50%概率掉落，可调整）
+        // 掉落概率检查
         float dropChance = 0.5f;
         if (Random.value > dropChance)
         {
@@ -554,7 +554,16 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public virtual bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
+        // 先设置父级，保持世界坐标
         attach_obj.transform.SetParent(transform, true);
+        
+        // 只有玩家才会让物品移到右边固定位置
+        if (this is PlayerCharacterCtrl)
+        {
+            // 然后只修改本地位置，不改变旋转和缩放
+            attach_obj.transform.localPosition = new Vector3(0.5f, 0f, 0f);
+        }
+        
         nowAttachList.Add(attach_obj);
         attach_obj.isAttachedToOther = true;    
         return true;
@@ -566,11 +575,101 @@ public class CharacterCtrlBase : MonoBehaviour
         {
             attach_obj.transform.SetParent(LevelManager.Instance.LevelObjectsRoot);
             nowAttachList.Remove(attach_obj);
-            attach_obj.isAttachedToOther = false;   
+            attach_obj.isAttachedToOther = false;
+            
+            // 只有玩家才执行"丢"的动画
+            if (this is PlayerCharacterCtrl)
+            {
+                StartCoroutine(ThrowObjectAnimation(attach_obj));
+            }
+            
             return true;
         }
 
         return false;
+    }
+    
+    /// <summary>
+    /// 物体被丢出的动画效果：刷到人物中央，然后落到地上
+    /// </summary>
+    private IEnumerator ThrowObjectAnimation(CharacterCtrlBase obj)
+    {
+        // 检查物体是否已被销毁
+        if (obj == null)
+        {
+            yield break;
+        }
+        
+        // 停止物体的所有物理速度
+        if (obj.rb != null)
+        {
+            obj.rb.velocity = Vector2.zero;
+            obj.rb.angularVelocity = 0f;
+        }
+        
+        // 1. 立即把物品移动到人物中央上方
+        Vector3 dropStartPos = new Vector3(
+            transform.position.x,
+            transform.position.y + 0.5f,  // 稍微在人物上方一点
+            obj.transform.position.z
+        );
+        obj.transform.position = dropStartPos;
+        
+        // 2. 目标位置：直接落到人物脚的位置
+        Vector3 targetPos = new Vector3(
+            transform.position.x,
+            transform.position.y,
+            dropStartPos.z
+        );
+        
+        // 3. 匀速下落到目标位置
+        float duration = 0.3f;  // 下落持续时间
+        float elapsed = 0f;
+        
+        while (elapsed < duration)
+        {
+            // 检查物体是否已被销毁（比如提交菜品时）
+            if (obj == null)
+            {
+                yield break;
+            }
+            
+            // 检查物体是否被重新附加到其他对象（比如锅）
+            if (obj.isAttachedToOther)
+            {
+                // 物体已经被附加到其他对象，停止动画
+                yield break;
+            }
+            
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            
+            // 匀速插值
+            obj.transform.position = Vector3.Lerp(dropStartPos, targetPos, t);
+            
+            // 持续强制速度为0
+            if (obj.rb != null)
+            {
+                obj.rb.velocity = Vector2.zero;
+            }
+            
+            yield return null;
+        }
+        
+        // 4. 确保到达精确位置并完全静止
+        // 再次检查物体是否已被销毁
+        if (obj == null)
+        {
+            yield break;
+        }
+        
+        obj.transform.position = targetPos;
+        
+        if (obj.rb != null)
+        {
+            obj.rb.velocity = Vector2.zero;
+            obj.rb.angularVelocity = 0f;
+        }
     }
 
     void UpdateAllInput()

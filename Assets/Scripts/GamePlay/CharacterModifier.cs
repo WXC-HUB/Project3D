@@ -207,6 +207,8 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                     {
                         string[] grap_layers = action_params[1].Split(';');
                         //如果玩家当前选中了目标
+                        // 先收集要操作的物体，避免在遍历时修改集合
+                        CharacterCtrlBase targetItem = null;
                         foreach (var item in LevelGridGenerator.Instance.tile_dictionary[sel].nowAttachList)
                         {
                             foreach (var grap in grap_layers)
@@ -215,14 +217,24 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
 
                                 if(item.MyObjectLayer == test_type)
                                 {
-                                    if (LevelGridGenerator.Instance.tile_dictionary[sel].TryDropObject(item))
-                                    {
-                                        ctrlBase.TryAttachObject(item);
-                                        break;
-                                    }
+                                    targetItem = item;
+                                    break;
                                 }
                             }
                             
+                            if (targetItem != null)
+                            {
+                                break;
+                            }
+                        }
+                        
+                        // 找到目标后再执行操作
+                        if (targetItem != null)
+                        {
+                            if (LevelGridGenerator.Instance.tile_dictionary[sel].TryDropObject(targetItem))
+                            {
+                                ctrlBase.TryAttachObject(targetItem);
+                            }
                         }
                     }
                     else

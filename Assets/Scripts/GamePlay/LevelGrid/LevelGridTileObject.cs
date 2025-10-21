@@ -174,7 +174,7 @@ public class LevelGridTileObject : CharacterCtrlBase
             DishSubmissionManager.Instance.AddDishSubmission(dishId, 1);
             // 获取提交后的数量
             int currentCount = DishSubmissionManager.Instance.GetDishCount(dishId);
-            Debug.Log($"成功提交菜品 ID: {dishId}, 名称: {dish_config.Name}, 当前数量: {currentCount}");
+            Debug.LogWarning($"成功提交菜品 ID: {dishId}, 名称: {dish_config.Name}, 当前数量: {currentCount}");
         }
         
         // 删除菜品GameObject
@@ -216,7 +216,7 @@ public class LevelGridTileObject : CharacterCtrlBase
         else
         {
             attach_obj.transform.SetParent(transform, true);
-
+            
             attach_obj.transform.position = transform.position + new Vector3(0, 0, -1.6f);
             nowAttachList.Add(attach_obj);
             attach_obj.isAttachedToOther = true;
