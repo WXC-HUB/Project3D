@@ -86,6 +86,9 @@ public class CharacterCtrlBase : MonoBehaviour
     public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
     public CharacterCtrlBase followTarget, from_char;
 
+    public Character_Float Reduce_HP_PerSecond = new Character_Float("Reduce_HP_PerSecond", 0);
+    public float have_reduce_hp = 0;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -131,6 +134,8 @@ public class CharacterCtrlBase : MonoBehaviour
 
         canBeGrabed.TakeEffect(this);
         grabDistance.TakeEffect(this);
+
+        Reduce_HP_PerSecond.TakeEffect(this);
     }
 
 
@@ -146,7 +151,15 @@ public class CharacterCtrlBase : MonoBehaviour
             UpdateMoveState();   //重写物理
         }
 
-
+        if(Reduce_HP_PerSecond.GetValue() > 0)
+        {
+            have_reduce_hp += Time.deltaTime * Reduce_HP_PerSecond.GetValue();
+            if( Mathf.Floor(have_reduce_hp) >= 1)
+            {
+                TakeDamage((int)Mathf.Floor(have_reduce_hp), null);
+                have_reduce_hp -= (int)Mathf.Floor(have_reduce_hp);
+            }
+        }
         
     }
 
@@ -284,7 +297,15 @@ public class CharacterCtrlBase : MonoBehaviour
             // Debug.Log(this.TryInputDir.GetValue());
             this.rb.velocity += this.MoveSpeed_a * this.TryInputDir.GetValue() * Time.fixedDeltaTime;
 
-            
+            // 3D角色移动时转向移动方向（只对玩家生效）
+            if (this is PlayerCharacterCtrl && this.TryInputDir.GetValue().magnitude > 0.1f)
+            {
+                // 在XY平面上旋转（Z轴朝向摄像机）
+                Vector3 moveDir3D = new Vector3(this.TryInputDir.GetValue().x, this.TryInputDir.GetValue().y, 0f);
+                // 使用LookRotation，指定up为forward（Z轴），这样角色在XY平面上旋转
+                Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, moveDir3D);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
+            }
         }
 
 
@@ -622,11 +643,12 @@ public class CharacterCtrlBase : MonoBehaviour
         // 先设置父级，保持世界坐标
         attach_obj.transform.SetParent(transform, true);
         
-        // 只有玩家才会让物品移到右边固定位置
+        // 只有玩家才会让物品移到固定位置
         if (this is PlayerCharacterCtrl)
         {
             // 然后只修改本地位置，不改变旋转和缩放
-            attach_obj.transform.localPosition = new Vector3(0.5f, 0f, 0f);
+            // XY平面：放在正面（Y轴正方向，即头顶朝向）
+            attach_obj.transform.localPosition = new Vector3(0f, 0.5f, 0f);
         }
         
         nowAttachList.Add(attach_obj);
@@ -672,7 +694,7 @@ public class CharacterCtrlBase : MonoBehaviour
             obj.rb.angularVelocity = 0f;
         }
         
-        // 1. 立即把物品移动到人物中央上方
+        // 1. 立即把物品移动到人物中央稍微上方
         Vector3 dropStartPos = new Vector3(
             transform.position.x,
             transform.position.y + 0.5f,  // 稍微在人物上方一点
@@ -680,7 +702,7 @@ public class CharacterCtrlBase : MonoBehaviour
         );
         obj.transform.position = dropStartPos;
         
-        // 2. 目标位置：直接落到人物脚的位置
+        // 2. 目标位置：往下落到角色的Y位置（地面）
         Vector3 targetPos = new Vector3(
             transform.position.x,
             transform.position.y,
