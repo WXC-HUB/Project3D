@@ -5,24 +5,12 @@ using Assets.Scripts.BaseUtils;
 namespace Assets.Scripts.Core
 {
 	/// <summary>
-	/// 菜品数据结构
-	/// </summary>
-	[System.Serializable]
-	public class DishData
-	{
-		public int id;
-		public string name;
-	}
-
-	/// <summary>
-	/// 全局菜品提交管理器（纯C#单例）：管理菜品元数据（id、name）与提交次数，并向UI广播变更。
+	/// 全局菜品提交管理器（纯C#单例）：管理菜品ID与提交次数，并向UI广播变更。
 	/// 不依赖GameObject，数据存在内存中。
 	/// </summary>
 	public class DishSubmissionManager : Singleton<DishSubmissionManager>
 	{
-		// 菜品元数据（关卡可用的菜品列表）
-		private readonly List<DishData> dishList = new List<DishData>();
-		// 提交次数记录
+		// 菜品ID -> 提交次数（key 即为可用菜品列表）
 		private readonly Dictionary<int, int> dishIdToCount = new Dictionary<int, int>();
 
 		/// <summary>
@@ -35,26 +23,33 @@ namespace Assets.Scripts.Core
 		/// </summary>
 		public void InitializeDishes()
 		{
-			dishList.Clear();
 			dishIdToCount.Clear();
 
-			// 默认菜品（后续可改为从表或关卡配置读取）
-			dishList.Add(new DishData { id = 205, name = "鱼香肉丝" });
-			dishList.Add(new DishData { id = 101, name = "番茄炒蛋" });
+			// 默认菜品（后续可改为从表或关卡配置读取）ToDo ruixiangliu
+			dishIdToCount[1] = 0;
+			dishIdToCount[4] = 0;
+			dishIdToCount[5] = 0;
+		}
 
-			// 初始化数量为0
-			foreach (var dish in dishList)
+		/// <summary>
+		/// 从菜品ID列表初始化（供关卡配置调用）
+		/// </summary>
+		public void InitializeDishes(List<int> dishIds)
+		{
+			dishIdToCount.Clear();
+
+			foreach (int id in dishIds)
 			{
-				dishIdToCount[dish.id] = 0;
+				dishIdToCount[id] = 0;
 			}
 		}
 
 		/// <summary>
-		/// 获取所有菜品元数据（供UI初始化用）
+		/// 获取所有菜品ID列表（供UI初始化用）
 		/// </summary>
-		public List<DishData> GetAllDishes()
+		public List<int> GetAllDishIds()
 		{
-			return new List<DishData>(dishList);
+			return new List<int>(dishIdToCount.Keys);
 		}
 
 		/// <summary>
@@ -102,7 +97,6 @@ namespace Assets.Scripts.Core
 		/// </summary>
 		public void Clear()
 		{
-			dishList.Clear();
 			dishIdToCount.Clear();
 		}
 	}
