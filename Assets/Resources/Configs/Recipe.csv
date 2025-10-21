@@ -1,4 +1,4 @@
-﻿RecipeID,DishList,Name,CookType,CookTime,CookResult,OnCookBuffList
-1,1,炒番茄,1,10,3,11001
-2,2,炒鸡蛋,1,10,4,11001
-3,1|2,番茄炒鸡蛋,1,5|5,5,11001
+﻿RecipeID,DishList,Name,CookType,CookTime,CookResult,OnCookBuffList,cookTypeIconPath
+1,1,炒番茄,1,10,3,11001,0
+2,2,炒鸡蛋,1,10,4,11001,0
+3,1|2,番茄炒鸡蛋,1,5|5,5,11001,0
