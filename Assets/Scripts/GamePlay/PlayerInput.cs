@@ -36,6 +36,7 @@ public class PlayerInput : CharacterInputBase
         //SkillDispatchCenter.Instance.AddModifierToCharacter(characterCtrl, -1, 1001);
 
         UI_PlayerHUD.instance.SetSkillFocusPlayer(this.characterCtrl);
+        LevelManager.Instance.MyHero = this.characterCtrl;
 
     }
 

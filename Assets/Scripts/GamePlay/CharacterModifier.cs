@@ -90,7 +90,7 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             CharacterCtrlBase target = to_character != null ? to_character : Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[0], (string a) => null);
             int dmg_value = Game2D_GamePlayEvent.GetEventValue<int>(from_event, action_params[1], (string a) => (int)Convert.ToInt32(a));
 
-            target.TakeDamage(dmg_value, skill_useinfo);
+            target.TakeDamage(dmg_value, from_event.skillinfo);
         }
         else if (actionType == "AddModifier")
         {
@@ -190,6 +190,7 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             CharacterCtrlBase to_char = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[2], (string x) => null);
 
             PlayerCharacterCtrl bullet_ctrl = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(bullet_type);
+            bullet_ctrl.fromSkillInfo = skill_useinfo;
             bullet_ctrl.followTarget = to_char;
             bullet_ctrl.from_char = from_char;
             bullet_ctrl.transform.position = from_char.transform.position;
