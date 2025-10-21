@@ -140,6 +140,13 @@ namespace Assets.Scripts.Core
                 Character_Dict[characterType].Add(newsp);
                 newsp.MyGameObjectID = ID;
                 newsp.MyObjectLayer = characterType;
+
+                if(characterType is InGameCharacterType.Tower || characterType is InGameCharacterType.Enemy)
+                {
+                    UI_PlayerHUD.instance.InitCharacterFollowHUD(newsp, characterType); 
+                }
+
+
                 return newsp;
             }
             else
