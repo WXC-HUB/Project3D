@@ -86,6 +86,8 @@ MonoBehaviour:
     real_value: 10
   doHitPower:
     real_value: 10
+  DestroyOnDie:
+    real_value: 1
   isFixedPosition:
     real_value: 0
   usePhysic:
@@ -99,6 +101,16 @@ MonoBehaviour:
     real_value: 0
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
+    real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
 --- !u!58 &311163044544395548
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -175,15 +187,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalPosition.x
@@ -191,11 +203,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.28100005
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.069000006
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalRotation.w
@@ -224,6 +236,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cb974a065e7b78b4eac77c9e16853e94, type: 3}
       propertyPath: m_Name

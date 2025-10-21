@@ -61,6 +61,8 @@ namespace Assets.Scripts.Core
 
         public Dictionary<InGameCharacterType, List<CharacterCtrlBase>> Character_Dict = new Dictionary<InGameCharacterType, List<CharacterCtrlBase>>();
 
+        public CharacterCtrlBase MyHero;
+
 
         public void AddRoundNextFlag(CharacterCtrlBase ch , int MaxID)
         {

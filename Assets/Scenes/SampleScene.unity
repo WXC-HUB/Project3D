@@ -2465,6 +2465,7 @@ MonoBehaviour:
   MaxRoundID: 1
   isRoundGameStart: 0
   RoundNextFlag: []
+  MyHero: {fileID: 0}
 --- !u!4 &673574371
 Transform:
   m_ObjectHideFlags: 0
@@ -7670,6 +7671,8 @@ MonoBehaviour:
     real_value: 0
   doHitPower:
     real_value: 0
+  DestroyOnDie:
+    real_value: 1
   isFixedPosition:
     real_value: 0
   usePhysic:
@@ -7677,12 +7680,22 @@ MonoBehaviour:
   canBeGrabed:
     real_value: 0
   grabDistance:
-    real_value: 0.2
+    real_value: 1
   Init_Modifier_List: 
   IsFollowTarget:
     real_value: 0
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
+    real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
   MySelectTarget: {x: 0, y: 0, z: 0}
   IsFOVLock:
     real_value: 0
@@ -7697,6 +7710,8 @@ MonoBehaviour:
     real_value: 0
   myAttackSkillID:
     real_value: 7
+  AttackRange:
+    real_value: 10
 --- !u!114 &1844524908
 MonoBehaviour:
   m_ObjectHideFlags: 0

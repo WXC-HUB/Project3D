@@ -27,6 +27,8 @@ public class CharacterCtrlBase : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D col2D;
 
+    public SkillUseInfo fromSkillInfo;
+
     public int MyGameObjectID = 0;
     public InGameCharacterType MyObjectLayer = InGameCharacterType.None;
     public bool isReadyForNextRound = false;        
@@ -74,20 +76,32 @@ public class CharacterCtrlBase : MonoBehaviour
     public Character_Float beHitPower = new Character_Float("beHitDamage", 10f);
     public Character_Float doHitPower = new Character_Float("beHitDamage", 10f);
 
+    public Character_Bool DestroyOnDie = new Character_Bool("DestroyOnDie", true);
+
     public Character_Bool isFixedPosition = new Character_Bool("isFixedPosition", false);
 
     public Character_Bool usePhysic = new Character_Bool("usePhysic", true);
 
     public Character_Bool canBeGrabed = new Character_Bool("canBeGrabed", false);
 
-    public Character_Float grabDistance = new Character_Float("grabDistance", 0.2f);
+    public Character_Float grabDistance = new Character_Float("grabDistance", 1f);
 
     public List<int> Init_Modifier_List = new List<int>();
     public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
     public CharacterCtrlBase followTarget, from_char;
 
-    public Character_Float Reduce_HP_PerSecond = new Character_Float("Reduce_HP_PerSecond", 0);
-    public float have_reduce_hp = 0;
+
+    public Character_Int MaxMP = new Character_Int("MaxHP", 30);
+    public int NowMP;
+    public Character_Float Reduce_MP_PerSecond = new Character_Float("Reduce_MP_PerSecond", 0);
+    public float have_reduce_MP = 0;
+    public Character_Bool canAttack = new Character_Bool("canAttack", true);
+
+
+
+    public Character_Int Damage_Shoot = new Character_Int("Damage_Shoot", 1);
+
+
 
     // Start is called before the first frame update
     protected void Start()
@@ -97,6 +111,7 @@ public class CharacterCtrlBase : MonoBehaviour
         col2D = this.GetComponent<Collider2D>();
 
         NowHP = MaxHP.GetValue();
+        NowMP = MaxMP.GetValue();
 
         for (int i = 0; i < Init_Modifier_List.Count; i++) 
         { 
@@ -135,7 +150,11 @@ public class CharacterCtrlBase : MonoBehaviour
         canBeGrabed.TakeEffect(this);
         grabDistance.TakeEffect(this);
 
-        Reduce_HP_PerSecond.TakeEffect(this);
+        Reduce_MP_PerSecond.TakeEffect(this);
+        MaxMP.TakeEffect(this);
+        canAttack.TakeEffect(this);
+
+        Damage_Shoot.TakeEffect(this);
     }
 
 
@@ -151,15 +170,19 @@ public class CharacterCtrlBase : MonoBehaviour
             UpdateMoveState();   //重写物理
         }
 
-        if(Reduce_HP_PerSecond.GetValue() > 0)
+        NowMP = (int)Mathf.Min(NowMP, MaxMP.GetValue());
+
+        if(Reduce_MP_PerSecond.GetValue() > 0)
         {
-            have_reduce_hp += Time.deltaTime * Reduce_HP_PerSecond.GetValue();
-            if( Mathf.Floor(have_reduce_hp) >= 1)
+            have_reduce_MP += Time.deltaTime * Reduce_MP_PerSecond.GetValue();
+            if( Mathf.Floor(have_reduce_MP) >= 1)
             {
-                TakeDamage((int)Mathf.Floor(have_reduce_hp), null);
-                have_reduce_hp -= (int)Mathf.Floor(have_reduce_hp);
+                NowMP = (int)Mathf.Max(0, NowMP - Mathf.Floor(have_reduce_MP));
+                have_reduce_MP -= (int)Mathf.Floor(have_reduce_MP);
             }
         }
+
+        canAttack.real_value = (NowMP > 0);
         
     }
 
@@ -184,6 +207,7 @@ public class CharacterCtrlBase : MonoBehaviour
                     beCollideEvent.event_param_dics.Add("HitPointY", transform.position.y);
                     beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
                     beCollideEvent.event_param_dics.Add("BeHitCharacter", followTarget);
+                    beCollideEvent.skillinfo = fromSkillInfo;
 
                     LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
                 }
@@ -364,7 +388,7 @@ public class CharacterCtrlBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if( this.EnableMoveInput.GetValue())
         {
@@ -381,7 +405,8 @@ public class CharacterCtrlBase : MonoBehaviour
         }
         else
         {
-            this.NowHP -= damage;
+            int new_dmg = skillUseInfo == null ? damage : damage * skillUseInfo.dispatcher.Damage_Shoot.GetValue();
+            this.NowHP -= new_dmg;
         }
 
         if(this.NowHP < 0)
@@ -411,7 +436,6 @@ public class CharacterCtrlBase : MonoBehaviour
         {
             i.ModifierDispel();
         }
-
         // 创建替代目标（尸体或终点标记）
         CharacterCtrlBase replaceTarget = null;
         
@@ -498,6 +522,8 @@ public class CharacterCtrlBase : MonoBehaviour
         {
             return;
         }
+
+        LevelManager.Instance.MyHero.TakeDamage(1);
 
         // TODO: 扣除基地血量的逻辑
         // 例如: LevelManager.Instance.BaseHP -= 10;

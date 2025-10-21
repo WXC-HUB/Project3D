@@ -22,12 +22,14 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
     public Character_Float mAttackCD = new Character_Float("mAttackCD", 0);
 
     public Character_Int myAttackSkillID = new Character_Int("myAttackSkillID", 7);
+    public Character_Float AttackRange = new Character_Float("AttackRange", 10);
 
 
 
     // Update is called once per frame
     private void Update()
     {
+        base.Update();
 
         UpdateAnimationStates();
 
@@ -36,6 +38,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
             mAttackCD_Cur.real_value -= mAttackCDReduce.GetValue() * Time.deltaTime;
             mAttackCD_Cur.real_value = Math.Max(0, mAttackCD_Cur.real_value);
         }
+
     }
 
 
@@ -48,6 +51,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         
         skinfo.SkillID = myAttackSkillID.GetValue();
         skinfo.AimTarget = target;
+        
         //skinfo.SkillCastPos = transform.position;
         
         StartUseSkill(skinfo);
@@ -66,9 +70,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
     {
         base.Start();
 
-        mAttackCD_Cur.TakeEffect(this);
-        mAttackCD.TakeEffect(this);
-        mAttackCDReduce.TakeEffect(this);
+        
 
     }
 
@@ -82,6 +84,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         
     }
 
+
     private void Awake()
     {
         base.Awake();
@@ -89,7 +92,13 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         IsFOVLock.TakeEffect(this);
         targetCameraFOV.TakeEffect(this);
 
-        myAttackSkillID.TakeEffect(this);   
+        myAttackSkillID.TakeEffect(this);
+
+        mAttackCD_Cur.TakeEffect(this);
+        mAttackCD.TakeEffect(this);
+        mAttackCDReduce.TakeEffect(this);
+
+        AttackRange.TakeEffect(this);
 
 
     }
@@ -115,6 +124,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         if (skillConfig != null) 
         {
             SkillDispatchCenter.Instance.AddModifierToCharacter(this, skillConfig.ModifierDuration, skillConfig.ModifierID, skillUseInfo);
+            skillUseInfo.dispatcher = this;
             if (skillConfig.CastImmediate)
             {
                 CastSkill(skillUseInfo);

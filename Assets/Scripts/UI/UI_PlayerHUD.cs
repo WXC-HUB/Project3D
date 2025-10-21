@@ -24,13 +24,15 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
     //Slider m_Slider_HP;
     //Text m_Text_NowHP;
 
-    public Dictionary<CharacterCtrlBase, PlayerFollowHUD> player_follow_dics = new Dictionary<CharacterCtrlBase, PlayerFollowHUD>();
+    public Dictionary<CharacterCtrlBase, PlayerFollowHUD> player_follow_dics_hp = new Dictionary<CharacterCtrlBase, PlayerFollowHUD>();
+    public Dictionary<CharacterCtrlBase, PlayerFollowHUD> player_follow_dics_mp = new Dictionary<CharacterCtrlBase, PlayerFollowHUD>();
 
     public override void InitUI()
     {
         base.InitUI();
-        
-        player_follow_dics.Clear();
+
+        player_follow_dics_hp.Clear();
+        player_follow_dics_mp.Clear();
         this.nodeDics["m_Item_HP_Tower"].gameObject.SetActive(false);
         this.nodeDics["m_Item_HP_Enemy"].gameObject.SetActive(false);
         this.nodeDics["m_Item_Dish"].gameObject.SetActive(false);
@@ -95,6 +97,15 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             hd.root = newObj.transform;
             hd.m_Slider_HP = GameUtils.FindChildInTransform(hd.root, "m_Slider_HP_Tower").GetComponent<Slider>();
             hd.m_Text_NowHP = GameUtils.FindChildInTransform(hd.root, "m_Text_NowHP_Tower").GetComponent<Text>();
+
+            if (player_follow_dics_mp.ContainsKey(pctrl))
+            {
+                player_follow_dics_mp[pctrl] = hd;
+            }
+            else
+            {
+                player_follow_dics_mp.Add(pctrl, hd);
+            }
         }
         else if(type == InGameCharacterType.Enemy)
         {
@@ -102,20 +113,22 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             hd.root = newObj.transform;
             hd.m_Slider_HP = GameUtils.FindChildInTransform(hd.root, "m_Slider_HP_Enemy").GetComponent<Slider>();
             hd.m_Text_NowHP = GameUtils.FindChildInTransform(hd.root, "m_Text_NowHP_Enemy").GetComponent<Text>();
+
+            if (player_follow_dics_hp.ContainsKey(pctrl))
+            {
+                player_follow_dics_hp[pctrl] = hd;
+            }
+            else
+            {
+                player_follow_dics_hp.Add(pctrl, hd);
+            }
         }
 
         if (newObj == null) { return; }
         
         
 
-        if(player_follow_dics.ContainsKey( pctrl))
-        {
-            player_follow_dics[pctrl] = hd;
-        }
-        else
-        {
-            player_follow_dics.Add(pctrl, hd);  
-        }
+        
 
         newObj.transform.SetParent(this.transform);
         newObj.gameObject.SetActive(true);
@@ -131,7 +144,7 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
     public void UpdatePlayerDate()
     {
         List<CharacterCtrlBase> to_del = new List<CharacterCtrlBase>();
-        foreach (var item in player_follow_dics) 
+        foreach (var item in player_follow_dics_hp) 
         {
 
             if (item.Key == null)
@@ -153,11 +166,39 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
 
         foreach (var item in to_del)
         {
-            Destroy(player_follow_dics[item].root.gameObject);
-            player_follow_dics.Remove(item);
+            Destroy(player_follow_dics_hp[item].root.gameObject);
+            player_follow_dics_hp.Remove(item);
         }
 
-        nodeDics["m_Slider_HP_Level"].GetComponent<Slider>().value = observe_CharacterCtrl.NowHP / observe_CharacterCtrl.MaxHP.GetValue();
+        foreach (var item in player_follow_dics_mp)
+        {
+
+            if (item.Key == null)
+            {
+                to_del.Add(item.Key);
+
+            }
+            else
+            {
+
+                item.Value.m_Slider_HP.value = (float)item.Key.NowMP / (float)item.Key.MaxMP.GetValue();
+                item.Value.m_Text_NowHP.text = string.Format("{0}/{1}", item.Key.NowMP, item.Key.MaxMP.GetValue());
+
+                item.Value.root.transform.position = Camera.main.WorldToScreenPoint(item.Key.transform.position);
+            }
+
+
+        }
+
+        foreach (var item in to_del)
+        {
+            if(item == null) continue;
+            
+            Destroy(player_follow_dics_mp[item].root.gameObject);
+            player_follow_dics_mp.Remove(item);
+        }
+
+        nodeDics["m_Slider_HP_Level"].GetComponent<Slider>().value = (float)observe_CharacterCtrl.NowHP / (float)observe_CharacterCtrl.MaxHP.GetValue();
 
         nodeDics["m_Text_NowHP_Level"].GetComponent<Text>().text = string.Format("{0}/{1}", observe_CharacterCtrl.NowHP , observe_CharacterCtrl.MaxHP.GetValue());
 
