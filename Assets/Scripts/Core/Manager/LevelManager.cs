@@ -29,6 +29,7 @@ namespace Assets.Scripts.Core
 
     public enum InGameCharacterType
     {
+        None,
         Player,
         Tower,
         Enemy,
@@ -123,6 +124,7 @@ namespace Assets.Scripts.Core
                 }
                 Character_Dict[characterType].Add(newsp);
                 newsp.MyGameObjectID = ID;
+                newsp.MyObjectLayer = characterType;
                 return newsp;
             }
             else

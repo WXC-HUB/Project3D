@@ -205,14 +205,24 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                     Vector3Int sel = (ctrlBase as PlayerCharacterCtrl).MySelectTarget;
                     if (sel.x != -999 && sel.y != -999 && LevelGridGenerator.Instance.tile_dictionary.ContainsKey(sel))
                     {
+                        string[] grap_layers = action_params[1].Split(';');
                         //如果玩家当前选中了目标
                         foreach (var item in LevelGridGenerator.Instance.tile_dictionary[sel].nowAttachList)
                         {
-                            if (LevelGridGenerator.Instance.tile_dictionary[sel].TryDropObject(item))
+                            foreach (var grap in grap_layers)
                             {
-                                ctrlBase.TryAttachObject(item);
-                                break;
+                                var test_type = (InGameCharacterType)Enum.Parse(typeof(InGameCharacterType), grap);
+
+                                if(item.MyObjectLayer == test_type)
+                                {
+                                    if (LevelGridGenerator.Instance.tile_dictionary[sel].TryDropObject(item))
+                                    {
+                                        ctrlBase.TryAttachObject(item);
+                                        break;
+                                    }
+                                }
                             }
+                            
                         }
                     }
                     else

@@ -21,7 +21,7 @@ public class CharacterCtrlBase : MonoBehaviour
     public Collider2D col2D;
 
     public int MyGameObjectID = 0;
-
+    public InGameCharacterType MyObjectLayer = InGameCharacterType.None;
     public bool isReadyForNextRound = false;        
 
     public bool isAttachedToOther = false;
