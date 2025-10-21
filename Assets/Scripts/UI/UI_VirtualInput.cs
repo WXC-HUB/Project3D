@@ -49,6 +49,9 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
     private Dictionary<string, float> thumbDragTime;
 
     private float thumbClickDuration = .5f;
+    
+    private PlayerInteractionManager playerInteractionManager;
+    private Button skill1Button;
 
     private ThumbInfo _InitThumbOperate(RectTransform bg , RectTransform thu )
     {
@@ -109,8 +112,25 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     private void Start()
     {
-        this.nodeDics["m_Button_Skill1"].GetComponent<Button>().onClick.AddListener(UseSKill1);
+        skill1Button = this.nodeDics["m_Button_Skill1"].GetComponent<Button>();
+        skill1Button.onClick.AddListener(UseSKill1);
         this.nodeDics["m_Button_Skill2"].GetComponent<Button>().onClick.AddListener(UseSkill2);
+        
+        // 尝试获取玩家角色
+        StartCoroutine(FindPlayerCharacter());
+    }
+    
+    private IEnumerator FindPlayerCharacter()
+    {
+        // 等待一帧，确保玩家已经生成
+        yield return null;
+        
+        // 查找玩家交互管理器
+        PlayerInteractionManager[] managers = FindObjectsOfType<PlayerInteractionManager>();
+        if (managers.Length > 0)
+        {
+            playerInteractionManager = managers[0];
+        }
     }
 
     void UseSKill1()
@@ -261,7 +281,23 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
                 LevelEventQueue.Instance.EnqueueEvent(inputEvent );
             }
         }
-
+        
+        // 更新技能按钮1的可交互状态
+        UpdateSkill1ButtonState();
+    }
+    
+    /// <summary>
+    /// 更新拾取/放下按钮的可交互状态
+    /// </summary>
+    private void UpdateSkill1ButtonState()
+    {
+        if (skill1Button == null || playerInteractionManager == null)
+        {
+            return;
+        }
+        
+        // 直接使用玩家交互管理器判断是否可以互动
+        skill1Button.interactable = playerInteractionManager.CanInteract();
     }
 
     Vector2 Screen2UI(Vector2 v, RectTransform rect, Camera camera = null)
