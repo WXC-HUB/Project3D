@@ -1,5 +1,4 @@
 ﻿ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
-1,基础敌人,Enemy,CC_Enemy_01,0
 2,基础防御塔,Tower,CC_Object_Tower,0
 3,基础子弹,Bullet,CC_Bullet_1,8001
 4,空Character作为SpawenRoot,SpawnRoot,GO_SpawnRoot_1,0
@@ -8,3 +7,6 @@
 201,炒番茄,Dish,GO_Dish_Dish1,0
 202,炒鸡蛋,Dish,GO_Dish_Dish2,0
 203,番茄炒蛋,Dish,GO_Dish_Dish3,0
+1001,基础敌人,Enemy,CC_Enemy_01,0
+1002,基础敌人,Enemy,CC_Enemy_02,0
+1003,基础敌人,Enemy,CC_Enemy_03,0

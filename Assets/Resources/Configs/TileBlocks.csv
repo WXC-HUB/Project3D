@@ -6,7 +6,9 @@ Heal_1,GO_Special_2,测试一下
 Special_1,GO_Defence_1,测试一下
 Special_2,GO_Special_2,测试一下
 Stone_1,GO_Defence_1,测试一下
-Wall_1,GO_Wall_01,
-Wall_2,GO_Wall_02,
-Wall_3,GO_Wall_03,
+Wall_1,GO_Wall_Chef_1,
+Wall_2,GO_Wall_Chef_2,
+Wall_3,GO_Wall_Chef_3,
+Wall_4,GO_Wall_Chef_4,
+Wall_TowerRoot,GO_Wall_TowerRoot,
 Wall_DishOutlet,GO_Wall_DishOutlet,
