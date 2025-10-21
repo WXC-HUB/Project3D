@@ -7,6 +7,7 @@ using UnityEngine;
 public class LevelGridTileObject : CharacterCtrlBase
 {
     public Character_Int CookType = new Character_Int("CookType", 0);
+    public Character_Int DishOutletType = new Character_Int("DishOutletType", 0);
 
     List<int> CookModifiers = new List<int>();  
 
@@ -18,6 +19,7 @@ public class LevelGridTileObject : CharacterCtrlBase
         base.Awake();
 
         CookType.TakeEffect(this);
+        DishOutletType.TakeEffect(this);
     }
     // Start is called before the first frame update
     void Start()
@@ -81,7 +83,7 @@ public class LevelGridTileObject : CharacterCtrlBase
                 NowRecipeTime = new_recipe.CookTime[food_index];
                 NowRecipeID = new_recipe.RecipeID;
 
-                foreach(int buffid in new_recipe.OnCookBuffList)
+                foreach (int buffid in new_recipe.OnCookBuffList)
                 {
                     if (!CookModifiers.Contains(buffid))
                     {
@@ -96,7 +98,7 @@ public class LevelGridTileObject : CharacterCtrlBase
         }
         else
         {
-            if(NowRecipeAddedDish.Contains(attach_dish_id))
+            if (NowRecipeAddedDish.Contains(attach_dish_id))
             {
                 //重复添加，当前机制下直接拦截
                 return false;
@@ -130,7 +132,35 @@ public class LevelGridTileObject : CharacterCtrlBase
         }
 
         return false;
+
+    }
+
+    bool TrySubmitDish(CharacterCtrlBase attach_obj)
+    {
+        // 获取菜品ID
+        Dish dish_config = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID);
+        if (dish_config == null)
+        {
+            return false;
+        }
+
+        int dishId = dish_config.DishID;
         
+        // 检查是否是允许提交的菜品
+        if (!DishSubmissionManager.Instance.GetAllDishIds().Contains(dishId))
+        {
+            Debug.LogWarning($"菜品 ID {dishId} ({dish_config.Name}) 不在允许提交的菜品列表中，无事发生");
+        } else {
+            // 提交菜品到管理器
+            DishSubmissionManager.Instance.AddDishSubmission(dishId, 1);
+            // 获取提交后的数量
+            int currentCount = DishSubmissionManager.Instance.GetDishCount(dishId);
+            Debug.Log($"成功提交菜品 ID: {dishId}, 名称: {dish_config.Name}, 当前数量: {currentCount}");
+        }
+        
+        // 删除菜品GameObject
+        attach_obj.Die();
+        return true;
     }
 
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)
@@ -143,10 +173,11 @@ public class LevelGridTileObject : CharacterCtrlBase
             attach_obj.transform.position = transform.position + new Vector3(0 + nowAttachList.Count * 0.3F, 0, -1.6f);
             attach_obj.isAttachedToOther = true;
             return TryAttachDish(attach_obj);
-
-            
         }
-        
+        else if (is_dish && this.DishOutletType.GetValue() > 0)
+        {
+            return TrySubmitDish(attach_obj);
+        }
         else
         {
             attach_obj.transform.SetParent(transform, true);
