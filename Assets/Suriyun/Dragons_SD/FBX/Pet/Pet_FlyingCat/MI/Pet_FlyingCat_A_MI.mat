@@ -1,0 +1,8 @@
+Diffuse=Pet_FlyingCat_D_A
+Normal=Pet_FlyingCat_N
+Cube=foyer
+Other[0]=Pet_FlyingCat_MC
+Other[1]=default_gray
+Other[2]=default_grayMask
+Other[3]=default_normal
+Other[4]=default_HDR

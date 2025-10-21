@@ -1,0 +1,924 @@
+NumFrames = 136
+KeyEncodingFormat = AKF_PerTrackCompression (2)
+TranslationCompressionFormat = ACF_Identity (6)
+RotationCompressionFormat = ACF_Identity (6)
+ScaleCompressionFormat = ACF_Identity (6)
+CompressedTrackOffsets[0] = {}
+CompressedScaleOffsets =
+{
+    OffsetData[46] =
+    {
+        OffsetData[0] = 0
+        OffsetData[1] = 12
+        OffsetData[2] = 3296
+        OffsetData[3] = 3324
+        OffsetData[4] = 4980
+        OffsetData[5] = 5380
+        OffsetData[6] = 6344
+        OffsetData[7] = 8004
+        OffsetData[8] = 8432
+        OffsetData[9] = 9276
+        OffsetData[10] = 10288
+        OffsetData[11] = 11360
+        OffsetData[12] = 12208
+        OffsetData[13] = 13052
+        OffsetData[14] = 13896
+        OffsetData[15] = 14748
+        OffsetData[16] = 15592
+        OffsetData[17] = 16436
+        OffsetData[18] = 17416
+        OffsetData[19] = 18260
+        OffsetData[20] = 19244
+        OffsetData[21] = 20088
+        OffsetData[22] = 21008
+        OffsetData[23] = 21852
+        OffsetData[24] = 24672
+        OffsetData[25] = 25112
+        OffsetData[26] = 25452
+        OffsetData[27] = 26540
+        OffsetData[28] = 26880
+        OffsetData[29] = 27220
+        OffsetData[30] = 27972
+        OffsetData[31] = 28660
+        OffsetData[32] = 29408
+        OffsetData[33] = 30532
+        OffsetData[34] = 31372
+        OffsetData[35] = 31732
+        OffsetData[36] = 33284
+        OffsetData[37] = 33780
+        OffsetData[38] = 35012
+        OffsetData[39] = 36464
+        OffsetData[40] = 37304
+        OffsetData[41] = 37624
+        OffsetData[42] = 38504
+        OffsetData[43] = 38540
+        OffsetData[44] = 38744
+        OffsetData[45] = 39168
+    }
+    StripSize = 1
+}
+TrackToSkeletonMapTable[46] =
+{
+    TrackToSkeletonMapTable[0] = { BoneTreeIndex=0 }
+    TrackToSkeletonMapTable[1] = { BoneTreeIndex=1 }
+    TrackToSkeletonMapTable[2] = { BoneTreeIndex=2 }
+    TrackToSkeletonMapTable[3] = { BoneTreeIndex=40 }
+    TrackToSkeletonMapTable[4] = { BoneTreeIndex=41 }
+    TrackToSkeletonMapTable[5] = { BoneTreeIndex=42 }
+    TrackToSkeletonMapTable[6] = { BoneTreeIndex=43 }
+    TrackToSkeletonMapTable[7] = { BoneTreeIndex=44 }
+    TrackToSkeletonMapTable[8] = { BoneTreeIndex=45 }
+    TrackToSkeletonMapTable[9] = { BoneTreeIndex=3 }
+    TrackToSkeletonMapTable[10] = { BoneTreeIndex=4 }
+    TrackToSkeletonMapTable[11] = { BoneTreeIndex=30 }
+    TrackToSkeletonMapTable[12] = { BoneTreeIndex=31 }
+    TrackToSkeletonMapTable[13] = { BoneTreeIndex=32 }
+    TrackToSkeletonMapTable[14] = { BoneTreeIndex=33 }
+    TrackToSkeletonMapTable[15] = { BoneTreeIndex=34 }
+    TrackToSkeletonMapTable[16] = { BoneTreeIndex=35 }
+    TrackToSkeletonMapTable[17] = { BoneTreeIndex=36 }
+    TrackToSkeletonMapTable[18] = { BoneTreeIndex=37 }
+    TrackToSkeletonMapTable[19] = { BoneTreeIndex=38 }
+    TrackToSkeletonMapTable[20] = { BoneTreeIndex=39 }
+    TrackToSkeletonMapTable[21] = { BoneTreeIndex=5 }
+    TrackToSkeletonMapTable[22] = { BoneTreeIndex=6 }
+    TrackToSkeletonMapTable[23] = { BoneTreeIndex=7 }
+    TrackToSkeletonMapTable[24] = { BoneTreeIndex=8 }
+    TrackToSkeletonMapTable[25] = { BoneTreeIndex=9 }
+    TrackToSkeletonMapTable[26] = { BoneTreeIndex=10 }
+    TrackToSkeletonMapTable[27] = { BoneTreeIndex=11 }
+    TrackToSkeletonMapTable[28] = { BoneTreeIndex=12 }
+    TrackToSkeletonMapTable[29] = { BoneTreeIndex=13 }
+    TrackToSkeletonMapTable[30] = { BoneTreeIndex=14 }
+    TrackToSkeletonMapTable[31] = { BoneTreeIndex=15 }
+    TrackToSkeletonMapTable[32] = { BoneTreeIndex=24 }
+    TrackToSkeletonMapTable[33] = { BoneTreeIndex=25 }
+    TrackToSkeletonMapTable[34] = { BoneTreeIndex=26 }
+    TrackToSkeletonMapTable[35] = { BoneTreeIndex=27 }
+    TrackToSkeletonMapTable[36] = { BoneTreeIndex=29 }
+    TrackToSkeletonMapTable[37] = { BoneTreeIndex=28 }
+    TrackToSkeletonMapTable[38] = { BoneTreeIndex=16 }
+    TrackToSkeletonMapTable[39] = { BoneTreeIndex=17 }
+    TrackToSkeletonMapTable[40] = { BoneTreeIndex=18 }
+    TrackToSkeletonMapTable[41] = { BoneTreeIndex=19 }
+    TrackToSkeletonMapTable[42] = { BoneTreeIndex=22 }
+    TrackToSkeletonMapTable[43] = { BoneTreeIndex=23 }
+    TrackToSkeletonMapTable[44] = { BoneTreeIndex=20 }
+    TrackToSkeletonMapTable[45] = { BoneTreeIndex=21 }
+}
+CompressedTrackToSkeletonMapTable[46] =
+{
+    CompressedTrackToSkeletonMapTable[0] = { BoneTreeIndex=0 }
+    CompressedTrackToSkeletonMapTable[1] = { BoneTreeIndex=1 }
+    CompressedTrackToSkeletonMapTable[2] = { BoneTreeIndex=2 }
+    CompressedTrackToSkeletonMapTable[3] = { BoneTreeIndex=40 }
+    CompressedTrackToSkeletonMapTable[4] = { BoneTreeIndex=41 }
+    CompressedTrackToSkeletonMapTable[5] = { BoneTreeIndex=42 }
+    CompressedTrackToSkeletonMapTable[6] = { BoneTreeIndex=43 }
+    CompressedTrackToSkeletonMapTable[7] = { BoneTreeIndex=44 }
+    CompressedTrackToSkeletonMapTable[8] = { BoneTreeIndex=45 }
+    CompressedTrackToSkeletonMapTable[9] = { BoneTreeIndex=3 }
+    CompressedTrackToSkeletonMapTable[10] = { BoneTreeIndex=4 }
+    CompressedTrackToSkeletonMapTable[11] = { BoneTreeIndex=30 }
+    CompressedTrackToSkeletonMapTable[12] = { BoneTreeIndex=31 }
+    CompressedTrackToSkeletonMapTable[13] = { BoneTreeIndex=32 }
+    CompressedTrackToSkeletonMapTable[14] = { BoneTreeIndex=33 }
+    CompressedTrackToSkeletonMapTable[15] = { BoneTreeIndex=34 }
+    CompressedTrackToSkeletonMapTable[16] = { BoneTreeIndex=35 }
+    CompressedTrackToSkeletonMapTable[17] = { BoneTreeIndex=36 }
+    CompressedTrackToSkeletonMapTable[18] = { BoneTreeIndex=37 }
+    CompressedTrackToSkeletonMapTable[19] = { BoneTreeIndex=38 }
+    CompressedTrackToSkeletonMapTable[20] = { BoneTreeIndex=39 }
+    CompressedTrackToSkeletonMapTable[21] = { BoneTreeIndex=5 }
+    CompressedTrackToSkeletonMapTable[22] = { BoneTreeIndex=6 }
+    CompressedTrackToSkeletonMapTable[23] = { BoneTreeIndex=7 }
+    CompressedTrackToSkeletonMapTable[24] = { BoneTreeIndex=8 }
+    CompressedTrackToSkeletonMapTable[25] = { BoneTreeIndex=9 }
+    CompressedTrackToSkeletonMapTable[26] = { BoneTreeIndex=10 }
+    CompressedTrackToSkeletonMapTable[27] = { BoneTreeIndex=11 }
+    CompressedTrackToSkeletonMapTable[28] = { BoneTreeIndex=12 }
+    CompressedTrackToSkeletonMapTable[29] = { BoneTreeIndex=13 }
+    CompressedTrackToSkeletonMapTable[30] = { BoneTreeIndex=14 }
+    CompressedTrackToSkeletonMapTable[31] = { BoneTreeIndex=15 }
+    CompressedTrackToSkeletonMapTable[32] = { BoneTreeIndex=24 }
+    CompressedTrackToSkeletonMapTable[33] = { BoneTreeIndex=25 }
+    CompressedTrackToSkeletonMapTable[34] = { BoneTreeIndex=26 }
+    CompressedTrackToSkeletonMapTable[35] = { BoneTreeIndex=27 }
+    CompressedTrackToSkeletonMapTable[36] = { BoneTreeIndex=29 }
+    CompressedTrackToSkeletonMapTable[37] = { BoneTreeIndex=28 }
+    CompressedTrackToSkeletonMapTable[38] = { BoneTreeIndex=16 }
+    CompressedTrackToSkeletonMapTable[39] = { BoneTreeIndex=17 }
+    CompressedTrackToSkeletonMapTable[40] = { BoneTreeIndex=18 }
+    CompressedTrackToSkeletonMapTable[41] = { BoneTreeIndex=19 }
+    CompressedTrackToSkeletonMapTable[42] = { BoneTreeIndex=22 }
+    CompressedTrackToSkeletonMapTable[43] = { BoneTreeIndex=23 }
+    CompressedTrackToSkeletonMapTable[44] = { BoneTreeIndex=20 }
+    CompressedTrackToSkeletonMapTable[45] = { BoneTreeIndex=21 }
+}
+CompressedCurveData = { FloatCurves[0]={} }
+Interpolation = Linear (0)
+AdditiveAnimType = AAT_None (0)
+RefPoseType = ABPT_None (0)
+RetargetSource = None
+RefPoseSeq = None
+RefFrameIndex = 0
+RetargetSourceAssetReferencePose[0] = {}
+bEnableRootMotion = false
+AuthoredSyncMarkers[0] = {}
+BakedPerBoneCustomAttributeData[0] = {}
+Notifies[13] =
+{
+    Notifies[0] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 3
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[1] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 0
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[2] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[3] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 1
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[4] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 2
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[5] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[6] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 3
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[7] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 0
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[8] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[9] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 2
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[10] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 3
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[11] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[12] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 1
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+}
+SequenceLength = 4.5
+RateScale = 1
+RawCurveData = { FloatCurves[0]={} }
+Skeleton = Skeleton'/X/Content/Art/Character/Pet/Pet_Thecian/SKEL/Pet_Thecian_SKEL_Skeleton.Pet_Thecian_SKEL_Skeleton'
+
+// Sequence: NonBattle_Idle02
+NumFrames = 136
+KeyEncodingFormat = AKF_PerTrackCompression (2)
+TranslationCompressionFormat = ACF_Identity (6)
+RotationCompressionFormat = ACF_Identity (6)
+ScaleCompressionFormat = ACF_Identity (6)
+CompressedTrackOffsets[0] = {}
+CompressedScaleOffsets =
+{
+    OffsetData[46] =
+    {
+        OffsetData[0] = 0
+        OffsetData[1] = 12
+        OffsetData[2] = 3296
+        OffsetData[3] = 3324
+        OffsetData[4] = 4980
+        OffsetData[5] = 5380
+        OffsetData[6] = 6344
+        OffsetData[7] = 8004
+        OffsetData[8] = 8432
+        OffsetData[9] = 9276
+        OffsetData[10] = 10288
+        OffsetData[11] = 11360
+        OffsetData[12] = 12208
+        OffsetData[13] = 13052
+        OffsetData[14] = 13896
+        OffsetData[15] = 14748
+        OffsetData[16] = 15592
+        OffsetData[17] = 16436
+        OffsetData[18] = 17416
+        OffsetData[19] = 18260
+        OffsetData[20] = 19244
+        OffsetData[21] = 20088
+        OffsetData[22] = 21008
+        OffsetData[23] = 21852
+        OffsetData[24] = 24672
+        OffsetData[25] = 25112
+        OffsetData[26] = 25452
+        OffsetData[27] = 26540
+        OffsetData[28] = 26880
+        OffsetData[29] = 27220
+        OffsetData[30] = 27972
+        OffsetData[31] = 28660
+        OffsetData[32] = 29408
+        OffsetData[33] = 30532
+        OffsetData[34] = 31372
+        OffsetData[35] = 31732
+        OffsetData[36] = 33284
+        OffsetData[37] = 33780
+        OffsetData[38] = 35012
+        OffsetData[39] = 36464
+        OffsetData[40] = 37304
+        OffsetData[41] = 37624
+        OffsetData[42] = 38504
+        OffsetData[43] = 38540
+        OffsetData[44] = 38744
+        OffsetData[45] = 39168
+    }
+    StripSize = 1
+}
+TrackToSkeletonMapTable[46] =
+{
+    TrackToSkeletonMapTable[0] = { BoneTreeIndex=0 }
+    TrackToSkeletonMapTable[1] = { BoneTreeIndex=1 }
+    TrackToSkeletonMapTable[2] = { BoneTreeIndex=2 }
+    TrackToSkeletonMapTable[3] = { BoneTreeIndex=40 }
+    TrackToSkeletonMapTable[4] = { BoneTreeIndex=41 }
+    TrackToSkeletonMapTable[5] = { BoneTreeIndex=42 }
+    TrackToSkeletonMapTable[6] = { BoneTreeIndex=43 }
+    TrackToSkeletonMapTable[7] = { BoneTreeIndex=44 }
+    TrackToSkeletonMapTable[8] = { BoneTreeIndex=45 }
+    TrackToSkeletonMapTable[9] = { BoneTreeIndex=3 }
+    TrackToSkeletonMapTable[10] = { BoneTreeIndex=4 }
+    TrackToSkeletonMapTable[11] = { BoneTreeIndex=30 }
+    TrackToSkeletonMapTable[12] = { BoneTreeIndex=31 }
+    TrackToSkeletonMapTable[13] = { BoneTreeIndex=32 }
+    TrackToSkeletonMapTable[14] = { BoneTreeIndex=33 }
+    TrackToSkeletonMapTable[15] = { BoneTreeIndex=34 }
+    TrackToSkeletonMapTable[16] = { BoneTreeIndex=35 }
+    TrackToSkeletonMapTable[17] = { BoneTreeIndex=36 }
+    TrackToSkeletonMapTable[18] = { BoneTreeIndex=37 }
+    TrackToSkeletonMapTable[19] = { BoneTreeIndex=38 }
+    TrackToSkeletonMapTable[20] = { BoneTreeIndex=39 }
+    TrackToSkeletonMapTable[21] = { BoneTreeIndex=5 }
+    TrackToSkeletonMapTable[22] = { BoneTreeIndex=6 }
+    TrackToSkeletonMapTable[23] = { BoneTreeIndex=7 }
+    TrackToSkeletonMapTable[24] = { BoneTreeIndex=8 }
+    TrackToSkeletonMapTable[25] = { BoneTreeIndex=9 }
+    TrackToSkeletonMapTable[26] = { BoneTreeIndex=10 }
+    TrackToSkeletonMapTable[27] = { BoneTreeIndex=11 }
+    TrackToSkeletonMapTable[28] = { BoneTreeIndex=12 }
+    TrackToSkeletonMapTable[29] = { BoneTreeIndex=13 }
+    TrackToSkeletonMapTable[30] = { BoneTreeIndex=14 }
+    TrackToSkeletonMapTable[31] = { BoneTreeIndex=15 }
+    TrackToSkeletonMapTable[32] = { BoneTreeIndex=24 }
+    TrackToSkeletonMapTable[33] = { BoneTreeIndex=25 }
+    TrackToSkeletonMapTable[34] = { BoneTreeIndex=26 }
+    TrackToSkeletonMapTable[35] = { BoneTreeIndex=27 }
+    TrackToSkeletonMapTable[36] = { BoneTreeIndex=29 }
+    TrackToSkeletonMapTable[37] = { BoneTreeIndex=28 }
+    TrackToSkeletonMapTable[38] = { BoneTreeIndex=16 }
+    TrackToSkeletonMapTable[39] = { BoneTreeIndex=17 }
+    TrackToSkeletonMapTable[40] = { BoneTreeIndex=18 }
+    TrackToSkeletonMapTable[41] = { BoneTreeIndex=19 }
+    TrackToSkeletonMapTable[42] = { BoneTreeIndex=22 }
+    TrackToSkeletonMapTable[43] = { BoneTreeIndex=23 }
+    TrackToSkeletonMapTable[44] = { BoneTreeIndex=20 }
+    TrackToSkeletonMapTable[45] = { BoneTreeIndex=21 }
+}
+CompressedTrackToSkeletonMapTable[46] =
+{
+    CompressedTrackToSkeletonMapTable[0] = { BoneTreeIndex=0 }
+    CompressedTrackToSkeletonMapTable[1] = { BoneTreeIndex=1 }
+    CompressedTrackToSkeletonMapTable[2] = { BoneTreeIndex=2 }
+    CompressedTrackToSkeletonMapTable[3] = { BoneTreeIndex=40 }
+    CompressedTrackToSkeletonMapTable[4] = { BoneTreeIndex=41 }
+    CompressedTrackToSkeletonMapTable[5] = { BoneTreeIndex=42 }
+    CompressedTrackToSkeletonMapTable[6] = { BoneTreeIndex=43 }
+    CompressedTrackToSkeletonMapTable[7] = { BoneTreeIndex=44 }
+    CompressedTrackToSkeletonMapTable[8] = { BoneTreeIndex=45 }
+    CompressedTrackToSkeletonMapTable[9] = { BoneTreeIndex=3 }
+    CompressedTrackToSkeletonMapTable[10] = { BoneTreeIndex=4 }
+    CompressedTrackToSkeletonMapTable[11] = { BoneTreeIndex=30 }
+    CompressedTrackToSkeletonMapTable[12] = { BoneTreeIndex=31 }
+    CompressedTrackToSkeletonMapTable[13] = { BoneTreeIndex=32 }
+    CompressedTrackToSkeletonMapTable[14] = { BoneTreeIndex=33 }
+    CompressedTrackToSkeletonMapTable[15] = { BoneTreeIndex=34 }
+    CompressedTrackToSkeletonMapTable[16] = { BoneTreeIndex=35 }
+    CompressedTrackToSkeletonMapTable[17] = { BoneTreeIndex=36 }
+    CompressedTrackToSkeletonMapTable[18] = { BoneTreeIndex=37 }
+    CompressedTrackToSkeletonMapTable[19] = { BoneTreeIndex=38 }
+    CompressedTrackToSkeletonMapTable[20] = { BoneTreeIndex=39 }
+    CompressedTrackToSkeletonMapTable[21] = { BoneTreeIndex=5 }
+    CompressedTrackToSkeletonMapTable[22] = { BoneTreeIndex=6 }
+    CompressedTrackToSkeletonMapTable[23] = { BoneTreeIndex=7 }
+    CompressedTrackToSkeletonMapTable[24] = { BoneTreeIndex=8 }
+    CompressedTrackToSkeletonMapTable[25] = { BoneTreeIndex=9 }
+    CompressedTrackToSkeletonMapTable[26] = { BoneTreeIndex=10 }
+    CompressedTrackToSkeletonMapTable[27] = { BoneTreeIndex=11 }
+    CompressedTrackToSkeletonMapTable[28] = { BoneTreeIndex=12 }
+    CompressedTrackToSkeletonMapTable[29] = { BoneTreeIndex=13 }
+    CompressedTrackToSkeletonMapTable[30] = { BoneTreeIndex=14 }
+    CompressedTrackToSkeletonMapTable[31] = { BoneTreeIndex=15 }
+    CompressedTrackToSkeletonMapTable[32] = { BoneTreeIndex=24 }
+    CompressedTrackToSkeletonMapTable[33] = { BoneTreeIndex=25 }
+    CompressedTrackToSkeletonMapTable[34] = { BoneTreeIndex=26 }
+    CompressedTrackToSkeletonMapTable[35] = { BoneTreeIndex=27 }
+    CompressedTrackToSkeletonMapTable[36] = { BoneTreeIndex=29 }
+    CompressedTrackToSkeletonMapTable[37] = { BoneTreeIndex=28 }
+    CompressedTrackToSkeletonMapTable[38] = { BoneTreeIndex=16 }
+    CompressedTrackToSkeletonMapTable[39] = { BoneTreeIndex=17 }
+    CompressedTrackToSkeletonMapTable[40] = { BoneTreeIndex=18 }
+    CompressedTrackToSkeletonMapTable[41] = { BoneTreeIndex=19 }
+    CompressedTrackToSkeletonMapTable[42] = { BoneTreeIndex=22 }
+    CompressedTrackToSkeletonMapTable[43] = { BoneTreeIndex=23 }
+    CompressedTrackToSkeletonMapTable[44] = { BoneTreeIndex=20 }
+    CompressedTrackToSkeletonMapTable[45] = { BoneTreeIndex=21 }
+}
+CompressedCurveData = { FloatCurves[0]={} }
+Interpolation = Linear (0)
+AdditiveAnimType = AAT_None (0)
+RefPoseType = ABPT_None (0)
+RetargetSource = None
+RefPoseSeq = None
+RefFrameIndex = 0
+RetargetSourceAssetReferencePose[0] = {}
+bEnableRootMotion = false
+AuthoredSyncMarkers[0] = {}
+BakedPerBoneCustomAttributeData[0] = {}
+Notifies[13] =
+{
+    Notifies[0] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 3
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[1] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 0
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[2] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[3] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 1
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[4] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 2
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[5] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[6] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 3
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[7] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 0
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[8] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[9] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 2
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[10] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 3
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[11] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlaySound_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 4
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+    Notifies[12] =
+    {
+        TriggerTimeOffset = 0
+        EndTriggerTimeOffset = 0
+        TriggerWeightThreshold = 1e-05
+        NotifyName = XPlayParticleEffect_AnimNotify
+        Duration = 0
+        EndLink =
+        {
+            SlotIndex = 0
+            SegmentIndex = -1
+            SegmentBeginTime = 0
+            SegmentLength = 0
+        }
+        bConvertedFromBranchingPoint = false
+        NotifyTriggerChance = 1
+        TrackIndex = 1
+        SlotIndex = 0
+        SegmentIndex = 0
+        SegmentBeginTime = 0
+        SegmentLength = 4.5
+    }
+}
+SequenceLength = 4.5
+RateScale = 1
+RawCurveData = { FloatCurves[0]={} }
+Skeleton = Skeleton'/X/Content/Art/Character/Pet/Pet_Thecian/SKEL/Pet_Thecian_SKEL_Skeleton.Pet_Thecian_SKEL_Skeleton'

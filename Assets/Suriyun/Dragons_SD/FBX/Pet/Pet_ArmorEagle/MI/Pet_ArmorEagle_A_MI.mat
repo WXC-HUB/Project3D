@@ -1,0 +1,8 @@
+Diffuse=Pet_ArmorEagle_A_D
+Normal=Pet_ArmorEagle_N
+Cube=XH_HDRI_001
+Other[0]=Pet_ArmorEagle_MC
+Other[1]=default_gray
+Other[2]=default_grayMask
+Other[3]=default_normal
+Other[4]=default_HDR

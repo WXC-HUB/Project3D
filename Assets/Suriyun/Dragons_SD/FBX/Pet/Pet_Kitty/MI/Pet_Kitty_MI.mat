@@ -1,0 +1,8 @@
+Diffuse=Pet_Kitty_D
+Normal=Pet_Kitty_N
+Cube=XH_HDRI_001
+Other[0]=Pet_Kitty_MC
+Other[1]=default_gray
+Other[2]=default_grayMask
+Other[3]=default_normal
+Other[4]=default_HDR

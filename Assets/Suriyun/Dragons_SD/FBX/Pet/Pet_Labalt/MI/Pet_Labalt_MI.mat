@@ -1,0 +1,7 @@
+Diffuse=Pet_Labalt_D
+Normal=Pet_Labalt_N
+Other[0]=Pet_Labalt_MC
+Other[1]=HeatmapGradient
+Other[2]=default_black
+Other[3]=default_grayMask
+Other[4]=default_normal

@@ -1,0 +1,7 @@
+Diffuse=Pet_Lostela_D
+Normal=Pet_Lostela_N
+Other[0]=Pet_Lostela_MC
+Other[1]=HeatmapGradient
+Other[2]=default_black
+Other[3]=default_grayMask
+Other[4]=default_normal

@@ -1,0 +1,7 @@
+Diffuse=Pet_Lucid_D
+Normal=Pet_Lucid_N
+Other[0]=Pet_Lucid_MC
+Other[1]=HeatmapGradient
+Other[2]=default_black
+Other[3]=default_grayMask
+Other[4]=default_normal

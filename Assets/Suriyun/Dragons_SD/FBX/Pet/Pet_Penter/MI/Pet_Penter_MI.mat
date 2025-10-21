@@ -1,0 +1,7 @@
+Diffuse=Pet_Penter_D
+Normal=Pet_Penter_N
+Other[0]=Pet_Penter_MC
+Other[1]=HeatmapGradient
+Other[2]=default_black
+Other[3]=default_grayMask
+Other[4]=default_normal

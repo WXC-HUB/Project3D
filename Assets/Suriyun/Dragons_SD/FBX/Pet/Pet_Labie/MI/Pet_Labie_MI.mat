@@ -1,0 +1,7 @@
+Diffuse=Pet_Labie_D
+Normal=Pet_Labie_N
+Other[0]=Pet_Labie_MC
+Other[1]=HeatmapGradient
+Other[2]=default_black
+Other[3]=default_grayMask
+Other[4]=default_normal

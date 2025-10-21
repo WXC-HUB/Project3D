@@ -1,0 +1,8 @@
+Diffuse=Pet_Miri_D
+Normal=Pet_Miri_N
+Cube=foyer
+Other[0]=Pet_Miri_MC
+Other[1]=default_gray
+Other[2]=default_grayMask
+Other[3]=default_normal
+Other[4]=default_HDR
