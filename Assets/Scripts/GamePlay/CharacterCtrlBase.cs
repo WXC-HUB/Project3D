@@ -396,7 +396,7 @@ public class CharacterCtrlBase : MonoBehaviour
         float dropChance = 0.5f;
         if (Random.value > dropChance)
         {
-            Debug.Log("敌人死亡：未掉落食材（概率未命中）");
+            // Debug.Log("敌人死亡：未掉落食材（概率未命中）");
             return;
         }
 
@@ -472,7 +472,7 @@ public class CharacterCtrlBase : MonoBehaviour
             if (droppedItem != null)
             {
                 droppedItem.transform.position = transform.position;
-                Debug.Log($"敌人死亡掉落食材: {selectedDish.Name} (DishID: {selectedDishId}, 权重: {ingredientWeights[selectedDishId]})");
+                // Debug.Log($"敌人死亡掉落食材: {selectedDish.Name} (DishID: {selectedDishId}, 权重: {ingredientWeights[selectedDishId]})");
             }
         }
     }

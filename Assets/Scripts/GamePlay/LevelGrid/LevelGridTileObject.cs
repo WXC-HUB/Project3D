@@ -149,21 +149,17 @@ public class LevelGridTileObject : CharacterCtrlBase
         // 检查是否是允许提交的菜品
         if (!DishSubmissionManager.Instance.GetAllDishIds().Contains(dishId))
         {
-            Debug.LogWarning($"拒绝提交：菜品 ID {dishId} ({dish_config.Name}) 不在允许提交的菜品列表中");
-            return false;
+            Debug.LogWarning($"菜品 ID {dishId} ({dish_config.Name}) 不在允许提交的菜品列表中，无事发生");
+        } else {
+            // 提交菜品到管理器
+            DishSubmissionManager.Instance.AddDishSubmission(dishId, 1);
+            // 获取提交后的数量
+            int currentCount = DishSubmissionManager.Instance.GetDishCount(dishId);
+            Debug.Log($"成功提交菜品 ID: {dishId}, 名称: {dish_config.Name}, 当前数量: {currentCount}");
         }
-        
-        // 提交菜品到管理器
-        DishSubmissionManager.Instance.AddDishSubmission(dishId, 1);
-        
-        // 获取提交后的数量
-        int currentCount = DishSubmissionManager.Instance.GetDishCount(dishId);
         
         // 删除菜品GameObject
         attach_obj.Die();
-        
-        Debug.Log($"成功提交菜品 ID: {dishId}, 名称: {dish_config.Name}, 当前数量: {currentCount}");
-        
         return true;
     }
 
