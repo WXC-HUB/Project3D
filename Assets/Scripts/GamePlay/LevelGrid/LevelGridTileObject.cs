@@ -56,7 +56,26 @@ public class LevelGridTileObject : CharacterCtrlBase
         var newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(new_dis.GameCharacter);
         this.TryAttachObject(newgo);
 
-
+        // 清理烹饪特效和 Modifier
+        // 收集需要删除的 Modifier，避免遍历时修改集合
+        CharacterModifier[] modifiers = GetComponents<CharacterModifier>();
+        List<CharacterModifier> toDispel = new List<CharacterModifier>();
+        
+        foreach (var modifier in modifiers)
+        {
+            if (CookModifiers.Contains(modifier.ModifierID))
+            {
+                toDispel.Add(modifier);
+            }
+        }
+        
+        // 统一执行 Dispel
+        foreach (var modifier in toDispel)
+        {
+            modifier.ModifierDispel();
+        }
+        
+        CookModifiers.Clear();
 
         NowRecipeID = 0;
         NowRecipeTime = 0;  
@@ -161,6 +180,22 @@ public class LevelGridTileObject : CharacterCtrlBase
         // 删除菜品GameObject
         attach_obj.Die();
         return true;
+    }
+
+    /// <summary>
+    /// 重写拿下物品方法，烹饪进行中不允许拿走食材
+    /// </summary>
+    public override bool TryDropObject(CharacterCtrlBase attach_obj)
+    {
+        // 如果正在烹饪，不允许拿走食材
+        if (NowRecipeID > 0)
+        {
+            Debug.Log("烹饪进行中，无法拿走食材！");
+            return false;
+        }
+
+        // 否则使用基类的默认逻辑
+        return base.TryDropObject(attach_obj);
     }
 
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)
