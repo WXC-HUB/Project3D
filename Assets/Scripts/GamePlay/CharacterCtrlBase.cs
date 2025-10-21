@@ -86,6 +86,9 @@ public class CharacterCtrlBase : MonoBehaviour
     public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
     public CharacterCtrlBase followTarget, from_char;
 
+    public Character_Float Reduce_HP_PerSecond = new Character_Float("Reduce_HP_PerSecond", 0);
+    public float have_reduce_hp = 0;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -131,6 +134,8 @@ public class CharacterCtrlBase : MonoBehaviour
 
         canBeGrabed.TakeEffect(this);
         grabDistance.TakeEffect(this);
+
+        Reduce_HP_PerSecond.TakeEffect(this);
     }
 
 
@@ -146,7 +151,15 @@ public class CharacterCtrlBase : MonoBehaviour
             UpdateMoveState();   //重写物理
         }
 
-
+        if(Reduce_HP_PerSecond.GetValue() > 0)
+        {
+            have_reduce_hp += Time.deltaTime * Reduce_HP_PerSecond.GetValue();
+            if( Mathf.Floor(have_reduce_hp) >= 1)
+            {
+                TakeDamage((int)Mathf.Floor(have_reduce_hp), null);
+                have_reduce_hp -= (int)Mathf.Floor(have_reduce_hp);
+            }
+        }
         
     }
 
