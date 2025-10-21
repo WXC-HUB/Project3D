@@ -226,6 +226,7 @@ namespace Assets.Scripts.Core
             LevelGridGenerator.Instance.LoadLevelByID(1);
             isRoundGameStart = true;
             GoNextRound();
+            UI_PlayerHUD.instance.UpdateRecipe();
         }
 
         //事件系统通过回调，严格控制游戏的整体运行流程。但由于事件的触发分布在各个GameObject中，所以无法严格保证先后顺序
