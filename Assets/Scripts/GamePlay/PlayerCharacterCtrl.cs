@@ -10,7 +10,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
 {
 
 
-    public Vector3Int MySelectTarget;
+    public Vector3Int MySelectTarget = new Vector3Int(-999,-999,0);
 
     public Character_Bool IsFOVLock = new Character_Bool("IsFOVLock", false);
     public Character_Float targetCameraFOV = new Character_Float("targetCameraFOV", 10F);

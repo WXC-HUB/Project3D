@@ -118,7 +118,7 @@ Transform:
   m_Children:
   - {fileID: 7822050097509098679}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2745446868557412190
 MeshFilter:
@@ -183,6 +183,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb226a96ebbed94397ec1b8eed09f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  col2D: {fileID: 0}
+  MyGameObjectID: 0
+  isAttachedToOther: 0
+  MoveSpeed_a: 2
+  TargetRotation: 0
+  nowAttachList: []
+  isAlive:
+    real_value: 1
+  LinerDrag:
+    real_value: 1.5
+  MaxSpeed:
+    real_value: 1.5
+  EnableMoveInput:
+    real_value: 1
+  IgnoreSpeedLimit:
+    real_value: 0
+  TryInputDir:
+    real_value: {x: 0, y: 0}
+  TryAimRotDir:
+    real_value: {x: 0, y: 0}
+  MaxHP:
+    real_value: 30
+  NowHP: 0
+  isInvincible:
+    real_value: 0
+  Mass:
+    real_value: 1
+  beHitDamage:
+    real_value: 0
+  doHitDamage:
+    real_value: 1
+  beHitPower:
+    real_value: 10
+  doHitPower:
+    real_value: 10
+  isFixedPosition:
+    real_value: 0
+  usePhysic:
+    real_value: 1
+  canBeGrabed:
+    real_value: 0
+  grabDistance:
+    real_value: 0.2
+  Init_Modifier_List: 
+  IsFollowTarget:
+    real_value: 0
+  followTarget: {fileID: 0}
+  from_char: {fileID: 0}
+  CookType:
+    real_value: 1
+  CookTime: -1
 --- !u!114 &8018075959771584284
 MonoBehaviour:
   m_ObjectHideFlags: 0

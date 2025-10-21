@@ -144,7 +144,16 @@ namespace Assets.Scripts.BaseUtils
             if (Instance == null)
             {
                 Instance = (T)this;
-                DontDestroyOnLoad(gameObject);
+                // DontDestroyOnLoad 只能用于根对象
+                // 如果当前对象不是根对象，则应用到根对象
+                if (transform.parent == null)
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
+                else
+                {
+                    DontDestroyOnLoad(transform.root.gameObject);
+                }
             }
             else
             {

@@ -78,8 +78,28 @@ namespace Assets.Scripts.Core
     public class SpawnRoots : TableDatabase
     {
         public int RootID;
+        public int RoundID;
         public int EnemyID;
         public float SpawnGap;
+        public int EnemyNum;
+    }
+
+    public class Dish : TableDatabase
+    {
+        public int DishID;
+        public string Name;
+        public int GameCharacter;
+    }
+
+    public class Recipe : TableDatabase
+    {
+        public int RecipeID;
+        public List<int> DishList;
+        public string Name;
+        public int CookType;
+        public List<float> CookTime;
+        public int CookResult;
+        public List<int> OnCookBuffList;
     }
 
     public class GameTableConfig : Singleton<GameTableConfig>
@@ -93,8 +113,8 @@ namespace Assets.Scripts.Core
         public ConfigTable<LevelTileLoad> Config_LevelTileLoad = new ConfigTable<LevelTileLoad>("Configs/LevelTileLoad");
         public ConfigTable<SpawnRoots> Config_SpawnRoots = new ConfigTable<SpawnRoots>("Configs/SpawnRoots");
         public ConfigTable<GameCharacters> Config_GameCharacters = new ConfigTable<GameCharacters>("Configs/GameCharacters");
-
-
+        public ConfigTable<Dish> Config_Dish = new ConfigTable<Dish>("Configs/Dishs");
+        public ConfigTable<Recipe> Config_Recipe = new ConfigTable<Recipe>("Configs/Recipe");
 
         public void CallBlank() { }
     }

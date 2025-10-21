@@ -100,6 +100,11 @@ namespace Assets.Scripts.AI
             if (currentIndex >= path.Count)
             {
                 isMoving = false;
+                // 到达终点，触发死亡
+                if (bindCharacterCtrl != null)
+                {
+                    bindCharacterCtrl.Die(DeathCause.ReachedEnd);
+                }
                 return;
             }
             else
@@ -210,12 +215,45 @@ namespace Assets.Scripts.AI
             return false;
         }
 
-       
+        /// <summary>
+        /// 清理失效的角色引用
+        /// </summary>
+        private void CleanupInvalidReferences()
+        {
+            // 创建临时列表存储需要移除的键
+            List<string> keysToRemove = new List<string>();
+            
+            foreach (var kvp in mCharacterDict)
+            {
+                if (kvp.Value == null)
+                {
+                    keysToRemove.Add(kvp.Key);
+                }
+            }
+            
+            // 移除所有失效的引用
+            foreach (var key in keysToRemove)
+            {
+                mCharacterDict.Remove(key);
+            }
+        }
+
+        private float cleanupTimer = 0f;
+        private const float CLEANUP_INTERVAL = 1f; // 每秒清理一次
+
         private void Update()
         {
             if (state == AIAgentState.Running  && curTree != null)
             {
                 //curTree.RunNode();
+            }
+
+            // 定时清理失效引用
+            cleanupTimer += Time.deltaTime;
+            if (cleanupTimer >= CLEANUP_INTERVAL)
+            {
+                CleanupInvalidReferences();
+                cleanupTimer = 0f;
             }
         }
     }

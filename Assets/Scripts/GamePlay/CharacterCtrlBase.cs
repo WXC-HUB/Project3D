@@ -6,6 +6,13 @@ using UnityEngine.UI;
 using Assets.Scripts.BaseUtils;
 using TMPro;
 
+public enum DeathCause
+{
+    Killed,          // 被击杀
+    ReachedEnd,      // 到达终点
+    Other            // 其他原因
+}
+
 public class SkillUseInfo
 {
     public int SkillID = 0;
@@ -20,13 +27,21 @@ public class CharacterCtrlBase : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D col2D;
 
+    public int MyGameObjectID = 0;
+    public InGameCharacterType MyObjectLayer = InGameCharacterType.None;
+    public bool isReadyForNextRound = false;        
+
+    public bool isAttachedToOther = false;
+
     bool isStill;
 
     public float MoveSpeed_a = 2f;
 
     public float TargetRotation = 0.0f;
 
-    public Dictionary<string , CharacterAttribute> AttributesDicts = new Dictionary<string , CharacterAttribute>();    
+    public Dictionary<string , CharacterAttribute> AttributesDicts = new Dictionary<string , CharacterAttribute>();   
+    
+    public List<CharacterCtrlBase> nowAttachList = new List<CharacterCtrlBase>();
 
     public Character_Bool isAlive = new Character_Bool("isAlive", true); 
 
@@ -53,6 +68,10 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public Character_Bool usePhysic = new Character_Bool("usePhysic", true);
 
+    public Character_Bool canBeGrabed = new Character_Bool("canBeGrabed", false);
+
+    public Character_Float grabDistance = new Character_Float("grabDistance", 0.2f);
+
     public List<int> Init_Modifier_List = new List<int>();
     public Character_Bool IsFollowTarget = new Character_Bool("IsFollowTarget", false);
     public CharacterCtrlBase followTarget, from_char;
@@ -60,6 +79,7 @@ public class CharacterCtrlBase : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
+
         rb = this.GetComponent<Rigidbody2D>();  
         col2D = this.GetComponent<Collider2D>();
 
@@ -98,6 +118,9 @@ public class CharacterCtrlBase : MonoBehaviour
         usePhysic.TakeEffect(this);
 
         IsFollowTarget.TakeEffect(this);
+
+        canBeGrabed.TakeEffect(this);
+        grabDistance.TakeEffect(this);
     }
 
 
@@ -145,6 +168,10 @@ public class CharacterCtrlBase : MonoBehaviour
                 {
                     transform.position += move_len.normalized * move_dis;
                 }
+            }
+            else
+            {
+                Die();
             }
 
         }
@@ -328,15 +355,21 @@ public class CharacterCtrlBase : MonoBehaviour
 
         if(this.NowHP < 0)
         {
-            this.Die(skillUseInfo);
+            this.Die(DeathCause.Killed, skillUseInfo);
         }
     }
 
-    public void Die(SkillUseInfo skillUseInfo = null)
+    /// <summary>
+    /// 角色死亡/消失的统一方法
+    /// </summary>
+    /// <param name="cause">死亡原因</param>
+    /// <param name="skillUseInfo">技能信息（可选）</param>
+    public void Die(DeathCause cause = DeathCause.Other, SkillUseInfo skillUseInfo = null)
     {
         Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterDie, gameObject);
         beCollideEvent.event_param_dics.Add("PositionX", transform.position.x);
         beCollideEvent.event_param_dics.Add("PositionY", transform.position.y);
+        beCollideEvent.event_param_dics.Add("DeathCause", cause.ToString());
         if (null != skillUseInfo) 
         {
             beCollideEvent.event_param_dics.Add("Killer", skillUseInfo.dispatcher);
@@ -348,8 +381,295 @@ public class CharacterCtrlBase : MonoBehaviour
             i.ModifierDispel();
         }
 
-        GameObject.Destroy(gameObject );
+        // 根据死亡原因决定是否掉落食材
+        if (cause == DeathCause.Killed)
+        {
+            DropIngredient();
+        }
+        else if (cause == DeathCause.ReachedEnd)
+        {
+            // 到达终点，扣除基地血量
+            OnEnemyReachedEnd();
+        }
+
+        GameObject.Destroy(gameObject);
         LevelManager.Instance.ClearCharDic();
+    }
+
+    /// <summary>
+    /// 敌人到达终点的处理
+    /// </summary>
+    private void OnEnemyReachedEnd()
+    {
+        // 判断是否是敌人类型
+        if (MyGameObjectID == 0)
+        {
+            return;
+        }
+
+        GameCharacters config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == MyGameObjectID);
+        if (config == null || config.ObjectType != "Enemy")
+        {
+            return;
+        }
+
+        // TODO: 扣除基地血量的逻辑
+        // 例如: LevelManager.Instance.BaseHP -= 10;
+        Debug.Log($"敌人 {config.ObjectName} 到达终点！基地受到伤害！");
+    }
+
+    /// <summary>
+    /// 掉落食材逻辑
+    /// </summary>
+    private void DropIngredient()
+    {
+        // 判断是否是敌人类型
+        if (MyGameObjectID == 0)
+        {
+            return; // 没有配置ID，不处理
+        }
+
+        GameCharacters config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == MyGameObjectID);
+        if (config == null || config.ObjectType != "Enemy")
+        {
+            return; // 不是敌人类型，不掉落
+        }
+
+        // 掉落概率检查
+        float dropChance = 0.5f;
+        if (Random.value > dropChance)
+        {
+            // Debug.Log("敌人死亡：未掉落食材（概率未命中）");
+            return;
+        }
+
+        // 获取可提交菜品列表
+        List<int> submittableDishIds = DishSubmissionManager.Instance.GetAllDishIds();
+        if (submittableDishIds == null || submittableDishIds.Count == 0)
+        {
+            return;
+        }
+
+        // 统计食材出现次数作为权重
+        Dictionary<int, int> ingredientWeights = new Dictionary<int, int>();
+
+        foreach (int dishId in submittableDishIds)
+        {
+            // 检查是否是成品菜（在Recipe中作为CookResult）
+            Recipe recipe = GameTableConfig.Instance.Config_Recipe.FindFirstLine(x => x.CookResult == dishId);
+            
+            if (recipe != null)
+            {
+                // 是成品菜，取原料列表
+                foreach (int ingredientId in recipe.DishList)
+                {
+                    // 验证原料在Dish表中存在
+                    Dish dish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == ingredientId);
+                    if (dish != null)
+                    {
+                        // 统计该食材出现次数
+                        if (ingredientWeights.ContainsKey(ingredientId))
+                        {
+                            ingredientWeights[ingredientId]++;
+                        }
+                        else
+                        {
+                            ingredientWeights[ingredientId] = 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // 不是成品菜，取自己
+                Dish dish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == dishId);
+                if (dish != null)
+                {
+                    if (ingredientWeights.ContainsKey(dishId))
+                    {
+                        ingredientWeights[dishId]++;
+                    }
+                    else
+                    {
+                        ingredientWeights[dishId] = 1;
+                    }
+                }
+            }
+        }
+
+        // 如果没有可掉落的食材，直接返回
+        if (ingredientWeights.Count == 0)
+        {
+            return;
+        }
+
+        // 基于权重随机选择食材
+        int selectedDishId = WeightedRandomSelect(ingredientWeights);
+
+        // 获取食材配置
+        Dish selectedDish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == selectedDishId);
+        if (selectedDish != null)
+        {
+            // 生成食材GameObject
+            CharacterCtrlBase droppedItem = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(selectedDish.GameCharacter);
+            if (droppedItem != null)
+            {
+                droppedItem.transform.position = transform.position;
+                // Debug.Log($"敌人死亡掉落食材: {selectedDish.Name} (DishID: {selectedDishId}, 权重: {ingredientWeights[selectedDishId]})");
+            }
+        }
+    }
+
+    /// <summary>
+    /// 基于权重的随机选择
+    /// </summary>
+    /// <param name="weights">物品ID及其权重</param>
+    /// <returns>被选中的物品ID</returns>
+    private int WeightedRandomSelect(Dictionary<int, int> weights)
+    {
+        // 计算总权重
+        int totalWeight = 0;
+        foreach (var weight in weights.Values)
+        {
+            totalWeight += weight;
+        }
+
+        // 生成随机值
+        int randomValue = Random.Range(0, totalWeight);
+
+        // 根据权重选择
+        int cumulativeWeight = 0;
+        foreach (var kvp in weights)
+        {
+            cumulativeWeight += kvp.Value;
+            if (randomValue < cumulativeWeight)
+            {
+                return kvp.Key;
+            }
+        }
+
+        // 默认返回第一个（理论上不会到达这里）
+        return new List<int>(weights.Keys)[0];
+    }
+
+    public virtual bool TryAttachObject(CharacterCtrlBase attach_obj)
+    {
+        // 先设置父级，保持世界坐标
+        attach_obj.transform.SetParent(transform, true);
+        
+        // 只有玩家才会让物品移到右边固定位置
+        if (this is PlayerCharacterCtrl)
+        {
+            // 然后只修改本地位置，不改变旋转和缩放
+            attach_obj.transform.localPosition = new Vector3(0.5f, 0f, 0f);
+        }
+        
+        nowAttachList.Add(attach_obj);
+        attach_obj.isAttachedToOther = true;    
+        return true;
+    }
+
+    public virtual bool TryDropObject(CharacterCtrlBase attach_obj)
+    {
+        if (nowAttachList.Contains(attach_obj))
+        {
+            attach_obj.transform.SetParent(LevelManager.Instance.LevelObjectsRoot);
+            nowAttachList.Remove(attach_obj);
+            attach_obj.isAttachedToOther = false;
+            
+            // 只有玩家才执行"丢"的动画
+            if (this is PlayerCharacterCtrl)
+            {
+                StartCoroutine(ThrowObjectAnimation(attach_obj));
+            }
+            
+            return true;
+        }
+
+        return false;
+    }
+    
+    /// <summary>
+    /// 物体被丢出的动画效果：刷到人物中央，然后落到地上
+    /// </summary>
+    private IEnumerator ThrowObjectAnimation(CharacterCtrlBase obj)
+    {
+        // 检查物体是否已被销毁
+        if (obj == null)
+        {
+            yield break;
+        }
+        
+        // 停止物体的所有物理速度
+        if (obj.rb != null)
+        {
+            obj.rb.velocity = Vector2.zero;
+            obj.rb.angularVelocity = 0f;
+        }
+        
+        // 1. 立即把物品移动到人物中央上方
+        Vector3 dropStartPos = new Vector3(
+            transform.position.x,
+            transform.position.y + 0.5f,  // 稍微在人物上方一点
+            obj.transform.position.z
+        );
+        obj.transform.position = dropStartPos;
+        
+        // 2. 目标位置：直接落到人物脚的位置
+        Vector3 targetPos = new Vector3(
+            transform.position.x,
+            transform.position.y,
+            dropStartPos.z
+        );
+        
+        // 3. 匀速下落到目标位置
+        float duration = 0.3f;  // 下落持续时间
+        float elapsed = 0f;
+        
+        while (elapsed < duration)
+        {
+            // 检查物体是否已被销毁（比如提交菜品时）
+            if (obj == null)
+            {
+                yield break;
+            }
+            
+            // 检查物体是否被重新附加到其他对象（比如锅）
+            if (obj.isAttachedToOther)
+            {
+                // 物体已经被附加到其他对象，停止动画
+                yield break;
+            }
+            
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            
+            // 匀速插值
+            obj.transform.position = Vector3.Lerp(dropStartPos, targetPos, t);
+            
+            // 持续强制速度为0
+            if (obj.rb != null)
+            {
+                obj.rb.velocity = Vector2.zero;
+            }
+            
+            yield return null;
+        }
+        
+        // 4. 确保到达精确位置并完全静止
+        // 再次检查物体是否已被销毁
+        if (obj == null)
+        {
+            yield break;
+        }
+        
+        obj.transform.position = targetPos;
+        
+        if (obj.rb != null)
+        {
+            obj.rb.velocity = Vector2.zero;
+            obj.rb.angularVelocity = 0f;
+        }
     }
 
     void UpdateAllInput()
