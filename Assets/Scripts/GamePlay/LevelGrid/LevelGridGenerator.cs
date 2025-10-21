@@ -7,6 +7,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 // using UnityEngine.WSA;
 
 public class SpawnRootInfo
@@ -15,9 +16,15 @@ public class SpawnRootInfo
     public List<Vector3Int> move_points;
     public Vector3Int start_point;
 
-    public SpawnRoots sp_config;
+    public List<SpawnRoots> sp_config;
 
     public float spawn_timer = 0;
+    public int spawn_cnt = 0;
+
+    public CharacterCtrlBase bind_character;
+
+    public bool isSpawnGoOn = true;
+
 
     public SpawnRootInfo(int rootID , List<Vector3Int> move_point , Vector3Int start_point)
     {
@@ -25,18 +32,21 @@ public class SpawnRootInfo
         this.move_points = move_point;
         this.start_point = start_point;
 
-        sp_config = GameTableConfig.Instance.Config_SpawnRoots.FindFirstLine(x => x.RootID == rootID);  
+        sp_config = GameTableConfig.Instance.Config_SpawnRoots.FindAllLine(x => x.RootID == rootID);  
     }
 }
 
 public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
 {
+
+
     int Height, Width;
     public Tilemap tilemap;
     public Dictionary<Vector3Int, LevelGridTileObject> tile_dictionary = new Dictionary<Vector3Int, LevelGridTileObject>();
     public Dictionary<Vector3Int , string> tile_strings = new Dictionary<Vector3Int , string>();
     public Dictionary<int , SpawnRootInfo> spawnroot_dictionay = new Dictionary<int , SpawnRootInfo>(); 
     public List<List<string>> layer_info = new List<List<string>>();
+
     private void SpawnWall(Vector3Int pos, string go_name, bool build_colid)
     {
         Vector3Int position = pos;
@@ -78,6 +88,21 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
             else if (go.StartsWith("SpawnRoot_"))
             {
                 BuildSpawnRootByID( int.Parse( go.Split("_")[1] ) , pos);
+            }
+            else if (go.StartsWith("Tower_"))
+            {
+                int newID = int.Parse(go.Split("_")[1]);
+                CharacterCtrlBase newChar = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(newID);
+                Vector3 objpos = tilemap.GetCellCenterWorld(pos);
+                LevelGridTileObject attach_targt;
+                if (tile_dictionary.TryGetValue(pos, out attach_targt))
+                {
+                    attach_targt.TryAttachObject(newChar);
+                }
+                else 
+                { 
+                    newChar.transform.position = objpos;    
+                }
             }
         }
 
@@ -125,6 +150,9 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         List<Vector3Int> pos_list = new List<Vector3Int>(); 
         pos_list.Add(curPos);
         Vector3Int next_pos;
+
+        
+
         while (getNextPos(id, curPos , out next_pos , pos_list))
         {
             pos_list.Add(next_pos);
@@ -132,12 +160,15 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         }
 
         SpawnRootInfo sp = new SpawnRootInfo(id, pos_list, start_pos);
+        CharacterCtrlBase newCh = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(4);
+        sp.bind_character = newCh;
 
-        if(!spawnroot_dictionay.TryAdd(id , sp))
+        if (!spawnroot_dictionay.TryAdd(id , sp))
         {
             spawnroot_dictionay[id] = sp;
         }
 
+        LevelManager.Instance.AddRoundNextFlag(newCh , sp.sp_config.Count);
     }
     
     // Start is called before the first frame update
@@ -148,36 +179,52 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
 
     void Update_Check_Spawn()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         foreach (var spawn_pair in spawnroot_dictionay)
         {
             SpawnRootInfo sp = spawn_pair.Value;
             if (sp.sp_config != null)
             {
                 sp.spawn_timer += Time.deltaTime;
-                if (sp.spawn_timer > sp.sp_config.SpawnGap)
+                SpawnRoots this_config = sp.sp_config.Find( x => x.RoundID == LevelManager.Instance.NowRoundID );
+                if (this_config != null)
                 {
-                    PlayerCharacterCtrl sp_chr = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(sp.sp_config.EnemyID);
-
-
-                    if (sp_chr != null)
+                    if (sp.spawn_timer > this_config.SpawnGap && sp.spawn_cnt < this_config.EnemyNum)
                     {
-                        sp_chr.transform.position = tilemap.GetCellCenterWorld(sp.start_point);
-                        if (sp_chr.GetComponent<AIAgentBase>() != null)
-                        {
-                            sp_chr.GetComponent<AIAgentBase>().followPath = sp.rootID;
-                        }
-                    }
+                        PlayerCharacterCtrl sp_chr = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(this_config.EnemyID);
 
-                    sp.spawn_timer = 0;
+                        if (sp_chr != null)
+                        {
+                            sp_chr.transform.position = tilemap.GetCellCenterWorld(sp.start_point);
+                            if (sp_chr.GetComponent<AIAgentBase>() != null)
+                            {
+                                sp_chr.GetComponent<AIAgentBase>().followPath = sp.rootID;
+                            }
+                        }
+
+                        sp.spawn_cnt++;
+
+                        sp.spawn_timer = 0;
+
+                        if (sp.spawn_cnt >= this_config.EnemyNum)
+                        {
+                            sp.bind_character.isReadyForNextRound = true;
+                            sp.isSpawnGoOn = false;
+                        }
+
+
+                    }
+                    
+
                 }
+                
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Update_Check_Spawn();   
     }
 
     public void TryAttach(Vector3Int pos, CharacterCtrlBase obj)
@@ -253,5 +300,25 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
             }
         }
 
+        
+
+    }
+
+    public void StartSpawn(bool isStart)
+    {
+        foreach (var item in spawnroot_dictionay.Values)
+        {
+            item.isSpawnGoOn = isStart;
+        }
+    }
+
+    public void GoNextRound()
+    {
+        foreach (var item in spawnroot_dictionay.Values)
+        {
+            item.bind_character.isReadyForNextRound = false;
+            item.spawn_timer = 0;
+            item.spawn_cnt = 0;
+        }
     }
 }

@@ -10,6 +10,7 @@ using TMPro;
 using Assets.Scripts.AI;
 using UnityEngine.Tilemaps;
 using System;
+using System.Linq;
 
 namespace Assets.Scripts.Core
 {
@@ -33,7 +34,8 @@ namespace Assets.Scripts.Core
         Enemy,
         Bullet,
         Ingredient,
-        Dish
+        Dish,
+        SpawnRoot
     }
 
 
@@ -48,10 +50,55 @@ namespace Assets.Scripts.Core
 
         public List<RoundGameTeamInfo> levelTeams = new List<RoundGameTeamInfo>();
 
-        public int RoundCnt;
         public int NowWorkTeamI;
 
+        public int NowRoundID = 0;
+        public int MaxRoundID = 1;
+        public bool isRoundGameStart = false;
+
+        public List<CharacterCtrlBase> RoundNextFlag = new List<CharacterCtrlBase>();   
+
         public Dictionary<InGameCharacterType, List<CharacterCtrlBase>> Character_Dict = new Dictionary<InGameCharacterType, List<CharacterCtrlBase>>();
+
+
+        public void AddRoundNextFlag(CharacterCtrlBase ch , int MaxID)
+        {
+            RoundNextFlag.Add(ch);  
+            this.MaxRoundID = Math.Max(this.MaxRoundID, MaxID);    
+        }
+
+        public void GoNextRound()
+        {
+            LevelGridGenerator.Instance.StartSpawn(true);   
+            NowRoundID += 1;
+        }
+
+        public bool TestNextRound()
+        {
+            if (!this.isRoundGameStart)
+            {
+                return false;
+            }
+            if(RoundNextFlag.All( x => x.isReadyForNextRound))
+            {
+                Invoke("GoNextRound", 5f);
+                LevelGridGenerator.Instance.GoNextRound();
+                if(NowRoundID > MaxRoundID)
+                {
+                    LevelWin();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void LevelWin()
+        {
+            
+        }
 
         public T_CHar SpawnCharacterByID<T_CHar>(int ID , SkillUseInfo call_by_skill = null) where T_CHar : CharacterCtrlBase
         {
@@ -79,7 +126,7 @@ namespace Assets.Scripts.Core
             }
             else
             {
-                Debug.LogError("尝试生成未定义的物体:" + ID);
+                Debug.LogError("尝试生成未定义的物体:" + "CharacterPrefabs/" + enemy_obj_name);
             }
 
             return null;
@@ -146,6 +193,8 @@ namespace Assets.Scripts.Core
         void StartMyGame()
         {
             LevelGridGenerator.Instance.LoadLevelByID(1);
+            isRoundGameStart = true;
+            GoNextRound();
         }
 
         //事件系统通过回调，严格控制游戏的整体运行流程。但由于事件的触发分布在各个GameObject中，所以无法严格保证先后顺序
@@ -166,6 +215,7 @@ namespace Assets.Scripts.Core
         {
             //每帧清空事件队列
             LevelEventQueue.Instance.EventQueueTick();
+            TestNextRound();
         }
     }
 }

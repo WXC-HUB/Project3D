@@ -22,6 +22,8 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public int MyGameObjectID = 0;
 
+    public bool isReadyForNextRound = false;        
+
     public bool isAttachedToOther = false;
 
     bool isStill;

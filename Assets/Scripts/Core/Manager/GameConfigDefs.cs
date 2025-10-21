@@ -78,8 +78,10 @@ namespace Assets.Scripts.Core
     public class SpawnRoots : TableDatabase
     {
         public int RootID;
+        public int RoundID;
         public int EnemyID;
         public float SpawnGap;
+        public int EnemyNum;
     }
 
     public class Dish : TableDatabase
