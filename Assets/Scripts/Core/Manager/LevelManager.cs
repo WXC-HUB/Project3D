@@ -149,6 +149,11 @@ namespace Assets.Scripts.Core
             InitLevelEventManager();
             InitLevelEventQueue();
 
+            // 初始化数据
+            DishSubmissionManager.Instance.InitializeDishes();
+
+            // 初始化UI
+
             UIManager.Instance.InitUIManager();
             UIManager.Instance.CreateUIByName<UI_VirtualInput>("UI_VirtualInput");
             UIManager.Instance.CreateUIByName<UI_PlayerHUD>("UI_PlayerHUD");
