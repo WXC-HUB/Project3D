@@ -49,6 +49,19 @@ namespace Assets.Scripts.Core
         public int currentLevelID;
         public int focusSublLevelID;
 
+        [Header("初始防御塔配置")]
+        [Tooltip("是否在游戏开始时自动生成三种防御塔")]
+        public bool spawnStartingTowers = true;
+        [Tooltip("基础防御塔位置")]
+        public Vector3 basicTowerPosition = new Vector3(-3f, 0f, 0f);
+        [Tooltip("散射防御塔位置")]
+        public Vector3 scatterTowerPosition = new Vector3(0f, 0f, 0f);
+        [Tooltip("减速防御塔位置")]
+        public Vector3 slowTowerPosition = new Vector3(3f, 0f, 0f);
+        
+        // 防止重复生成的标志
+        private bool hasInitializedTowers = false;
+
         public List<RoundGameTeamInfo> levelTeams = new List<RoundGameTeamInfo>();
 
         public int NowWorkTeamI;
@@ -135,6 +148,14 @@ namespace Assets.Scripts.Core
         public T_CHar SpawnCharacterByID<T_CHar>(int ID , SkillUseInfo call_by_skill = null) where T_CHar : CharacterCtrlBase
         {
             GameCharacters g_config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == ID);
+            
+            // 检查配置是否存在
+            if (g_config == null)
+            {
+                Debug.LogError($"❌ 找不到ObjectID={ID}的配置！请运行: Tools → 更新防御塔配置表");
+                return null;
+            }
+            
             string enemy_obj_name = g_config.BindPrefab;
             InGameCharacterType characterType = (InGameCharacterType)Enum.Parse(typeof(InGameCharacterType) , g_config.ObjectType);
             GameObject newobj = Resources.Load<GameObject>("CharacterPrefabs/" + enemy_obj_name);
@@ -248,8 +269,96 @@ namespace Assets.Scripts.Core
                 UI_GameState.instance.ShowGameStart();
             }
             
+            // 注释：场景中已有防御塔，不需要代码生成
+            // 如果需要代码生成，取消下面这行注释
+            // InitializeStartingTowers();
+            
             GoNextRound();
             UI_PlayerHUD.instance.UpdateRecipe();
+        }
+
+        /// <summary>
+        /// 在游戏开始时生成三种防御塔各一个
+        /// </summary>
+        private void InitializeStartingTowers()
+        {
+            // 防止重复生成
+            if (hasInitializedTowers)
+            {
+                Debug.LogWarning("⚠️ 防御塔已经生成过，跳过重复生成");
+                return;
+            }
+            
+            if (!spawnStartingTowers)
+            {
+                Debug.Log("跳过初始防御塔生成（spawnStartingTowers = false）");
+                return;
+            }
+
+            // 检查必要的依赖
+            if (LevelObjectsRoot == null)
+            {
+                Debug.LogError("❌ LevelObjectsRoot 未设置，无法生成防御塔！请在Inspector中指定LevelObjectsRoot");
+                return;
+            }
+
+            if (GameTableConfig.Instance == null || GameTableConfig.Instance.Config_GameCharacters == null)
+            {
+                Debug.LogError("❌ 配置表未加载，无法生成防御塔！");
+                return;
+            }
+
+            try
+            {
+                Debug.Log("开始初始化防御塔...");
+
+                // 生成基础防御塔 (ObjectID = 2)
+                var basicTower = SpawnCharacterByID<CharacterCtrlBase>(2);
+                if (basicTower != null)
+                {
+                    basicTower.transform.position = basicTowerPosition;
+                    basicTower.gameObject.name = "BasicTower_1";
+                    Debug.Log($"✅ 基础防御塔已生成 at {basicTowerPosition}");
+                }
+                else
+                {
+                    Debug.LogWarning("⚠️ 基础防御塔生成失败（预制体可能不存在）");
+                }
+
+                // 生成散射防御塔 (ObjectID = 10)
+                var scatterTower = SpawnCharacterByID<CharacterCtrlBase>(10);
+                if (scatterTower != null)
+                {
+                    scatterTower.transform.position = scatterTowerPosition;
+                    scatterTower.gameObject.name = "ScatterTower_1";
+                    Debug.Log($"✅ 散射防御塔已生成 at {scatterTowerPosition}");
+                }
+                else
+                {
+                    Debug.LogWarning("⚠️ 散射防御塔生成失败（请先运行: Tools → 更新防御塔配置表）");
+                }
+
+                // 生成减速防御塔 (ObjectID = 11)
+                var slowTower = SpawnCharacterByID<CharacterCtrlBase>(11);
+                if (slowTower != null)
+                {
+                    slowTower.transform.position = slowTowerPosition;
+                    slowTower.gameObject.name = "SlowTower_1";
+                    Debug.Log($"✅ 减速防御塔已生成 at {slowTowerPosition}");
+                }
+                else
+                {
+                    Debug.LogWarning("⚠️ 减速防御塔生成失败（请先运行: Tools → 更新防御塔配置表）");
+                }
+                
+                // 设置标志，防止重复生成
+                hasInitializedTowers = true;
+                Debug.Log("✅ 防御塔初始化完成，共生成3个防御塔");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"❌ 初始化防御塔时发生错误: {e.Message}\n堆栈: {e.StackTrace}");
+            }
         }
 
         //事件系统通过回调，严格控制游戏的整体运行流程。但由于事件的触发分布在各个GameObject中，所以无法严格保证先后顺序

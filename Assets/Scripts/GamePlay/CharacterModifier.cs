@@ -189,11 +189,22 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             CharacterCtrlBase from_char = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[1], (string x) => null);
             CharacterCtrlBase to_char = Game2D_GamePlayEvent.GetEventValue<CharacterCtrlBase>(from_event, action_params[2], (string x) => null);
 
-            PlayerCharacterCtrl bullet_ctrl = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(bullet_type);
-            bullet_ctrl.fromSkillInfo = skill_useinfo;
-            bullet_ctrl.followTarget = to_char;
-            bullet_ctrl.from_char = from_char;
-            bullet_ctrl.transform.position = from_char.transform.position;
+            // 检查是否是散射塔
+            TowerAI_Scatter scatterAI = from_char?.GetComponent<TowerAI_Scatter>();
+            if (scatterAI != null)
+            {
+                // 使用散射塔的特殊攻击逻辑
+                scatterAI.ShootScatterBulletsToTarget(to_char);
+            }
+            else
+            {
+                // 默认单目标攻击
+                PlayerCharacterCtrl bullet_ctrl = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(bullet_type);
+                bullet_ctrl.fromSkillInfo = skill_useinfo;
+                bullet_ctrl.followTarget = to_char;
+                bullet_ctrl.from_char = from_char;
+                bullet_ctrl.transform.position = from_char.transform.position;
+            }
 
         }
         else if (actionType == "GrabNearByObject")
