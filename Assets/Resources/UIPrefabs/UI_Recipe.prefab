@@ -520,7 +520,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1799156652144980743}
   - component: {fileID: -1524691238353067224}
-  - component: {fileID: 6024679613355386400}
   m_Layer: 0
   m_Name: UI_Recipe
   m_TagString: Untagged
@@ -574,18 +573,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &6024679613355386400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2055194597223735231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f78363c1ef187e499208d0e0d9e34dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2231948229898186907
 GameObject:
   m_ObjectHideFlags: 0
