@@ -91,7 +91,7 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
 
             }
 
-            newobj.transform.SetParent(this.nodeDics["m_Grid_Rcipe"].transform);
+            newobj.transform.SetParent(this.nodeDics["m_Grid_Rcipe"].transform , false);
             newobj.gameObject.SetActive(true);
         }
     }
