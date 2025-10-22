@@ -100,7 +100,6 @@ namespace Assets.Scripts.Core
         public List<int> DishList;
         public string Name;
         public int CookType;
-        public List<float> CookTime;    // 废弃
         public int CookResult;
         public List<int> OnCookBuffList;
         public string cookTypeIconPath;
