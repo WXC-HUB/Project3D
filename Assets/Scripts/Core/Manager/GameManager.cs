@@ -8,7 +8,7 @@ namespace Assets.Scripts.Core
     {
 
 
-        private void Awake()
+        private new void Awake()
         {
             base.Awake();
             UI.UIManager.Instance.InitUIManager();
