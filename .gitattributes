@@ -15,6 +15,7 @@
 *.asset -text
 *.bat -text
 *.exe -text
+*.xlsx -text
 
 # Third-party assets - binary files, no line ending conversion
 *.tga binary
