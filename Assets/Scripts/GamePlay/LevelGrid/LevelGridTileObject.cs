@@ -142,10 +142,10 @@ public class LevelGridTileObject : CharacterCtrlBase
     {
         switch (cookType)
         {
-            case 1: return 5f;  // ¹ø
-            case 2: return 3f;  // ¿¾
-            case 3: return 8f;  // Öó
-            default: return 5f; // Ä¬ÈÏ5Ãë
+            case 1: return 7.0f;
+            case 2: return 7.0f;
+            case 3: return 7.0f;
+            default: return 7.0f; // Ä¬ÈÏ5Ãë
         }
     }
 
