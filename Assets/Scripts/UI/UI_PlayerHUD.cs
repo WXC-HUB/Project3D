@@ -13,6 +13,9 @@ public class PlayerFollowHUD
     public Slider m_Slider_HP;
     public Text m_Text_NowHP;
     
+    // 饥饿提示相关
+    public GameObject m_HungerWarning;  // 饥饿警告图标或文字
+    public bool isShowingHunger = false;  // 是否正在显示饥饿提示
 }
 
 public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
@@ -47,6 +50,18 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             return dd.IconPath;
         }
         return "";
+    }
+
+    public void LoadImageToUI(Image image, string path)
+    {
+        if (image == null || string.IsNullOrEmpty(path))
+            return;
+
+        Sprite sprite = Resources.Load<Sprite>(path);
+        if (sprite != null)
+        {
+            image.sprite = sprite;
+        }
     }
 
     public void UpdateRecipe()
@@ -97,6 +112,14 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             hd.root = newObj.transform;
             hd.m_Slider_HP = GameUtils.FindChildInTransform(hd.root, "m_Slider_HP_Tower").GetComponent<Slider>();
             hd.m_Text_NowHP = GameUtils.FindChildInTransform(hd.root, "m_Text_NowHP_Tower").GetComponent<Text>();
+            
+            // 初始化饥饿提示UI（需要在Unity中添加 m_HungerWarning 子物体）
+            Transform hungerWarning = GameUtils.FindChildInTransform(hd.root, "m_HungerWarning");
+            if (hungerWarning != null)
+            {
+                hd.m_HungerWarning = hungerWarning.gameObject;
+                hd.m_HungerWarning.SetActive(false);  // 初始隐藏
+            }
 
             if (player_follow_dics_mp.ContainsKey(pctrl))
             {
@@ -180,11 +203,64 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             }
             else
             {
-
-                item.Value.m_Slider_HP.value = (float)item.Key.NowMP / (float)item.Key.MaxMP.GetValue();
-                item.Value.m_Text_NowHP.text = string.Format("{0}/{1}", item.Key.NowMP, item.Key.MaxMP.GetValue());
+                // 更新MP显示（防御塔的饱食度）
+                float mpRatio = (float)item.Key.NowMP / (float)item.Key.MaxMP.GetValue();
+                item.Value.m_Slider_HP.value = mpRatio;
+                
+                // 检查防御塔饥饿状态（MP低于30时显示饥饿提示）
+                bool isHungry = item.Key.NowMP < 30;
+                
+                // 根据饥饿状态修改文字显示和颜色
+                if (isHungry)
+                {
+                    // 饥饿状态：红色文字 + 饥饿提示
+                    item.Value.m_Text_NowHP.text = string.Format("🍚饥饿！{0}/{1}", item.Key.NowMP, item.Key.MaxMP.GetValue());
+                    item.Value.m_Text_NowHP.color = Color.red;
+                    
+                    // Slider也变红色
+                    if (item.Value.m_Slider_HP.fillRect != null)
+                    {
+                        var fillImage = item.Value.m_Slider_HP.fillRect.GetComponent<Image>();
+                        if (fillImage != null)
+                        {
+                            fillImage.color = Color.red;
+                        }
+                    }
+                }
+                else
+                {
+                    // 正常状态：白色文字
+                    item.Value.m_Text_NowHP.text = string.Format("饱食度 {0}/{1}", item.Key.NowMP, item.Key.MaxMP.GetValue());
+                    item.Value.m_Text_NowHP.color = Color.white;
+                    
+                    // Slider恢复正常颜色（蓝色或绿色）
+                    if (item.Value.m_Slider_HP.fillRect != null)
+                    {
+                        var fillImage = item.Value.m_Slider_HP.fillRect.GetComponent<Image>();
+                        if (fillImage != null)
+                        {
+                            fillImage.color = new Color(0.2f, 0.8f, 1f, 1f); // 青色
+                        }
+                    }
+                }
 
                 item.Value.root.transform.position = Camera.main.WorldToScreenPoint(item.Key.transform.position);
+
+                // 可选：显示额外的警告图标（如果在Unity中配置了）
+                if (item.Value.m_HungerWarning != null)
+                {
+                    // 只在状态变化时更新，避免频繁SetActive
+                    if (isHungry != item.Value.isShowingHunger)
+                    {
+                        item.Value.m_HungerWarning.SetActive(isHungry);
+                        item.Value.isShowingHunger = isHungry;
+                        
+                        if (isHungry)
+                        {
+                            Debug.Log($"防御塔 {item.Key.gameObject.name} 饥饿警告！MP: {item.Key.NowMP}/{item.Key.MaxMP.GetValue()}");
+                        }
+                    }
+                }
             }
 
 
