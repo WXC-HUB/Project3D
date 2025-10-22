@@ -273,9 +273,13 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             player_follow_dics_mp.Remove(item);
         }
 
-        nodeDics["m_Slider_HP_Level"].GetComponent<Slider>().value = (float)observe_CharacterCtrl.NowHP / (float)observe_CharacterCtrl.MaxHP.GetValue();
-
-        nodeDics["m_Text_NowHP_Level"].GetComponent<Text>().text = string.Format("{0}/{1}", observe_CharacterCtrl.NowHP , observe_CharacterCtrl.MaxHP.GetValue());
+        // 更新玩家血量UI（检查是否为null和键是否存在）
+        if (observe_CharacterCtrl != null && nodeDics != null && 
+            nodeDics.ContainsKey("m_Slider_HP_Level") && nodeDics.ContainsKey("m_Text_NowHP_Level"))
+        {
+            nodeDics["m_Slider_HP_Level"].GetComponent<Slider>().value = (float)observe_CharacterCtrl.NowHP / (float)observe_CharacterCtrl.MaxHP.GetValue();
+            nodeDics["m_Text_NowHP_Level"].GetComponent<Text>().text = string.Format("{0}/{1}", observe_CharacterCtrl.NowHP , observe_CharacterCtrl.MaxHP.GetValue());
+        }
 
     }
 

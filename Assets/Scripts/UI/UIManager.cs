@@ -47,7 +47,22 @@ namespace Assets.Scripts.UI
         
         public T CreateUIByName<T>(string ui_name , UILayers layer = 0) where T : BaseUI<T>
         {
+            // 检查是否已经存在实例
+            if (BaseUI<T>.instance != null)
+            {
+                Debug.Log($"UI {ui_name} 已存在，返回现有实例");
+                return BaseUI<T>.instance;
+            }
+
             GameObject gameObject = getGameObjectByUIName(ui_name: ui_name);
+            
+            // 检查预制体是否存在
+            if (gameObject == null)
+            {
+                Debug.LogWarning($"UI预制体 '{ui_name}' 不存在于 Resources/UIPrefabs/ 目录中，跳过创建");
+                return null;
+            }
+
             //Debug.Log(gameObject);
             GameObject new_UIObject =  GameObject.Instantiate(gameObject, uiRoot.transform);
 
