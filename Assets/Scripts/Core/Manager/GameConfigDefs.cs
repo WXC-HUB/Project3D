@@ -91,6 +91,7 @@ namespace Assets.Scripts.Core
         public int CookTime;
         public int GameCharacter;
         public string IconPath;
+        public List<string> OnEatBuffList;
     }
 
     public class Recipe : TableDatabase

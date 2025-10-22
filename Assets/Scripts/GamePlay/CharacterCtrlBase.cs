@@ -172,10 +172,10 @@ public class CharacterCtrlBase : MonoBehaviour
 
         NowMP = (int)Mathf.Min(NowMP, MaxMP.GetValue());
 
-        if(Reduce_MP_PerSecond.GetValue() > 0)
+        if(Reduce_MP_PerSecond.GetValue() != 0)
         {
             have_reduce_MP += Time.deltaTime * Reduce_MP_PerSecond.GetValue();
-            if( Mathf.Floor(have_reduce_MP) >= 1)
+            if(  Mathf.Abs(have_reduce_MP) >= 1)
             {
                 NowMP = (int)Mathf.Max(0, NowMP - Mathf.Floor(have_reduce_MP));
                 have_reduce_MP -= (int)Mathf.Floor(have_reduce_MP);
