@@ -1,11 +1,11 @@
 ﻿DishID,Name,CookTime,GameCharacter,IconPath,OnEatBuffList
 6,牛肉,3,103,Icons/meat_icon,0
-7,卷心菜,3,104,Icons/cabage_icon,0
-8,鸡腿,3,105,Icons/chicken_icon,0
-9,土豆,3,106,Icons/potato_icon,0
-10,番茄,3,107,Icons/tomato_icon,0
+7,卷心菜,1,104,Icons/cabage_icon,0
+8,鸡腿,2,105,Icons/chicken_icon,0
+9,土豆,1,106,Icons/potato_icon,0
+10,番茄,1,107,Icons/tomato_icon,0
 11,鱼,3,108,Icons/fish_icon,0
 12,烤鱼,3,204,Icons/fishdish_icon,13001;2|14001;5
-13,土豆咖喱牛腩,3,205,Icons/beafsoup_icon,13001;0.5|14001;5
-14,葱鸡腿,3,206,Icons/Onionchicken_icon,13001;1|14001;5
+13,土豆咖喱牛腩,5,205,Icons/beafsoup_icon,13001;0.5|14001;5
+14,葱鸡腿,4,206,Icons/Onionchicken_icon,13001;1|14001;5
 100,废菜,3,203,0,0
