@@ -63,6 +63,8 @@ namespace Assets.Scripts.UI
                 return null;
             }
 
+         
+
             //Debug.Log(gameObject);
             GameObject new_UIObject =  GameObject.Instantiate(gameObject, uiRoot.transform);
 

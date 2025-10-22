@@ -219,6 +219,7 @@ namespace Assets.Scripts.Core
             UIManager.Instance.CreateUIByName<UI_VirtualInput>("UI_VirtualInput");
             UIManager.Instance.CreateUIByName<UI_PlayerHUD>("UI_PlayerHUD");
             UIManager.Instance.CreateUIByName<UI_GameState>("UI_GameState");
+            UIManager.Instance.CreateUIByName<UI_cooktime>("UI_cooktime");
         }
 
 

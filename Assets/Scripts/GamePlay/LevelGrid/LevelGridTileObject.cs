@@ -13,6 +13,7 @@ public class LevelGridTileObject : CharacterCtrlBase
 
     public int NowRecipeID = 0;
     public float NowRecipeTime = 0f;
+    public float MaxRecipeTime = 0f;
     public List<int> NowRecipeAddedDish = new List<int>();
     private void Awake()
     {
@@ -54,6 +55,8 @@ public class LevelGridTileObject : CharacterCtrlBase
         // 根据RecipeID产出菜品
         CharacterCtrlBase newgo = null;
         bool cookSuccess = false;
+
+      
         
         // 尝试产出正常菜品
         if (NowRecipeID > 0)
@@ -127,6 +130,7 @@ public class LevelGridTileObject : CharacterCtrlBase
         // 重置烹饪状态
         NowRecipeID = 0;
         NowRecipeTime = 0;
+        MaxRecipeTime = 0;
     }
 
     public void SetSelect(bool isSelect)
@@ -166,7 +170,9 @@ public class LevelGridTileObject : CharacterCtrlBase
         {
             // 第一次放入食材
             NowRecipeTime = GetBaseCookTime(this.CookType.GetValue()) + dish_cook_time;
+            MaxRecipeTime = GetBaseCookTime(this.CookType.GetValue()) + dish_cook_time;
             NowRecipeAddedDish = new List<int> { attach_dish_id };
+
         }
         else
         {
@@ -179,6 +185,7 @@ public class LevelGridTileObject : CharacterCtrlBase
             }
             
             NowRecipeTime += dish_cook_time;
+            MaxRecipeTime += dish_cook_time;
             NowRecipeAddedDish.Add(attach_dish_id);
         }
         
@@ -212,6 +219,7 @@ public class LevelGridTileObject : CharacterCtrlBase
                     CookModifiers.Add(buffid);
                 }
             }
+
         }
         else
         {
@@ -219,7 +227,11 @@ public class LevelGridTileObject : CharacterCtrlBase
             NowRecipeID = -1;
             Debug.Log($"未找到匹配的菜谱，RecipeID设为-1");
         }
-        
+
+
+
+        UI_cooktime.instance.CallFocus(this);
+
         // 步骤4: 销毁食材GameObject
         attach_obj.Die();
         return true;
@@ -289,6 +301,7 @@ public class LevelGridTileObject : CharacterCtrlBase
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
         bool is_dish = !(null == GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID));
+        var i = this.CookType.GetValue();
         if (is_dish && this.CookType.GetValue() >0)
         {
             // 获取dish信息

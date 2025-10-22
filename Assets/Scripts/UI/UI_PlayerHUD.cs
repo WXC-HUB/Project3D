@@ -39,6 +39,8 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
         this.nodeDics["m_Item_HP_Enemy"].gameObject.SetActive(false);
         this.nodeDics["m_Item_Dish"].gameObject.SetActive(false);
 
+        this.nodeDics["m_ItemFrame02"].gameObject.SetActive(false);
+
     }
 
     public string getDishImageByID(int dishID)
@@ -75,7 +77,7 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
 
                 LoadImageToUI(GameUtils.FindChildInTransform(newobj.transform, "m_Sprite_CookType").GetComponent<Image>(), toDoRecipe.cookTypeIconPath);
 
-                var new_from_obj_item = GameUtils.FindChildInTransform(newobj.transform, "m_Sprite_FromDish");
+                var new_from_obj_item = GameUtils.FindChildInTransform(newobj.transform, "m_ItemFrame02");
                 var new_from_obj_parent = GameUtils.FindChildInTransform(newobj.transform, "m_Grid_FromDish");
 
                 new_from_obj_item.gameObject.SetActive(false);
@@ -83,8 +85,8 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
                 foreach (var fromdis in toDoRecipe.DishList)
                 {
                     var to_sp = Instantiate(new_from_obj_item);
-                    to_sp.SetParent(new_from_obj_parent);
-                    LoadImageToUI(to_sp.GetComponent<Image>(), getDishImageByID(fromdis));
+                    to_sp.SetParent(new_from_obj_parent , false);
+                    LoadImageToUI(GameUtils.FindChildInTransform(to_sp.transform , "m_Sprite_FromDish").GetComponent<Image>(), getDishImageByID(fromdis));
 
                     to_sp.gameObject.SetActive(true);
                 }
