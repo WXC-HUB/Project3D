@@ -1,9 +1,4 @@
 ﻿DishID,Name,CookTime,GameCharacter,IconPath,OnEatBuffList
-1,番茄,3,101,0,0
-2,鸡蛋,3,102,0,0
-3,炒番茄,3,201,0,0
-4,炒鸡蛋,3,202,0,0
-5,番茄炒蛋,3,203,0,0
 6,牛肉,3,103,Icons/meat_icon,0
 7,卷心菜,3,104,Icons/cabage_icon,0
 8,鸡腿,3,105,Icons/chicken_icon,0
