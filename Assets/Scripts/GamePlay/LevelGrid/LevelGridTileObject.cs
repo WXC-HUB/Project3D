@@ -269,11 +269,42 @@ public class LevelGridTileObject : CharacterCtrlBase
         return base.TryDropObject(attach_obj);
     }
 
+    /// <summary>
+    /// 判断是否是成品菜（某个菜谱的产出结果或废菜）
+    /// </summary>
+    bool IsFinishedDish(int dishId)
+    {
+        Debug.LogWarning("IsFinishedDish: " + dishId);
+        // 1. 检查是否是100号废菜
+        if (dishId == 100)
+        {
+            return true;
+        }
+        
+        // 2. 检查这个dishId是否是任何Recipe的CookResult
+        Recipe recipe = GameTableConfig.Instance.Config_Recipe.FindFirstLine(x => x.CookResult == dishId);
+        return recipe != null;
+    }
+
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
         bool is_dish = !(null == GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID));
         if (is_dish && this.CookType.GetValue() >0)
         {
+            // 获取dish信息
+            Dish dish_info = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID);
+            if (dish_info == null)
+            {
+                return false;
+            }
+            
+            // 检查是否是成品菜
+            if (IsFinishedDish(dish_info.DishID))
+            {
+                Debug.Log("成品菜不能放入锅里烹饪！");
+                return false;
+            }
+            
             // 检查锅的状态
             // 如果锅上已经有成品菜（做完了但还没拿走），不允许添加食材
             // 判断：NowRecipeID == 0（已完成） 且 nowAttachList.Count > 0（有成品菜）
