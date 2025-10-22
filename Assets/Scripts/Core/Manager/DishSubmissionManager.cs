@@ -26,7 +26,7 @@ namespace Assets.Scripts.Core
 			dishIdToCount.Clear();
 
 			// 默认菜品（后续可改为从表或关卡配置读取）ToDo ruixiangliu
-			dishIdToCount[5] = 0;
+			dishIdToCount[12] = 0;
 			dishIdToCount[13] = 0;
 			dishIdToCount[14] = 0;
 		}
