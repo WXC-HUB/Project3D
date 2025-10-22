@@ -82,7 +82,7 @@
 12001,1,AddSimpleDect,float_add|Reduce_MP_PerSecond|1.5,基础塔：每秒消耗1.5点MP
 12001,2,AddSimpleDect,int_set|myAttackSkillID|5,基础塔：设置攻击技能为生成子弹
 12002,1,AddSimpleDect,float_add|Reduce_MP_PerSecond|3,散射塔：每秒消耗3点MP（加倍）
-12002,2,AddSimpleDect,int_set|myAttackSkillID|10,散射塔：设置攻击技能为散射攻击
+12002,2,AddSimpleDect,int_set|myAttackSkillID|5,散射塔：设置攻击技能为散射攻击
 12003,1,AddSimpleDect,float_add|Reduce_MP_PerSecond|0.75,减速塔：每秒消耗0.75点MP（减半）
 12003,2,AddSimpleDect,int_set|myAttackSkillID|8,减速塔：设置攻击技能为减速攻击
 13001,1,ListenGameEvent,CharacterCastSkill|ShootToTarget|20|MainCharacter|AimTarget,散射攻击：发射散射子弹

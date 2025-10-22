@@ -209,7 +209,7 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
             if (scatterAI != null)
             {
                 // 使用散射塔的特殊攻击逻辑
-                scatterAI.ShootScatterBulletsToTarget(to_char);
+                scatterAI.ShootScatterBulletsToTarget(to_char , skill_useinfo);
             }
             else
             {
@@ -219,6 +219,8 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                 bullet_ctrl.followTarget = to_char;
                 bullet_ctrl.from_char = from_char;
                 bullet_ctrl.transform.position = from_char.transform.position;
+
+               
             }
 
         }

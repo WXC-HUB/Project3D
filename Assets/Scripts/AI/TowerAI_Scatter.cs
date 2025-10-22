@@ -34,7 +34,7 @@ public class TowerAI_Scatter : MonoBehaviour
     /// 公共方法：向多个不同的敌人发射子弹
     /// 可以被修改器系统或其他脚本调用
     /// </summary>
-    public void ShootScatterBulletsToTarget(CharacterCtrlBase primaryTarget)
+    public void ShootScatterBulletsToTarget(CharacterCtrlBase primaryTarget , SkillUseInfo skil )
     {
         if (primaryTarget == null || ownerCharacter == null)
         {
@@ -65,16 +65,9 @@ public class TowerAI_Scatter : MonoBehaviour
                 bullet.transform.position = transform.position;
                 bullet.followTarget = target;
                 bullet.from_char = ownerCharacter;
-                
+
                 // 创建技能信息
-                SkillUseInfo skillInfo = new SkillUseInfo
-                {
-                    SkillID = 5, // 基础射击技能ID
-                    SkillDispatchDir = direction,
-                    SkillCastPos = transform.position,
-                    dispatcher = ownerCharacter,
-                    AimTarget = target
-                };
+                SkillUseInfo skillInfo = skil;
                 bullet.fromSkillInfo = skillInfo;
                 
                 Debug.Log($"散射塔发射子弹 {i + 1}/{targets.Count}，目标: {target.name}");
