@@ -90,6 +90,7 @@ namespace Assets.Scripts.Core
         public string Name;
         public int GameCharacter;
         public string IconPath;
+        public List<string> OnEatBuffList;
     }
 
     public class Recipe : TableDatabase

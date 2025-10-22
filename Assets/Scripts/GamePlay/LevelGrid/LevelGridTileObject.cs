@@ -213,6 +213,43 @@ public class LevelGridTileObject : CharacterCtrlBase
         {
             return TrySubmitDish(attach_obj);
         }
+        else if(is_dish && this.nowAttachList.Any(x=>x.MyObjectLayer is InGameCharacterType.Tower))
+        {
+            Dish dish_confg = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID);
+            bool canAddBuff = false;
+            foreach(string buff_info in dish_confg.OnEatBuffList)
+            {
+                var buff_p = buff_info.Split(';');
+                if(buff_p.Length < 2)
+                {
+                    continue;
+                }
+                else
+                {
+                    int b_id = int.Parse(buff_p[0]);
+                    float b_time = float.Parse(buff_p[1]);
+                    foreach(var tower in this.nowAttachList)
+                    {
+                        if(tower.MyObjectLayer is InGameCharacterType.Tower)
+                        {
+                            SkillDispatchCenter.Instance.AddModifierToCharacter(tower , b_time , b_id);
+                        }
+                    }
+                    canAddBuff = true;
+                }
+            }
+            if (canAddBuff)
+            {
+
+                attach_obj.Die();
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning("提交的道具没有绑定Buff！禁止提交");
+                return false;
+            }
+        }
         else
         {
             attach_obj.transform.SetParent(transform, true);

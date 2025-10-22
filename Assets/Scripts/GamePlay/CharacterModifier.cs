@@ -373,7 +373,19 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
                 (add_dect as Character_DECT_Float_Mul).effect_factor = (float)Convert.ToDouble(effect.ModifierParam[2]);
                 (add_dect as Character_DECT_Float_Mul).attribute_name = effect.ModifierParam[1];
             }
-            else if (effect.ModifierParam[0] == "Vector2_set")
+        else if (effect.ModifierParam[0] == "int_add")
+        {
+            add_dect = gameObject.AddComponent<Character_DECT_Int_Add>();
+            (add_dect as Character_DECT_Int_Add).effect_factor = (int)Convert.ToDouble(effect.ModifierParam[2]);
+            (add_dect as Character_DECT_Int_Add).attribute_name = effect.ModifierParam[1];
+        }
+        else if (effect.ModifierParam[0] == "int_set")
+        {
+            add_dect = gameObject.AddComponent<Character_DECT_Int_Set>();
+            (add_dect as Character_DECT_Int_Set).effect_factor = (int)Convert.ToDouble(effect.ModifierParam[2]);
+            (add_dect as Character_DECT_Int_Set).attribute_name = effect.ModifierParam[1];
+        }
+        else if (effect.ModifierParam[0] == "Vector2_set")
             {
                 add_dect = gameObject.AddComponent<Character_DECT_Vector2_Set>();
                 string[] vec = effect.ModifierParam[2].Split(',');

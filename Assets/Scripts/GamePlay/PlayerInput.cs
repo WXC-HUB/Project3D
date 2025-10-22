@@ -61,11 +61,14 @@ public class PlayerInput : CharacterInputBase
         }
         if (inputEvnet.InputOperKey == "m_Button_Skill2")
         {
-            var newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(101);
+            var newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(204);
             newgo.transform.position = transform.position;
 
-            var newgo2= LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(102);
+            var newgo2= LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(205);
             newgo2.transform.position = transform.position + new Vector3(0.4F , 0.4F , 0);
+
+            var newgo3 = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(206);
+            newgo3.transform.position = transform.position + new Vector3(0.8F, 0.8F, 0);
         }
 
     }

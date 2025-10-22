@@ -80,3 +80,5 @@
 10001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|10001|MainCharacter,放下手里的物品
 11001,1,BindVFX,VFX_PlayerRoll,烹饪中，设置特效
 12001,1,AddSimpleDect,float_add|Reduce_MP_PerSecond|3,每秒掉血Buff
+13001,1,AddSimpleDect,float_add|Reduce_MP_PerSecond|-30,每秒回血Buff
+14001,1,AddSimpleDect,int_add|Damage_Shoot|10,加伤害Buff
