@@ -95,9 +95,9 @@
 15001,1,AddSimpleDect,float_mul|MaxSpeed|-0.75,减速Buff：移动速度降为25%（减速75%）
 15001,2,BindVFX,VFX_Slow_Effect,减速Buff：绑定减速特效
 8002,1,AddSimpleDect,bool_set|IsFollowTarget|true,设置跟随状态
-8002,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|1,碰撞时造成1点伤害
+8002,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|18,碰撞时造成18点伤害
 8002,3,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
 8003,1,AddSimpleDect,bool_set|IsFollowTarget|true,设置跟随状态
-8003,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|1,碰撞时造成1点伤害
+8003,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|18,碰撞时造成18点伤害
 8003,3,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
 12004,1,AddSimpleDect,int_set|Damage_Shoot|1,设置防御塔攻击力为1
