@@ -1,8 +1,11 @@
 # Auto detect text files and perform LF normalization
 #* text=auto
 
-# Default all text files to LF
-* text eol=lf
+*.cs       text eol=lf
+*.txt      text eol=lf
+*.csv      text eol=lf
+*.json     text eol=lf
+*.xml      text eol=lf
 
 # But keep Unity meta files and binary assets untouched
 *.meta -text
@@ -25,3 +28,5 @@
 *.tif binary
 *.tiff binary
 *.psd binary
+
+* -text
