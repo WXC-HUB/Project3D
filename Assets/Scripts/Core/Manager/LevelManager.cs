@@ -116,7 +116,20 @@ namespace Assets.Scripts.Core
 
         public void LevelWin()
         {
-            
+            Debug.Log("游戏胜利！");
+            if (UI_GameState.instance != null)
+            {
+                UI_GameState.instance.ShowVictory();
+            }
+        }
+
+        public void LevelLose()
+        {
+            Debug.Log("游戏失败！");
+            if (UI_GameState.instance != null)
+            {
+                UI_GameState.instance.ShowDefeat();
+            }
         }
 
         public T_CHar SpawnCharacterByID<T_CHar>(int ID , SkillUseInfo call_by_skill = null) where T_CHar : CharacterCtrlBase
@@ -184,6 +197,7 @@ namespace Assets.Scripts.Core
             UIManager.Instance.InitUIManager();
             UIManager.Instance.CreateUIByName<UI_VirtualInput>("UI_VirtualInput");
             UIManager.Instance.CreateUIByName<UI_PlayerHUD>("UI_PlayerHUD");
+            UIManager.Instance.CreateUIByName<UI_GameState>("UI_GameState");
         }
 
 
@@ -227,6 +241,13 @@ namespace Assets.Scripts.Core
         {
             LevelGridGenerator.Instance.LoadLevelByID(1);
             isRoundGameStart = true;
+            
+            // 显示游戏开始提示
+            if (UI_GameState.instance != null)
+            {
+                UI_GameState.instance.ShowGameStart();
+            }
+            
             GoNextRound();
             UI_PlayerHUD.instance.UpdateRecipe();
         }

@@ -411,7 +411,16 @@ public class CharacterCtrlBase : MonoBehaviour
 
         if(this.NowHP < 0)
         {
-            this.Die(DeathCause.Killed, skillUseInfo);
+            // 检查是否是玩家角色死亡
+            if (LevelManager.Instance != null && this == LevelManager.Instance.MyHero)
+            {
+                this.NowHP = 0; // 确保HP不为负数
+                LevelManager.Instance.LevelLose();
+            }
+            else
+            {
+                this.Die(DeathCause.Killed, skillUseInfo);
+            }
         }
     }
 
