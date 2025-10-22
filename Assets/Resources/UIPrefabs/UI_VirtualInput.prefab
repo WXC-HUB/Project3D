@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 5239526787029018163}
   - component: {fileID: 5239526787029018161}
   m_Layer: 0
-  m_Name: m_LeftConTouchPos
+  m_Name: m_LeftConTouchPos_Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -614,7 +614,7 @@ GameObject:
   - component: {fileID: 5239526787927713078}
   - component: {fileID: 5239526787927713079}
   m_Layer: 0
-  m_Name: Image
+  m_Name: m_LeftConTouchPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
