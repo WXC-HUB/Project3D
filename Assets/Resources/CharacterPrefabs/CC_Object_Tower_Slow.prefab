@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 186982171239525016}
   - component: {fileID: -4304883815043316796}
   m_Layer: 0
-  m_Name: CC_Object_Tower
+  m_Name: CC_Object_Tower_Slow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   mAttackCD:
     real_value: 3
   myAttackSkillID:
-    real_value: 5
+    real_value: 8
   AttackRange:
     real_value: 10
 --- !u!1 &433797049874804991

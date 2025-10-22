@@ -50,6 +50,7 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
         SkillUseInfo skinfo = new SkillUseInfo();
         
         skinfo.SkillID = myAttackSkillID.GetValue();
+        Debug.LogError(skinfo.SkillID);
         skinfo.AimTarget = target;
         
         //skinfo.SkillCastPos = transform.position;

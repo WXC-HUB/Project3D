@@ -88,7 +88,7 @@ namespace Assets.Scripts.AI
             sensor = this.GetComponent<AISensorBase>();
             bindCharacterCtrl = this.GetComponent<CharacterCtrlBase>();
 
-            speed = bindCharacterCtrl.MaxSpeed.GetValue();
+            //speed = bindCharacterCtrl.MaxSpeed.GetValue();
             
         }
 
@@ -145,7 +145,7 @@ namespace Assets.Scripts.AI
                 transform.position = Vector3.MoveTowards(
                     transform.position,
                     currentWorldPos,
-                    speed * Time.deltaTime
+                     bindCharacterCtrl.MaxSpeed.GetValue() * Time.deltaTime
                 );
                 // 检查是否到达当前目标点
                 if (Vector3.Distance(transform.position, currentWorldPos) < 0.01f)
