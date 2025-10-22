@@ -30,34 +30,82 @@ public class LevelGridTileObject : CharacterCtrlBase
     // Update is called once per frame
     void Update()
     {
-        if (NowRecipeID > 0 && NowRecipeTime > 0) 
-        { 
+        // 烹饪倒计时逻辑
+        if (NowRecipeID != 0)
+        {
             NowRecipeTime -= Time.deltaTime;
             Debug.Log(NowRecipeTime);
-        }
-        if (NowRecipeID > 0 && NowRecipeTime <= 0)
-        {
-            FinishNowRecipe();
+            
+            // 倒计时结束，完成烹饪
+            if (NowRecipeTime <= 0)
+            {
+                FinishNowRecipe();
+            }
         }
     }
 
     void FinishNowRecipe()
     {
-        foreach(var item in nowAttachList)
-        {
-            item.Die();//直接杀死所有当前附加列表，将来记得改
-        }
-
-        
+        // 食材已经在添加时销毁了，这里只需要清空列表（如果有成品菜的话）
+        // 注意：正常情况下，烹饪时nowAttachList应该是空的
+        // 只有做完后成品菜会在nowAttachList中
         nowAttachList.Clear();
 
-        Recipe new_recipe = GameTableConfig.Instance.Config_Recipe.FindFirstLine(x => (x.RecipeID == NowRecipeID));
-        Dish new_dis = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == new_recipe.CookResult);
-        var newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(new_dis.GameCharacter);
-        this.TryAttachObject(newgo);
-
+        // 根据RecipeID产出菜品
+        CharacterCtrlBase newgo = null;
+        bool cookSuccess = false;
+        
+        // 尝试产出正常菜品
+        if (NowRecipeID > 0)
+        {
+            Recipe recipe = GameTableConfig.Instance.Config_Recipe.FindFirstLine(x => (x.RecipeID == NowRecipeID));
+            if (recipe != null)
+            {
+                Dish result_dish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == recipe.CookResult);
+                if (result_dish != null)
+                {
+                    newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(result_dish.GameCharacter);
+                    Debug.Log($"烹饪成功！产出菜品: {result_dish.Name}");
+                    cookSuccess = true;
+                }
+            }
+        }
+        
+        // 如果烹饪不成功（RecipeID=-1 或找不到菜谱/菜品），产出100号废菜
+        if (!cookSuccess)
+        {
+            Dish fail_dish = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == 100);
+            if (fail_dish == null)
+            {
+                Debug.LogError("烹饪失败但找不到100号废菜配置！无法产出菜品。");
+                // 清理状态后直接返回
+                ClearCookingState();
+                return;
+            }
+            
+            newgo = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(fail_dish.GameCharacter);
+            Debug.Log($"烹饪失败！产出废菜: {fail_dish.Name}");
+        }
+        
+        // 先清理烹饪状态
+        ClearCookingState();
+        
+        // 将成品直接放到锅上（不通过TryAttachObject，避免再次进入烹饪逻辑）
+        if (newgo != null)
+        {
+            newgo.transform.SetParent(transform, true);
+            newgo.transform.position = transform.position + new Vector3(0, 0, -0.5f);
+            nowAttachList.Add(newgo);
+            newgo.isAttachedToOther = true;
+        }
+    }
+    
+    /// <summary>
+    /// 清理烹饪状态和特效
+    /// </summary>
+    void ClearCookingState()
+    {
         // 清理烹饪特效和 Modifier
-        // 收集需要删除的 Modifier，避免遍历时修改集合
         CharacterModifier[] modifiers = GetComponents<CharacterModifier>();
         List<CharacterModifier> toDispel = new List<CharacterModifier>();
         
@@ -69,7 +117,6 @@ public class LevelGridTileObject : CharacterCtrlBase
             }
         }
         
-        // 统一执行 Dispel
         foreach (var modifier in toDispel)
         {
             modifier.ModifierDispel();
@@ -77,8 +124,9 @@ public class LevelGridTileObject : CharacterCtrlBase
         
         CookModifiers.Clear();
 
+        // 重置烹饪状态
         NowRecipeID = 0;
-        NowRecipeTime = 0;  
+        NowRecipeTime = 0;
     }
 
     public void SetSelect(bool isSelect)
@@ -87,71 +135,94 @@ public class LevelGridTileObject : CharacterCtrlBase
         this.GetComponent<Outline>().enabled = isSelect;
     }
 
+    /// <summary>
+    /// 获取每种CookType的基础烹饪时间
+    /// </summary>
+    float GetBaseCookTime(int cookType)
+    {
+        switch (cookType)
+        {
+            case 1: return 5f;  // 锅
+            case 2: return 3f;  // 烤
+            case 3: return 8f;  // 煮
+            default: return 5f; // 默认5秒
+        }
+    }
+
     bool TryAttachDish(CharacterCtrlBase attach_obj)
     {
-        var ii = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID);
-        int attach_dish_id = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID).DishID;
+        // 获取食材信息
+        Dish dish_info = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID);
+        if (dish_info == null)
+        {
+            return false;
+        }
+        
+        int attach_dish_id = dish_info.DishID;
+        float dish_cook_time = dish_info.CookTime;
+        
+        // 步骤1: 更新时间和食材列表
         if (NowRecipeID == 0)
         {
-            List<Recipe> new_recipe_list = GameTableConfig.Instance.Config_Recipe.FindAllLine(x => (x.CookType == this.CookType.GetValue() && x.DishList.Contains(attach_dish_id)));
-            new_recipe_list.Sort((a, b) => a.DishList.Count.CompareTo(b.DishList.Count));
-            if (new_recipe_list.Count > 0)
+            // 第一次放入食材
+            NowRecipeTime = GetBaseCookTime(this.CookType.GetValue()) + dish_cook_time;
+            NowRecipeAddedDish = new List<int> { attach_dish_id };
+        }
+        else
+        {
+            // 继续添加食材
+            // 检查是否重复添加
+            if (NowRecipeAddedDish.Contains(attach_dish_id))
             {
-                Recipe new_recipe = new_recipe_list[0];
-                int food_index = new_recipe.DishList.IndexOf(attach_dish_id);
-                NowRecipeTime = new_recipe.CookTime[food_index];
-                NowRecipeID = new_recipe.RecipeID;
-
-                foreach (int buffid in new_recipe.OnCookBuffList)
+                Debug.Log("不能重复添加相同的食材！");
+                return false;
+            }
+            
+            NowRecipeTime += dish_cook_time;
+            NowRecipeAddedDish.Add(attach_dish_id);
+        }
+        
+        // 步骤2: 统一进行菜谱匹配
+        List<Recipe> matching_recipes = GameTableConfig.Instance.Config_Recipe.FindAllLine(
+            x => (x.CookType == this.CookType.GetValue() && 
+                  x.DishList.Count == NowRecipeAddedDish.Count &&
+                  NowRecipeAddedDish.All(dishId => x.DishList.Contains(dishId)))
+        );
+        
+        // 步骤3: 处理匹配结果
+        if (matching_recipes.Count > 0)
+        {
+            // 找到匹配的菜谱
+            Recipe matched_recipe = matching_recipes[0];
+            bool recipeChanged = (NowRecipeID != matched_recipe.RecipeID);
+            
+            NowRecipeID = matched_recipe.RecipeID;
+            
+            if (recipeChanged)
+            {
+                Debug.Log($"找到匹配的菜谱！RecipeID: {NowRecipeID}");
+            }
+            
+            // 添加烹饪特效（如果还没有）
+            foreach (int buffid in matched_recipe.OnCookBuffList)
+            {
+                if (!CookModifiers.Contains(buffid))
                 {
-                    if (!CookModifiers.Contains(buffid))
-                    {
-                        SkillDispatchCenter.Instance.AddModifierToCharacter(this, -1, buffid);
-                        CookModifiers.Add(buffid);
-                    }
+                    SkillDispatchCenter.Instance.AddModifierToCharacter(this, -1, buffid);
+                    CookModifiers.Add(buffid);
                 }
-                NowRecipeAddedDish = new List<int> { attach_dish_id };
-
-                return true;
             }
         }
         else
         {
-            if (NowRecipeAddedDish.Contains(attach_dish_id))
-            {
-                //重复添加，当前机制下直接拦截
-                return false;
-            }
-            else
-            {
-                List<int> temp = NowRecipeAddedDish;
-                temp.Add(attach_dish_id);
-                List<Recipe> new_recipe_list = GameTableConfig.Instance.Config_Recipe.FindAllLine(
-                    x => (x.CookType == this.CookType.GetValue() && (temp.All(item => x.DishList.Contains(item))))
-                );
-                if (new_recipe_list.Count > 0)
-                {
-                    Recipe new_recipe = new_recipe_list[0];
-                    int food_index = new_recipe.DishList.IndexOf(attach_dish_id);
-                    NowRecipeTime += new_recipe.CookTime[food_index];
-                    NowRecipeID = new_recipe.RecipeID;
-                    NowRecipeAddedDish = temp;
-
-                    foreach (int buffid in new_recipe.OnCookBuffList)
-                    {
-                        if (!CookModifiers.Contains(buffid))
-                        {
-                            SkillDispatchCenter.Instance.AddModifierToCharacter(this, -1, buffid);
-                            CookModifiers.Add(buffid);
-                        }
-                    }
-                }
-
-            }
+            // 没有匹配的菜谱，设为-1
+            NowRecipeID = -1;
+            Debug.Log($"未找到匹配的菜谱，RecipeID设为-1");
         }
-
-        return false;
-
+        
+        // 步骤4: 销毁食材GameObject
+        attach_obj.Die();
+        return true;
     }
 
     bool TrySubmitDish(CharacterCtrlBase attach_obj)
@@ -187,8 +258,8 @@ public class LevelGridTileObject : CharacterCtrlBase
     /// </summary>
     public override bool TryDropObject(CharacterCtrlBase attach_obj)
     {
-        // 如果正在烹饪，不允许拿走食材
-        if (NowRecipeID > 0)
+        // 如果正在烹饪（NowRecipeID != 0），不允许拿走食材
+        if (NowRecipeID != 0)
         {
             Debug.Log("烹饪进行中，无法拿走食材！");
             return false;
@@ -203,10 +274,17 @@ public class LevelGridTileObject : CharacterCtrlBase
         bool is_dish = !(null == GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID));
         if (is_dish && this.CookType.GetValue() >0)
         {
-            nowAttachList.Add(attach_obj);
-            attach_obj.transform.SetParent(transform, true);
-            attach_obj.transform.position = transform.position + new Vector3(0 + nowAttachList.Count * 0.3F, 0, -0.5f);
-            attach_obj.isAttachedToOther = true;
+            // 检查锅的状态
+            // 如果锅上已经有成品菜（做完了但还没拿走），不允许添加食材
+            // 判断：NowRecipeID == 0（已完成） 且 nowAttachList.Count > 0（有成品菜）
+            if (NowRecipeID == 0 && nowAttachList.Count > 0)
+            {
+                Debug.Log("锅上已经有成品菜，请先取走再添加新食材！");
+                return false;
+            }
+            
+            // 其他情况（锅空或正在烹饪中）都可以添加食材
+            // 食材会在TryAttachDish中立即销毁，不添加到nowAttachList
             return TryAttachDish(attach_obj);
         }
         else if (is_dish && this.DishOutletType.GetValue() > 0)

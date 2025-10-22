@@ -88,6 +88,7 @@ namespace Assets.Scripts.Core
     {
         public int DishID;
         public string Name;
+        public int CookTime;
         public int GameCharacter;
         public string IconPath;
     }
@@ -98,7 +99,7 @@ namespace Assets.Scripts.Core
         public List<int> DishList;
         public string Name;
         public int CookType;
-        public List<float> CookTime;
+        public List<float> CookTime;    // 废弃
         public int CookResult;
         public List<int> OnCookBuffList;
         public string cookTypeIconPath;
