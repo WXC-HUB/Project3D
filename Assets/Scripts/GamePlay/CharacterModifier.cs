@@ -19,7 +19,22 @@ public class SkillDispatchCenter : Singleton<SkillDispatchCenter>
         {
 
             Debug.LogError("try add to NULL target AS mod id:" + ModifierID);
+            return;
         }
+        
+        // 检查是否已经存在相同的非永久Modifier
+        CharacterModifier[] existingMods = toCharacter.GetComponents<CharacterModifier>();
+        foreach (var mod in existingMods)
+        {
+            if (mod.ModifierID == ModifierID && !mod.isPermant)
+            {
+                // 刷新持续时间，不创建新的Modifier
+                mod.duration = duration;
+                return;
+            }
+        }
+        
+        // 如果不存在，创建新的Modifier
         CharacterModifier newMod = toCharacter.gameObject.AddComponent<CharacterModifier>();
         newMod.duration = duration;
         newMod.isPermant = (duration <= 0f);

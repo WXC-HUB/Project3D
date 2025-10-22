@@ -21,9 +21,31 @@ public class ThumbInfo
         thumb = thu;
         type = JoystickType.Normal;
         inDrag = false;
-        maxDragDist = background.rect.width / 2;
-        background.GetComponent<Image>().raycastTarget = false;
-        thumb.GetComponent<Image>().raycastTarget = true;
+        
+        // 添加 null 检查
+        if (background != null)
+        {
+            maxDragDist = background.rect.width / 2;
+            Image bgImage = background.GetComponent<Image>();
+            if (bgImage != null)
+            {
+                bgImage.raycastTarget = false;
+            }
+        }
+        else
+        {
+            maxDragDist = 50f; // 默认值
+        }
+        
+        if (thumb != null)
+        {
+            Image thumbImage = thumb.GetComponent<Image>();
+            if (thumbImage != null)
+            {
+                thumbImage.raycastTarget = true;
+            }
+        }
+        
         v = Vector2.zero;
     } 
 }
@@ -73,6 +95,14 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
         this.thumbDragTime = new Dictionary<string, float>();   
         this.thumbInfoDic = new Dictionary<string, ThumbInfo> ();
+        
+        // 添加 null 检查
+        if (!nodeDics.ContainsKey("m_LeftConBG") || !nodeDics.ContainsKey("m_LeftConTouchPos"))
+        {
+            Debug.LogWarning("UI_VirtualInput: 缺少左摇杆UI元素");
+            return;
+        }
+        
         this.thumbInfoDic.Add(
                 "Left",
                 _InitThumbOperate(
@@ -112,9 +142,24 @@ public class UI_VirtualInput : BaseUI<UI_VirtualInput>, IDragHandler, IBeginDrag
 
     private void Start()
     {
-        skill1Button = this.nodeDics["m_Button_Skill1"].GetComponent<Button>();
-        skill1Button.onClick.AddListener(UseSKill1);
-        this.nodeDics["m_Button_Skill2"].GetComponent<Button>().onClick.AddListener(UseSkill2);
+        // 添加技能按钮的 null 检查
+        if (nodeDics.ContainsKey("m_Button_Skill1"))
+        {
+            skill1Button = this.nodeDics["m_Button_Skill1"].GetComponent<Button>();
+            if (skill1Button != null)
+            {
+                skill1Button.onClick.AddListener(UseSKill1);
+            }
+        }
+        
+        if (nodeDics.ContainsKey("m_Button_Skill2"))
+        {
+            Button skill2Button = this.nodeDics["m_Button_Skill2"].GetComponent<Button>();
+            if (skill2Button != null)
+            {
+                skill2Button.onClick.AddListener(UseSkill2);
+            }
+        }
         
         // 尝试获取玩家角色
         StartCoroutine(FindPlayerCharacter());

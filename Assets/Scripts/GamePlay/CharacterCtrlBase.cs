@@ -254,61 +254,8 @@ public class CharacterCtrlBase : MonoBehaviour
             }
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                CharacterCtrlBase beCollideCtr = hit.transform.GetComponent<CharacterCtrlBase>();
-                if(beCollideCtr == null)
-                {
-                    Debug.LogError("Player Transform上没有找到碰撞基类");
-                }
-                else
-                {
-                    Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterBeCollide, beCollideCtr.gameObject);
-                    
-                    beCollideEvent.doCharacter = this;
-                    beCollideEvent.beCharacter = beCollideCtr;
-                    beCollideEvent.event_param_dics.Add("HitPointX", hit.point.x);
-                    beCollideEvent.event_param_dics.Add("HitPointY", hit.point.y);
-                    beCollideEvent.event_param_dics.Add("DoHitCharacter", this);
-                    beCollideEvent.event_param_dics.Add("BeHitCharacter", beCollideCtr);
-                    LevelEventQueue.Instance.EnqueueEvent(beCollideEvent);
-
-                    /*
-                    //校准碰撞位置
-                    this.rb.position = PhysicUtils.getNewPositionAfterCircleHit2D(this.rb, hit);
-
-                    //处理对方的速度
-                    SkillDispatchCenter.Instance.AddModifierToCharacter(beCollideCtr, .5f, 4);
-                    beCollideCtr.rb.velocity = PhysicUtils.getNewMoveSpeedAfterCircleHit2D(beCollideCtr.rb, hit) - hit.normal * this.rb.velocity.magnitude * this.Mass.GetValue();
-                    beCollideCtr.rb.velocity = beCollideCtr.rb.velocity.normalized * this.doHitPower.GetValue() / beCollideCtr.Mass.GetValue();
-
-                    beCollideCtr.rb.velocity = -1 * hit.normal * this.rb.velocity.magnitude;
-
-                    //处理自己的速度
-                    if ( beCollideCtr.isFixedPosition.GetValue())
-                    {
-                        //直接反射
-                        this.rb.velocity = PhysicUtils.getNewMoveSpeedAfterCircleHit2D(this.rb, hit);
-                        
-                    }
-                    else
-                    {
-                        //this.rb.velocity = PhysicUtils.getMoveSpeedAfterHit
-                        //    ( this.Mass.GetValue(), this.rb.velocity, beCollideCtr.Mass.GetValue() , beCollideCtr.rb.velocity, hit);
-                        this.rb.velocity = PhysicUtils.getNewMoveSpeedAfterCircleHit2D(this.rb, hit);
-                    }
-                    SkillDispatchCenter.Instance.AddModifierToCharacter(this, .5f, 4);
-                    */
-
-
-                    //this.rb.velocity = this.rb.velocity.normalized * beCollideCtr.beHitPower.GetValue() / this.Mass.GetValue();
-
-                    //施加伤害
-                    //this.NowHP -= beCollideCtr.beHitDamage.GetValue();
-
-
-                    //this.rb.velocity = Vector2.zero;
-                }
-
-                break;
+                // 所有非玩家的物体（子弹、敌人等）都穿过玩家，不进行碰撞处理
+                continue; // 跳过玩家，继续检测其他碰撞
             }
         
         }
@@ -370,6 +317,13 @@ public class CharacterCtrlBase : MonoBehaviour
     {
         //Debug.LogError("add!" +  Force);
         if (this.isFixedPosition.GetValue()) return;
+        
+        // 玩家角色不受外力影响（只受摇杆控制）
+        if (LevelManager.Instance != null && this == LevelManager.Instance.MyHero)
+        {
+            return;
+        }
+        
         if (ignoreInitSpeed) 
         {
             this.rb.velocity = direction.normalized * Force / this.Mass.GetValue();

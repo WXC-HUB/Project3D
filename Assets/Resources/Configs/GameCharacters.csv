@@ -22,4 +22,4 @@
 10,散射防御塔,Tower,CC_Object_Tower_Scatter,12002|12004
 11,减速防御塔,Tower,CC_Object_Tower_Slow,12003|12004
 20,散射子弹,Bullet,CC_Bullet_Scatter,8002
-21,减速子弹,Bullet,CC_Bullet_Slow,8003|14001
+21,减速子弹,Bullet,CC_Bullet_Slow,8003|14002

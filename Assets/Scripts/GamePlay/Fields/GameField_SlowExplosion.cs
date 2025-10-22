@@ -5,13 +5,25 @@ using Assets.Scripts.Core;
 
 /// <summary>
 /// 减速爆炸场地效果
-/// 对进入范围的敌人造成伤害并施加减速Buff
+/// 对进入范围的敌人施加减速Buff
 /// </summary>
 public class GameField_SlowExplosion : GameFieldBase
 {
-    public int damageAmount = 10;        // 爆炸伤害
+    public int damageAmount = 0;         // 爆炸伤害（子弹已造成伤害，这里设为0）
     public int slowModifierID = 15001;   // 减速修改器ID
-    public float slowDuration = 3f;       // 减速持续时间
+    public float slowDuration = 4f;       // 减速持续时间（4秒）
+    public float lifeTime = 3f;           // 场地存在时间
+    
+    private float currentLifeTime = 0f;
+
+    private void Update()
+    {
+        currentLifeTime += Time.deltaTime;
+        if (currentLifeTime >= lifeTime)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public override void OnFieldTick(CharacterCtrlBase target_character)
     {
@@ -22,35 +34,27 @@ public class GameField_SlowExplosion : GameFieldBase
     {
         base.OnFieldStart(target_character);
         
+        // 玩家不受减速影响
+        if (LevelManager.Instance != null && target_character == LevelManager.Instance.MyHero)
+        {
+            return;
+        }
+        
         // 只对敌人生效
         if (target_character.MyObjectLayer == InGameCharacterType.Enemy)
         {
-            // 造成伤害
-            target_character.TakeDamage(damageAmount);
+            // 造成伤害（如果有）
+            if (damageAmount > 0)
+            {
+                target_character.TakeDamage(damageAmount);
+            }
             
-            // 施加减速Buff
+            // 施加减速Buff（会自动刷新持续时间）
             SkillDispatchCenter.Instance.AddModifierToCharacter(
                 target_character, 
                 slowDuration, 
                 slowModifierID
             );
-            
-            // 施加击退力（可选）
-            SkillDispatchCenter.Instance.DoGameAction(
-                actionType: "AddForce",
-                skill_useinfo: null,
-                from_character: null,
-                to_character: target_character,
-                action_params: new List<string>
-                {
-                    "null",
-                    (target_character.transform.position.x - this.transform.position.x).ToString(),
-                    (target_character.transform.position.y - this.transform.position.y).ToString(),
-                    "30",  // 击退力度
-                    "false"
-                }
-            );
         }
     }
 }
-

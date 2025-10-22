@@ -11,36 +11,36 @@ public class BaseUI<T> : MonoBehaviour where T: BaseUI<T>
 
     public static bool LoadImageToUI(Image targetImage, string imagePath)
     {
-        // ²ÎÊý¼ì²é
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (targetImage == null)
         {
-            Debug.LogError("Ä¿±êImage×é¼þÎª¿Õ£¡");
+            Debug.LogError("Ä¿ï¿½ï¿½Imageï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½");
             return false;
         }
 
         if (string.IsNullOrEmpty(imagePath))
         {
-            Debug.LogError("Í¼Æ¬Â·¾¶Îª¿Õ£¡");
+            Debug.LogError("Í¼Æ¬Â·ï¿½ï¿½Îªï¿½Õ£ï¿½");
             return false;
         }
 
-        // ´ÓResources¼ÓÔØÍ¼Æ¬
+        // ï¿½ï¿½Resourcesï¿½ï¿½ï¿½ï¿½Í¼Æ¬
         Sprite loadedSprite = Resources.Load<Sprite>("Sprites/" + imagePath);
 
         if (loadedSprite != null)
         {
-            // ³É¹¦¼ÓÔØ£¬¸³Öµ¸øImage×é¼þ
+            // ï¿½É¹ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½Öµï¿½ï¿½Imageï¿½ï¿½ï¿½
             targetImage.sprite = loadedSprite;
-            Debug.Log($"³É¹¦¼ÓÔØÍ¼Æ¬: {imagePath}");
+            Debug.Log($"ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬: {imagePath}");
             return true;
         }
         else
         {
-            // ¼ÓÔØÊ§°Ü
-            Debug.LogError($"ÎÞ·¨ÔÚÂ·¾¶ Resources/{imagePath} ÕÒµ½Í¼Æ¬£¡Çë¼ì²é£º\n" +
-                          "1. Â·¾¶ÊÇ·ñÕýÈ·\n" +
-                          "2. Í¼Æ¬ÊÇ·ñÔÚResourcesÎÄ¼þ¼ÐÄÚ\n" +
-                          "3. ÎÄ¼þÀ©Õ¹ÃûÊÇ·ñÕýÈ·£¨Unity»á×Ô¶¯´¦Àí£¬Â·¾¶ÖÐ²»Òª¼ÓÀ©Õ¹Ãû£©");
+            // ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+            Debug.LogError($"ï¿½Þ·ï¿½ï¿½ï¿½Â·ï¿½ï¿½ Resources/{imagePath} ï¿½Òµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½é£º\n" +
+                          "1. Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·\n" +
+                          "2. Í¼Æ¬ï¿½Ç·ï¿½ï¿½ï¿½Resourcesï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½\n" +
+                          "3. ï¿½Ä¼ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·ï¿½ï¿½Unityï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ð²ï¿½Òªï¿½ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½");
             return false;
         }
     }
@@ -68,8 +68,10 @@ public class BaseUI<T> : MonoBehaviour where T: BaseUI<T>
     {
         Debug.Log("ui init");
 
-        if (instance != null) {
-            Debug.LogError("³öÏÖÖØ¸´UI" +  instance.name);  
+        if (instance != null && instance != this) {
+            Debug.LogWarning("Duplicate UI instance detected, destroying new one: " + this.name);
+            Destroy(this.gameObject);
+            return;
         }
         instance = this as T;
 

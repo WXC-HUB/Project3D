@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Core;
 
 public class GameField_Explosion : GameFieldBase
 {
@@ -13,6 +14,19 @@ public class GameField_Explosion : GameFieldBase
     public override void OnFieldStart(CharacterCtrlBase target_character)
     {
         base.OnFieldStart(target_character);
+        
+        // 玩家不受爆炸影响
+        if (LevelManager.Instance != null && target_character == LevelManager.Instance.MyHero)
+        {
+            return; // 玩家不受爆炸击退影响
+        }
+        
+        // 只对敌人生效
+        if (target_character.MyObjectLayer != InGameCharacterType.Enemy)
+        {
+            return;
+        }
+        
         SkillDispatchCenter.Instance.DoGameAction(
                 actionType: "AddForce",
                 skill_useinfo: null,
