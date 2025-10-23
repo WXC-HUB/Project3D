@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 311163044544395548}
   - component: {fileID: 5071343404029529387}
   - component: {fileID: 655170197057113022}
-  - component: {fileID: 5837597539769214248}
   m_Layer: 0
   m_Name: GO_Dish_steak
   m_TagString: Untagged
@@ -117,6 +116,7 @@ MonoBehaviour:
   isReadyForNextRound: 0
   isAttachedToOther: 0
   corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
@@ -174,24 +174,6 @@ MonoBehaviour:
     real_value: 1
   Damage_Shoot:
     real_value: 1
---- !u!114 &5837597539769214248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989075070077352446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1001 &8498073704951523237
 PrefabInstance:
   m_ObjectHideFlags: 0

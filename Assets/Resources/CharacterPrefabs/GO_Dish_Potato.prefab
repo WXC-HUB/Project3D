@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2424181653765489039}
   - component: {fileID: 311163044544395548}
   - component: {fileID: 5071343404029529387}
-  - component: {fileID: -6358618345144617141}
   - component: {fileID: -4973359175460852881}
   m_Layer: 0
   m_Name: GO_Dish_Potato
@@ -98,24 +97,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-6358618345144617141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989075070077352446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!114 &-4973359175460852881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +116,7 @@ MonoBehaviour:
   isReadyForNextRound: 0
   isAttachedToOther: 0
   corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
