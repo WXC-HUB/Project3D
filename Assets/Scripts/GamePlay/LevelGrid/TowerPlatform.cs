@@ -8,6 +8,28 @@ using UnityEngine;
 public class TowerPlatform : LevelGridTileObject
 {
     /// <summary>
+    /// 重写玩家交互判断方法，返回具体的互动类型
+    /// </summary>
+    public override InteractionType CanInteractWithPlayer(PlayerCharacterCtrl player)
+    {
+        // 1. 如果玩家手上有菜品，并且平台上有防御塔，可以互动（给防御塔添加Buff）
+        if (player.nowAttachList.Count > 0)
+        {
+            CharacterCtrlBase itemInHand = player.nowAttachList[0];
+            Dish dish_info = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == itemInHand.MyGameObjectID);
+            
+            // 如果手上的是菜品，并且平台上有防御塔
+            if (dish_info != null && this.nowAttachList.Any(x => x.MyObjectLayer is InGameCharacterType.Tower))
+            {
+                return InteractionType.AddBuffToTower;
+            }
+        }
+        
+        // 其他情况使用基类逻辑（可以放置防御塔或拿起物品）
+        return base.CanInteractWithPlayer(player);
+    }
+    
+    /// <summary>
     /// 重写附加物品方法，处理给防御塔添加Buff的逻辑
     /// </summary>
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)

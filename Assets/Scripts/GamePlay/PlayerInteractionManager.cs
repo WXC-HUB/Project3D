@@ -26,26 +26,47 @@ public class PlayerInteractionManager : MonoBehaviour
     /// </summary>
     public bool CanInteract()
     {
+        return GetInteractionType() != InteractionType.None;
+    }
+    
+    /// <summary>
+    /// 获取当前的互动类型
+    /// </summary>
+    public InteractionType GetInteractionType()
+    {
         if (playerCtrl == null)
         {
-            return false;
+            return InteractionType.None;
         }
 
-        // 1. 手上有东西 → 始终可以互动（可以丢掉或放到建筑上）
+        // 1. 检查是否选中了有效的网格对象
+        Vector3Int sel = playerCtrl.MySelectTarget;
+        if (sel.x != -999 && sel.y != -999 && LevelGridGenerator.Instance.tile_dictionary.ContainsKey(sel))
+        {
+            LevelGridTileObject tileObj = LevelGridGenerator.Instance.tile_dictionary[sel];
+            
+            // 使用网格对象的 CanInteractWithPlayer 方法判断
+            InteractionType interactionType = tileObj.CanInteractWithPlayer(playerCtrl);
+            if (interactionType != InteractionType.None)
+            {
+                return interactionType;
+            }
+        }
+
+        // 2. 如果手上有东西，始终可以互动（可以丢到地上）
+        // 注意：这里返回 Place 类型，表示可以放置物品到地上
         if (HasItemInHand())
         {
-            return true;
+            return InteractionType.Place;
         }
 
-        // 2. 空手时，只有以下情况可以互动：
-        //    - 靠近可拾取的物品
-        //    - 靠近完成了菜品制作的厨房（可以拿成品）
-        if (HasNearbyGrabbableItem() || HasNearbyFinishedDish())
+        // 3. 空手时，检查附近是否有可拾取的物品
+        if (HasNearbyGrabbableItem())
         {
-            return true;
+            return InteractionType.PickUp;
         }
 
-        return false;
+        return InteractionType.None;
     }
 
     /// <summary>
@@ -78,31 +99,6 @@ public class PlayerInteractionManager : MonoBehaviour
                     return true;
                 }
             }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// 检查附近是否有完成了菜品制作的厨房（可以拿成品）
-    /// </summary>
-    private bool HasNearbyFinishedDish()
-    {
-        // 获取玩家当前选中的格子
-        Vector3Int sel = playerCtrl.MySelectTarget;
-
-        // 如果玩家选中了有效格子
-        if (sel.x != -999 && sel.y != -999 && LevelGridGenerator.Instance.tile_dictionary.ContainsKey(sel))
-        {
-            LevelGridTileObject tileObj = LevelGridGenerator.Instance.tile_dictionary[sel];
-
-            // 检查是否是锅（CookType > 0）且有成品菜
-            // NowRecipeID == 0 表示没有正在烹饪（要么还没开始，要么已经做完）
-            // nowAttachList.Count > 0 表示锅上有东西
-            // if (tileObj.CookType.GetValue() > 0 && tileObj.NowRecipeID == 0 && tileObj.nowAttachList.Count > 0)
-            // {
-            //     return true;
-            // }
         }
 
         return false;

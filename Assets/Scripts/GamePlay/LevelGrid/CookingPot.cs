@@ -231,6 +231,78 @@ public class CookingPot : LevelGridTileObject
     }
 
     /// <summary>
+    /// 重写玩家交互判断方法，返回具体的互动类型
+    /// </summary>
+    public override InteractionType CanInteractWithPlayer(PlayerCharacterCtrl player)
+    {
+        // 锅的CookType必须大于0才能交互
+        if (this.CookType.GetValue() <= 0)
+        {
+            return InteractionType.None;
+        }
+        
+        // 1. 如果玩家手上有食材/菜品
+        if (player.nowAttachList.Count > 0)
+        {
+            CharacterCtrlBase itemInHand = player.nowAttachList[0];
+            Dish dish_info = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == itemInHand.MyGameObjectID);
+            
+            // 如果手上的是菜品
+            if (dish_info != null)
+            {
+                // 如果是成品菜，不能放入
+                if (IsFinishedDish(dish_info.DishID))
+                {
+                    return InteractionType.None;
+                }
+                
+                // 如果锅上已经有成品菜（做完了但还没拿走），不能添加食材
+                if (NowRecipeID == 0 && nowAttachList.Count > 0)
+                {
+                    return InteractionType.None;
+                }
+                
+                // 如果正在烹饪中，检查是否可以继续添加食材
+                if (NowRecipeID != 0)
+                {
+                    // 检查是否超过5个菜品
+                    if (NowRecipeAddedDish.Count >= 5)
+                    {
+                        return InteractionType.None;
+                    }
+                    
+                    // 检查是否重复添加
+                    if (NowRecipeAddedDish.Contains(dish_info.DishID))
+                    {
+                        return InteractionType.None;
+                    }
+                }
+                
+                // 其他情况可以添加食材
+                return InteractionType.AddIngredient;
+            }
+        }
+        
+        // 2. 如果玩家空手
+        if (player.nowAttachList.Count == 0)
+        {
+            // 如果正在烹饪中（NowRecipeID != 0），不允许拿走食材
+            if (NowRecipeID != 0)
+            {
+                return InteractionType.None;
+            }
+            
+            // 如果锅上有成品菜，可以拿走
+            if (nowAttachList.Count > 0)
+            {
+                return InteractionType.PickUpDish;
+            }
+        }
+        
+        return InteractionType.None;
+    }
+    
+    /// <summary>
     /// 重写拿下物品方法，烹饪进行中不允许拿走食材
     /// </summary>
     public override bool TryDropObject(CharacterCtrlBase attach_obj)

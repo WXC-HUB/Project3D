@@ -15,6 +15,34 @@ public class DishOutlet : LevelGridTileObject
     }
 
     /// <summary>
+    /// 重写玩家交互判断方法，返回具体的互动类型
+    /// </summary>
+    public override InteractionType CanInteractWithPlayer(PlayerCharacterCtrl player)
+    {
+        // 出餐口的DishOutletType必须大于0才能交互
+        if (this.DishOutletType.GetValue() <= 0)
+        {
+            return InteractionType.None;
+        }
+        
+        // 如果玩家手上有菜品，可以互动（提交菜品）
+        if (player.nowAttachList.Count > 0)
+        {
+            CharacterCtrlBase itemInHand = player.nowAttachList[0];
+            Dish dish_info = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == itemInHand.MyGameObjectID);
+            
+            // 如果手上的是菜品，可以尝试提交
+            if (dish_info != null)
+            {
+                return InteractionType.SubmitDish;
+            }
+        }
+        
+        // 其他情况不可互动（出餐口不需要拿取物品）
+        return InteractionType.None;
+    }
+    
+    /// <summary>
     /// 尝试提交菜品
     /// </summary>
     bool TrySubmitDish(CharacterCtrlBase attach_obj)

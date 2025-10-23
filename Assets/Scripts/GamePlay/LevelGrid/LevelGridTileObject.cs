@@ -49,6 +49,31 @@ public class LevelGridTileObject : CharacterCtrlBase
     }
     
     /// <summary>
+    /// 判断玩家可以与此网格对象进行何种互动
+    /// 子类可以重写此方法来实现自定义的交互逻辑
+    /// </summary>
+    /// <param name="player">玩家角色控制器</param>
+    /// <returns>互动类型，如果返回 InteractionType.None 表示不可互动</returns>
+    public virtual InteractionType CanInteractWithPlayer(PlayerCharacterCtrl player)
+    {
+        // 默认实现：
+        // 1. 如果玩家手上有东西，可以互动（放置物品）
+        if (player.nowAttachList.Count > 0)
+        {
+            return InteractionType.Place;
+        }
+        
+        // 2. 如果这个网格对象上有物品，玩家空手可以互动（拾取物品）
+        if (nowAttachList.Count > 0)
+        {
+            return InteractionType.PickUp;
+        }
+        
+        // 其他情况不可互动
+        return InteractionType.None;
+    }
+    
+    /// <summary>
     /// 尝试附加物品到此网格对象上（默认实现）
     /// 子类可以重写此方法来实现自定义逻辑
     /// </summary>
