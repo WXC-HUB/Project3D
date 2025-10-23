@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UI_TimeFollowInfo
 {
-    public LevelGridTileObject followChar;
+    public CookingPot followChar;
     public Slider slider_last_time;
 
     public GameObject bindTranform;
@@ -26,7 +26,7 @@ public class UI_TimeFollowInfo
 
 public class UI_cooktime : BaseUI<UI_cooktime>
 {
-    public Dictionary<LevelGridTileObject, UI_TimeFollowInfo> last_time_dics = new Dictionary<LevelGridTileObject, UI_TimeFollowInfo>();
+    public Dictionary<CookingPot, UI_TimeFollowInfo> last_time_dics = new Dictionary<CookingPot, UI_TimeFollowInfo>();
     
     // 获取菜品图标路径
     public string GetDishImageByID(int dishID)
@@ -141,7 +141,7 @@ public class UI_cooktime : BaseUI<UI_cooktime>
         }
     }
     
-    public void CallFocus(LevelGridTileObject from_char)
+    public void CallFocus(CookingPot from_char)
     {
         if(from_char == null || from_char.NowRecipeID == 0 || last_time_dics.ContainsKey(from_char))
         {
@@ -186,7 +186,7 @@ public class UI_cooktime : BaseUI<UI_cooktime>
     // Update is called once per frame
     void Update()
     {
-        var keysToRemove = new List<LevelGridTileObject>(); // 请将 YourKeyType 替换为实际的键类型
+        var keysToRemove = new List<CookingPot>();
 
         var key_list = last_time_dics.Keys;
         foreach (var key in key_list)

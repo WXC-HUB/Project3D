@@ -99,10 +99,10 @@ public class PlayerInteractionManager : MonoBehaviour
             // 检查是否是锅（CookType > 0）且有成品菜
             // NowRecipeID == 0 表示没有正在烹饪（要么还没开始，要么已经做完）
             // nowAttachList.Count > 0 表示锅上有东西
-            if (tileObj.CookType.GetValue() > 0 && tileObj.NowRecipeID == 0 && tileObj.nowAttachList.Count > 0)
-            {
-                return true;
-            }
+            // if (tileObj.CookType.GetValue() > 0 && tileObj.NowRecipeID == 0 && tileObj.nowAttachList.Count > 0)
+            // {
+            //     return true;
+            // }
         }
 
         return false;

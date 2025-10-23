@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4236058453323769573}
-  - component: {fileID: -3249133048892634140}
   - component: {fileID: -2901337992741861027}
+  - component: {fileID: -1859432832142743158}
   m_Layer: 0
   m_Name: GO_Wall_Chef_2
   m_TagString: Untagged
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &-3249133048892634140
+--- !u!114 &-2901337992741861027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +44,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7174053309766763496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fb226a96ebbed94397ec1b8eed09f42, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.4, g: 0.8, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &-1859432832142743158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7174053309766763496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a75a9c6a323a7489c0b8816e712775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -53,6 +71,7 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  corpsePrefab: {fileID: 0}
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
@@ -85,6 +104,8 @@ MonoBehaviour:
     real_value: 10
   doHitPower:
     real_value: 10
+  DestroyOnDie:
+    real_value: 1
   isFixedPosition:
     real_value: 0
   usePhysic:
@@ -92,37 +113,29 @@ MonoBehaviour:
   canBeGrabed:
     real_value: 0
   grabDistance:
-    real_value: 0.2
+    real_value: 1
   Init_Modifier_List: 
   IsFollowTarget:
     real_value: 0
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
-  CookType:
-    real_value: 1
-  DishOutletType:
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
     real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
+  CookType:
+    real_value: 2
   NowRecipeID: 0
   NowRecipeTime: 0
+  MaxRecipeTime: 0
+  ShowMaxRecipeTime: 0
   NowRecipeAddedDish: 
---- !u!114 &-2901337992741861027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174053309766763496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 0.4, g: 0.8, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1001 &29796474275259847
 PrefabInstance:
   m_ObjectHideFlags: 0
