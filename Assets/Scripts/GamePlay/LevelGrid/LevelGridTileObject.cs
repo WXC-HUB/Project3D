@@ -14,6 +14,7 @@ public class LevelGridTileObject : CharacterCtrlBase
     public int NowRecipeID = 0;
     public float NowRecipeTime = 0f;
     public float MaxRecipeTime = 0f;
+    public float ShowMaxRecipeTime = 0f;
     public List<int> NowRecipeAddedDish = new List<int>();
     private void Awake()
     {
@@ -170,7 +171,8 @@ public class LevelGridTileObject : CharacterCtrlBase
         {
             // 第一次放入食材
             NowRecipeTime = GetBaseCookTime(this.CookType.GetValue()) + dish_cook_time;
-            MaxRecipeTime = GetBaseCookTime(this.CookType.GetValue()) + dish_cook_time;
+            MaxRecipeTime = NowRecipeTime;
+            ShowMaxRecipeTime = MaxRecipeTime;
             NowRecipeAddedDish = new List<int> { attach_dish_id };
 
         }

@@ -8,7 +8,6 @@ using static UnityEditor.Progress;
 public class UI_TimeFollowInfo
 {
     public LevelGridTileObject followChar;
-    public Text text_last_time;
     public Slider slider_last_time;
 
     public GameObject bindTranform;
@@ -30,7 +29,6 @@ public class UI_cooktime : BaseUI<UI_cooktime>
 
         var item_i = nodeDics["m_Slider_Level01_s_Blue"];
         var spawn_item = Instantiate(item_i);
-        uInfo.text_last_time = GameUtils.FindChildInTransform(spawn_item.transform, "m_Text_LastTime").GetComponent<Text>();
         uInfo.slider_last_time = spawn_item.GetComponent<Slider>();
         uInfo.bindTranform = spawn_item;
 
@@ -61,8 +59,16 @@ public class UI_cooktime : BaseUI<UI_cooktime>
             }
             else
             {
-                last_time_dics[key].text_last_time.text = string.Format("{0:F2}s",key.NowRecipeTime);
-                last_time_dics[key].slider_last_time.value = 1 - (float)key.NowRecipeTime / (float)key.MaxRecipeTime;
+                float slider_value = (float)key.NowRecipeTime / (float)key.ShowMaxRecipeTime;
+                if (slider_value > 1)
+                {
+                    slider_value = 1;
+                }
+                if (slider_value < 0)
+                {
+                    slider_value = 0;
+                }
+                last_time_dics[key].slider_last_time.value = slider_value;
                 last_time_dics[key].bindTranform.transform.position = Camera.main.WorldToScreenPoint(key.transform.position);
             }
         }
