@@ -1,11 +1,8 @@
 using Assets.Scripts.Core;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// 关卡网格物体基类，包含通用逻辑
+/// 关卡网格物体基类，提供最基础的功能
 /// </summary>
 public class LevelGridTileObject : CharacterCtrlBase
 {
@@ -14,7 +11,6 @@ public class LevelGridTileObject : CharacterCtrlBase
         base.Awake();
     }
     
-    // Start is called before the first frame update
     void Start()
     {
         var outline = this.GetComponent<Outline>();
@@ -24,6 +20,9 @@ public class LevelGridTileObject : CharacterCtrlBase
         }
     }
 
+    /// <summary>
+    /// 设置选中状态（显示/隐藏轮廓）
+    /// </summary>
     public void SetSelect(bool isSelect)
     {
         var outline = this.GetComponent<Outline>();
@@ -50,57 +49,16 @@ public class LevelGridTileObject : CharacterCtrlBase
     }
     
     /// <summary>
-    /// 尝试附加物品到此网格对象上
+    /// 尝试附加物品到此网格对象上（默认实现）
+    /// 子类可以重写此方法来实现自定义逻辑
     /// </summary>
     public override bool TryAttachObject(CharacterCtrlBase attach_obj)
     {
-        bool is_dish = !(null == GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID));
-        
-        // 给防御塔添加菜品Buff的逻辑
-        if(is_dish && this.nowAttachList.Any(x=>x.MyObjectLayer is InGameCharacterType.Tower))
-        {
-            Dish dish_confg = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == attach_obj.MyGameObjectID);
-            bool canAddBuff = false;
-            foreach(string buff_info in dish_confg.OnEatBuffList)
-            {
-                var buff_p = buff_info.Split(';');
-                if(buff_p.Length < 2)
-                {
-                    continue;
-                }
-                else
-                {
-                    int b_id = int.Parse(buff_p[0]);
-                    float b_time = float.Parse(buff_p[1]);
-                    foreach(var tower in this.nowAttachList)
-                    {
-                        if(tower.MyObjectLayer is InGameCharacterType.Tower)
-                        {
-                            SkillDispatchCenter.Instance.AddModifierToCharacter(tower , b_time , b_id);
-                        }
-                    }
-                    canAddBuff = true;
-                }
-            }
-            if (canAddBuff)
-            {
-                attach_obj.Die();
-                return true;
-            }
-            else
-            {
-                Debug.LogWarning("提交的道具没有绑定Buff！禁止提交");
-                return false;
-            }
-        }
-        // 默认附加逻辑
-        else
-        {
-            attach_obj.transform.SetParent(transform, true);
-            attach_obj.transform.position = transform.position + new Vector3(0, 0,-0.5f);
-            nowAttachList.Add(attach_obj);
-            attach_obj.isAttachedToOther = true;
-            return true;
-        }
+        // 默认附加逻辑：简单地将物体放到这个位置上
+        attach_obj.transform.SetParent(transform, true);
+        attach_obj.transform.position = transform.position + new Vector3(0, 0, -0.5f);
+        nowAttachList.Add(attach_obj);
+        attach_obj.isAttachedToOther = true;
+        return true;
     }
 }
