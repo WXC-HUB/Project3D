@@ -44,6 +44,12 @@ public class CharacterCtrlBase : MonoBehaviour
     /// 终点标记预制体（静态，全局共享）
     /// </summary>
     private static GameObject endPointMarkerPrefab;
+    
+    /// <summary>
+    /// 标记是否已经掉落过食材（防止重复掉落）
+    /// </summary>
+    [HideInInspector]
+    public bool hasDroppedIngredient = false;
 
     bool isStill;
 
@@ -416,6 +422,8 @@ public class CharacterCtrlBase : MonoBehaviour
             replaceTarget = corpse.GetComponent<CharacterCtrlBase>();
             if (replaceTarget != null)
             {
+                // 将掉落标志传递给尸体，防止尸体重复掉落
+                replaceTarget.hasDroppedIngredient = true;
                 Debug.Log($"生成尸体: {corpse.name} at {transform.position}");
             }
         }
@@ -504,6 +512,18 @@ public class CharacterCtrlBase : MonoBehaviour
     /// </summary>
     private void DropIngredient()
     {
+        // 检查是否已经掉落过食材
+        if (hasDroppedIngredient)
+        {
+            return; // 已经掉落过，不再重复掉落
+        }
+        
+        // 排除尸体和终点标记
+        if (this is CorpseObject || this is EndPointMarker)
+        {
+            return; // 尸体和标记不掉落食材
+        }
+        
         // 判断是否是敌人类型
         if (MyGameObjectID == 0)
         {
@@ -523,6 +543,9 @@ public class CharacterCtrlBase : MonoBehaviour
             // Debug.Log("敌人死亡：未掉落食材（概率未命中）");
             return;
         }
+        
+        // 标记已经掉落
+        hasDroppedIngredient = true;
 
         // 获取可提交菜品列表
         List<int> submittableDishIds = DishSubmissionManager.Instance.GetAllDishIds();
