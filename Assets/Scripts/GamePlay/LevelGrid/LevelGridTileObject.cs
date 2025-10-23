@@ -179,6 +179,13 @@ public class LevelGridTileObject : CharacterCtrlBase
         else
         {
             // 继续添加食材
+            // 检查是否超过5个菜品
+            if (NowRecipeAddedDish.Count >= 5)
+            {
+                Debug.Log("已经添加了5个菜品，不能再添加了！");
+                return false;
+            }
+            
             // 检查是否重复添加
             if (NowRecipeAddedDish.Contains(attach_dish_id))
             {
