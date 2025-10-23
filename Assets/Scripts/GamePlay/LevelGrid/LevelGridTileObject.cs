@@ -6,32 +6,6 @@ using UnityEngine;
 /// </summary>
 public class LevelGridTileObject : CharacterCtrlBase
 {
-    private void Awake()
-    {
-        base.Awake();
-    }
-    
-    void Start()
-    {
-        var outline = this.GetComponent<Outline>();
-        if (outline != null)
-        {
-            outline.enabled = false;
-        }
-    }
-
-    /// <summary>
-    /// 设置选中状态（显示/隐藏轮廓）
-    /// </summary>
-    public void SetSelect(bool isSelect)
-    {
-        var outline = this.GetComponent<Outline>();
-        if (outline != null)
-        {
-            outline.enabled = isSelect;
-        }
-    }
-    
     /// <summary>
     /// 判断是否是成品菜（某个菜谱的产出结果或废菜）
     /// </summary>

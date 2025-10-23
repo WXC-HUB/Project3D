@@ -118,6 +118,12 @@ public class CharacterCtrlBase : MonoBehaviour
             SkillDispatchCenter.Instance.AddModifierToCharacter(this , -1 , Init_Modifier_List[i]);
         }
 
+        // 初始化 Outline 组件（如果有）
+        var outline = this.GetComponent<Outline>();
+        if (outline != null)
+        {
+            outline.enabled = false;
+        }
         
     }
 
@@ -755,6 +761,18 @@ public class CharacterCtrlBase : MonoBehaviour
             //Vector2 input = (UI_VirtualInput.instance as UI_VirtualInput).GetDir("Left");
             Vector2 rot_input = (UI_VirtualInput.instance as UI_VirtualInput).GetDir("Right");
             
+        }
+    }
+
+    /// <summary>
+    /// 设置选中状态，显示/隐藏描边效果
+    /// </summary>
+    public virtual void SetSelect(bool isSelect)
+    {
+        var outline = this.GetComponent<Outline>();
+        if (outline != null)
+        {
+            outline.enabled = isSelect;
         }
     }
 
