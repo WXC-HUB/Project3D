@@ -21,6 +21,10 @@ public class UI_TimeFollowInfo
     // 目标菜品显示
     public Image m_Goal_Dish;
     public int currentRecipeID = 0; // 记录当前显示的菜谱ID
+    
+    // 完成菜品显示
+    public Image m_Finish_Dish;
+    public bool isShowingFinished = false; // 标记是否正在显示完成状态
 }
 
 
@@ -150,24 +154,43 @@ public class UI_cooktime : BaseUI<UI_cooktime>
         UI_TimeFollowInfo uInfo = new UI_TimeFollowInfo();  
         uInfo.followChar = from_char;
 
-        var item_i = nodeDics["m_Slider_Level01_s_Blue"];
+        // 使用根节点结构
+        var item_i = nodeDics["m_CookingUI_Root"];
         var spawn_item = Instantiate(item_i);
-        uInfo.slider_last_time = spawn_item.GetComponent<Slider>();
-        uInfo.bindTranform = spawn_item;
+        uInfo.bindTranform = spawn_item; // bindTransform 绑定到根节点
         
-        // 获取 Grid 和 DishItem 模板引用
-        uInfo.m_Grid_Dish = GameUtils.FindChildInTransform(spawn_item.transform, "m_Grid_Dish");
-        uInfo.m_DishItem_Template = GameUtils.FindChildInTransform(spawn_item.transform, "m_DishItem").gameObject;
-        if (uInfo.m_DishItem_Template != null)
+        // 查找 Slider
+        Transform sliderTransform = GameUtils.FindChildInTransform(spawn_item.transform, "m_Slider_Level01_s_Blue");
+        if (sliderTransform != null)
         {
-            uInfo.m_DishItem_Template.SetActive(false); // 隐藏模板
+            uInfo.slider_last_time = sliderTransform.GetComponent<Slider>();
+            
+            // 从 Slider 下查找 Grid 和 Goal_Dish
+            uInfo.m_Grid_Dish = GameUtils.FindChildInTransform(sliderTransform, "m_Grid_Dish");
+            
+            // m_DishItem 是 m_Grid_Dish 的子元素
+            if (uInfo.m_Grid_Dish != null)
+            {
+                uInfo.m_DishItem_Template = GameUtils.FindChildInTransform(uInfo.m_Grid_Dish, "m_DishItem").gameObject;
+                if (uInfo.m_DishItem_Template != null)
+                {
+                    uInfo.m_DishItem_Template.SetActive(false); // 隐藏模板
+                }
+            }
+            
+            // 获取目标菜品显示
+            Transform goalDishTransform = GameUtils.FindChildInTransform(sliderTransform, "m_Goal_Dish");
+            if (goalDishTransform != null)
+            {
+                uInfo.m_Goal_Dish = goalDishTransform.GetComponent<Image>();
+            }
         }
         
-        // 获取目标菜品显示
-        Transform goalDishTransform = GameUtils.FindChildInTransform(spawn_item.transform, "m_Goal_Dish");
-        if (goalDishTransform != null)
+        // 获取完成菜品显示（Finish_Dish 在根节点下，与 Slider 并列）
+        Transform finishDishTransform = GameUtils.FindChildInTransform(spawn_item.transform, "m_Finish_Dish");
+        if (finishDishTransform != null)
         {
-            uInfo.m_Goal_Dish = goalDishTransform.GetComponent<Image>();
+            uInfo.m_Finish_Dish = finishDishTransform.GetComponent<Image>();
         }
 
         last_time_dics.Add(from_char, uInfo);   
@@ -180,7 +203,8 @@ public class UI_cooktime : BaseUI<UI_cooktime>
     // Start is called before the first frame update
     void Start()
     {
-        nodeDics["m_Slider_Level01_s_Blue"].SetActive(false);
+        // 隐藏模板
+        nodeDics["m_CookingUI_Root"].SetActive(false);
     }
 
     // Update is called once per frame
@@ -191,12 +215,34 @@ public class UI_cooktime : BaseUI<UI_cooktime>
         var key_list = last_time_dics.Keys;
         foreach (var key in key_list)
         {
-            if (key.NowRecipeID == 0)
+            // 如果锅空闲了（RecipeID被清0），删除UI
+            if (key.IsIdle())
             {
+                Debug.Log($"[UI_cooktime] 锅空闲，删除UI - RecipeID={key.NowRecipeID}");
                 keysToRemove.Add(key);
             }
-            else
+            // 如果锅已完成烹饪
+            else if (key.IsFinished())
             {
+                // 切换到完成状态显示
+                if (!last_time_dics[key].isShowingFinished)
+                {
+                    Debug.Log($"[UI_cooktime] 锅已完成烹饪，切换到完成状态 - RecipeID={key.NowRecipeID}, Time={key.NowRecipeTime}");
+                    SwitchToFinishedState(last_time_dics[key], key);
+                }
+                
+                // 继续跟随位置
+                last_time_dics[key].bindTranform.transform.position = Camera.main.WorldToScreenPoint(key.transform.position);
+            }
+            // 如果锅正在烹饪中
+            else if (key.IsCooking())
+            {
+                // 如果之前显示的是完成状态，需要切换回烹饪状态（这种情况一般不会发生，但为了安全性）
+                if (last_time_dics[key].isShowingFinished)
+                {
+                    SwitchToCookingState(last_time_dics[key]);
+                }
+                
                 float slider_value = (float)key.NowRecipeTime / (float)key.ShowMaxRecipeTime;
                 if (slider_value > 1)
                 {
@@ -224,5 +270,62 @@ public class UI_cooktime : BaseUI<UI_cooktime>
             
             last_time_dics.Remove(key);
         }
+    }
+    
+    /// <summary>
+    /// 切换到完成状态显示
+    /// </summary>
+    void SwitchToFinishedState(UI_TimeFollowInfo uInfo, CookingPot cookPot)
+    {
+        uInfo.isShowingFinished = true;
+        
+        // 隐藏 Slider（子元素 Grid 和 Goal_Dish 会自动隐藏）
+        if (uInfo.slider_last_time != null)
+            uInfo.slider_last_time.gameObject.SetActive(false);
+        
+        // 显示完成菜品
+        if (uInfo.m_Finish_Dish != null)
+        {
+            int finishedDishID = 0;
+            
+            // 根据 RecipeID 获取完成的菜品ID
+            if (cookPot.NowRecipeID == -1)
+            {
+                // 菜谱匹配失败，显示100号废菜
+                finishedDishID = 100;
+            }
+            else if (cookPot.NowRecipeID > 0)
+            {
+                // 有匹配的菜谱，查找对应的成品菜
+                Recipe recipe = GameTableConfig.Instance.Config_Recipe.FindFirstLine(x => x.RecipeID == cookPot.NowRecipeID);
+                if (recipe != null)
+                {
+                    finishedDishID = recipe.CookResult;
+                }
+            }
+            
+            if (finishedDishID > 0)
+            {
+                LoadImageToUI(uInfo.m_Finish_Dish, GetDishImageByID(finishedDishID));
+                uInfo.m_Finish_Dish.gameObject.SetActive(true);
+                Debug.Log($"显示完成菜品: DishID={finishedDishID}");
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 切换到烹饪状态显示（一般用于状态恢复）
+    /// </summary>
+    void SwitchToCookingState(UI_TimeFollowInfo uInfo)
+    {
+        uInfo.isShowingFinished = false;
+        
+        // 显示 Slider（子元素 Grid 和 Goal_Dish 会自动显示）
+        if (uInfo.slider_last_time != null)
+            uInfo.slider_last_time.gameObject.SetActive(true);
+        
+        // 隐藏完成菜品
+        if (uInfo.m_Finish_Dish != null)
+            uInfo.m_Finish_Dish.gameObject.SetActive(false);
     }
 }

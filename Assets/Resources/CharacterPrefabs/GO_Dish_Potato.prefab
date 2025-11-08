@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2424181653765489039}
-  - component: {fileID: 1504696782170467915}
   - component: {fileID: 311163044544395548}
   - component: {fileID: 5071343404029529387}
+  - component: {fileID: -4973359175460852881}
   m_Layer: 0
   m_Name: GO_Dish_Potato
   m_TagString: Untagged
@@ -35,82 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &1504696782170467915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989075070077352446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72e308d8cf00cba4295ab548afde9003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  col2D: {fileID: 0}
-  MyGameObjectID: 0
-  MyObjectLayer: 0
-  isReadyForNextRound: 0
-  isAttachedToOther: 0
-  corpsePrefab: {fileID: 0}
-  MoveSpeed_a: 2
-  TargetRotation: 0
-  nowAttachList: []
-  isAlive:
-    real_value: 1
-  LinerDrag:
-    real_value: 1.5
-  MaxSpeed:
-    real_value: 1.5
-  EnableMoveInput:
-    real_value: 1
-  IgnoreSpeedLimit:
-    real_value: 0
-  TryInputDir:
-    real_value: {x: 0, y: 0}
-  TryAimRotDir:
-    real_value: {x: 0, y: 0}
-  MaxHP:
-    real_value: 30
-  NowHP: 0
-  isInvincible:
-    real_value: 0
-  Mass:
-    real_value: 1
-  beHitDamage:
-    real_value: 0
-  doHitDamage:
-    real_value: 1
-  beHitPower:
-    real_value: 10
-  doHitPower:
-    real_value: 10
-  DestroyOnDie:
-    real_value: 1
-  isFixedPosition:
-    real_value: 0
-  usePhysic:
-    real_value: 0
-  canBeGrabed:
-    real_value: 0
-  grabDistance:
-    real_value: 0.2
-  Init_Modifier_List: 
-  IsFollowTarget:
-    real_value: 0
-  followTarget: {fileID: 0}
-  from_char: {fileID: 0}
-  MaxMP:
-    real_value: 30
-  NowMP: 0
-  Reduce_MP_PerSecond:
-    real_value: 0
-  have_reduce_MP: 0
-  canAttack:
-    real_value: 1
-  Damage_Shoot:
-    real_value: 1
 --- !u!58 &311163044544395548
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -173,6 +97,83 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-4973359175460852881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989075070077352446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f6789012345678abcdef01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  col2D: {fileID: 0}
+  MyGameObjectID: 0
+  MyObjectLayer: 0
+  isReadyForNextRound: 0
+  isAttachedToOther: 0
+  corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
+  MoveSpeed_a: 2
+  TargetRotation: 0
+  nowAttachList: []
+  isAlive:
+    real_value: 1
+  LinerDrag:
+    real_value: 1.5
+  MaxSpeed:
+    real_value: 1.5
+  EnableMoveInput:
+    real_value: 1
+  IgnoreSpeedLimit:
+    real_value: 0
+  TryInputDir:
+    real_value: {x: 0, y: 0}
+  TryAimRotDir:
+    real_value: {x: 0, y: 0}
+  MaxHP:
+    real_value: 30
+  NowHP: 0
+  isInvincible:
+    real_value: 0
+  Mass:
+    real_value: 1
+  beHitDamage:
+    real_value: 0
+  doHitDamage:
+    real_value: 1
+  beHitPower:
+    real_value: 10
+  doHitPower:
+    real_value: 10
+  DestroyOnDie:
+    real_value: 1
+  isFixedPosition:
+    real_value: 0
+  usePhysic:
+    real_value: 1
+  canBeGrabed:
+    real_value: 0
+  grabDistance:
+    real_value: 1
+  Init_Modifier_List: 
+  IsFollowTarget:
+    real_value: 0
+  followTarget: {fileID: 0}
+  from_char: {fileID: 0}
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
+    real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
 --- !u!1001 &7745449171350795018
 PrefabInstance:
   m_ObjectHideFlags: 0
