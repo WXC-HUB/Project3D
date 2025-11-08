@@ -168,7 +168,7 @@ MonoBehaviour:
   beHitDamage:
     real_value: 0
   doHitDamage:
-    real_value: 1
+    real_value: 2
   beHitPower:
     real_value: 10
   doHitPower:
@@ -205,11 +205,11 @@ MonoBehaviour:
     real_value: 10
   spriteAnimator: {fileID: 0}
   mAttackCD_Cur:
-    real_value: 3
+    real_value: 1
   mAttackCDReduce:
     real_value: 1
   mAttackCD:
-    real_value: 3
+    real_value: 5
   myAttackSkillID:
     real_value: 5
   AttackRange:
@@ -243,14 +243,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange:
   - {x: 1, y: 0}
-  - {x: 2, y: 0}
-  - {x: 3, y: 0}
   - {x: 1, y: 1}
+  - {x: 1, y: -1}
+  - {x: 2, y: 0}
   - {x: 2, y: 1}
-  - {x: 3, y: 1}
-  - {x: 1, y: 2}
-  - {x: 2, y: 2}
-  - {x: 3, y: 1}
+  - {x: 2, y: -1}
 --- !u!1 &433797049874804991
 GameObject:
   m_ObjectHideFlags: 0

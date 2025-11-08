@@ -55,6 +55,9 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
+  corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
@@ -73,7 +76,7 @@ MonoBehaviour:
   TryAimRotDir:
     real_value: {x: 0, y: 0}
   MaxHP:
-    real_value: 30
+    real_value: 90
   NowHP: 0
   isInvincible:
     real_value: 0
@@ -87,6 +90,8 @@ MonoBehaviour:
     real_value: 10
   doHitPower:
     real_value: 10
+  DestroyOnDie:
+    real_value: 1
   isFixedPosition:
     real_value: 0
   usePhysic:
@@ -100,6 +105,16 @@ MonoBehaviour:
     real_value: 0
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
+    real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
   MySelectTarget: {x: 0, y: 0, z: 0}
   IsFOVLock:
     real_value: 0
@@ -114,6 +129,8 @@ MonoBehaviour:
     real_value: 0
   myAttackSkillID:
     real_value: 7
+  AttackRange:
+    real_value: 10
 --- !u!114 &8407586755036171545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +198,7 @@ MonoBehaviour:
   path: []
   speed: 2
   followPath: 101
+  nowFollowTarget: {fileID: 0}
 --- !u!114 &3059794734853917733
 MonoBehaviour:
   m_ObjectHideFlags: 0

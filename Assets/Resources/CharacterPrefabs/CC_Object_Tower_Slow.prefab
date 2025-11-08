@@ -204,11 +204,11 @@ MonoBehaviour:
     real_value: 10
   spriteAnimator: {fileID: 0}
   mAttackCD_Cur:
-    real_value: 3
+    real_value: 2
   mAttackCDReduce:
     real_value: 1
   mAttackCD:
-    real_value: 3
+    real_value: 2
   myAttackSkillID:
     real_value: 8
   AttackRange:

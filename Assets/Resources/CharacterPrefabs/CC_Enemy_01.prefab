@@ -55,6 +55,7 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
   corpsePrefab: {fileID: 0}
   hasDroppedIngredient: 0
   MoveSpeed_a: 2
@@ -197,6 +198,7 @@ MonoBehaviour:
   path: []
   speed: 2
   followPath: 101
+  nowFollowTarget: {fileID: 0}
 --- !u!114 &3059794734853917733
 MonoBehaviour:
   m_ObjectHideFlags: 0

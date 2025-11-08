@@ -208,7 +208,7 @@ MonoBehaviour:
   mAttackCDReduce:
     real_value: 1
   mAttackCD:
-    real_value: 3
+    real_value: 1
   myAttackSkillID:
     real_value: 5
   AttackRange:
@@ -232,6 +232,9 @@ MonoBehaviour:
   - {x: 2, y: 1}
   - {x: 2, y: 0}
   - {x: 2, y: -1}
+  - {x: 3, y: -1}
+  - {x: 3, y: 0}
+  - {x: 3, y: 1}
 --- !u!1 &433797049874804991
 GameObject:
   m_ObjectHideFlags: 0
