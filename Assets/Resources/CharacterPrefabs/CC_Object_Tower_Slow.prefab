@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4624673836637855471}
   - component: {fileID: 186982171239525016}
   - component: {fileID: -4304883815043316796}
+  - component: {fileID: 147530216693940489}
   m_Layer: 0
   m_Name: CC_Object_Tower_Slow
   m_TagString: Untagged
@@ -105,6 +106,7 @@ MonoBehaviour:
   path: []
   speed: 2
   followPath: 101
+  nowFollowTarget: {fileID: 0}
 --- !u!114 &186982171239525016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +137,9 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
   corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
@@ -209,6 +213,27 @@ MonoBehaviour:
     real_value: 8
   AttackRange:
     real_value: 10
+--- !u!114 &147530216693940489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334450563920756660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e71c4a49b60c524396de6e55080e987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange:
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  - {x: 2, y: 0}
+  - {x: -2, y: 0}
+  - {x: 0, y: 2}
+  - {x: 0, y: -2}
 --- !u!1 &433797049874804991
 GameObject:
   m_ObjectHideFlags: 0

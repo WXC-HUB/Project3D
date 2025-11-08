@@ -34,7 +34,18 @@ public class CharacterCtrlBase : MonoBehaviour
     public bool isReadyForNextRound = false;        
 
     public bool isAttachedToOther = false;
+    Character_Vector2 MyTileDir = new Character_Vector2("MyTileDir" , Vector2.up);
     public int dishID;
+
+    public Vector2 getTileDir()
+    {
+        return MyTileDir.GetValue();
+    }
+
+    public void setTileDir(Vector2 tileDir)
+    {
+        MyTileDir.real_value = tileDir; 
+    }
 
     /// <summary>
     /// 尸体预制体，敌人死亡后会生成此预制体供子弹继续追踪
@@ -168,6 +179,8 @@ public class CharacterCtrlBase : MonoBehaviour
         canAttack.TakeEffect(this);
 
         Damage_Shoot.TakeEffect(this);
+
+        MyTileDir.TakeEffect(this); 
     }
 
 

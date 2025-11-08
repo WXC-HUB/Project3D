@@ -92,7 +92,18 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
             else if (go.StartsWith("Tower_"))
             {
                 int newID = int.Parse(go.Split("_")[1]);
+                string dir_key = go.Split("_")[2].ToLower();
+
                 CharacterCtrlBase newChar = LevelManager.Instance.SpawnCharacterByID<CharacterCtrlBase>(newID);
+
+                if (newChar != null) 
+                {
+                    if(dir_key == "up") newChar.setTileDir(Vector2.up);
+                    if (dir_key == "down") newChar.setTileDir(Vector2.down);
+                    if (dir_key == "right") newChar.setTileDir(Vector2.right);
+                    if (dir_key == "left") newChar.setTileDir(Vector2.left);
+                }
+
                 Vector3 objpos = tilemap.GetCellCenterWorld(pos);
                 LevelGridTileObject attach_targt;
                 if (tile_dictionary.TryGetValue(pos, out attach_targt))

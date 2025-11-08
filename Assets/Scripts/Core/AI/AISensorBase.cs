@@ -14,6 +14,14 @@ namespace Assets.Scripts.AI
     
     public class AISensorBase : MonoBehaviour 
     {
+        CharacterCtrlBase bindCharacterCtrl;
+        private void Start()
+        {
+            bindCharacterCtrl = this.GetComponent<CharacterCtrlBase>();
+
+            //speed = bindCharacterCtrl.MaxSpeed.GetValue();
+
+        }
         float get_dis(CharacterCtrlBase x)
         {
             return (x.transform.position - transform.position).magnitude;
@@ -29,7 +37,18 @@ namespace Assets.Scripts.AI
                     if (list.Count > 0) 
                     {
                         list = list.OrderBy(get_dis).ToList();
-                        return list[0];
+                        var rg = this.GetComponent<TowerAttackRange>();
+                        if(rg == null)
+                        {
+                            return list[0];
+                        }
+                        for (int i = 0;i < list.Count; i++)
+                        {
+                            if(list[i] != null && rg.IsTargetInAttackRange( bindCharacterCtrl.transform , bindCharacterCtrl.getTileDir() , list[i].transform , LevelGridGenerator.Instance.tilemap ))
+                            {
+                                return list[i];
+                            }
+                        }
                     }
                     return null;
                 }
