@@ -53,7 +53,11 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
 
         Vector3 objpos = tilemap.GetCellCenterWorld(position);
 
-        string tile_obj_name = GameTableConfig.Instance.Config_TileBlocks.FindFirstLine(x => x.TileSpriteName == go_name).BlockObject;
+        string tile_obj_name = GameTableConfig.Instance.Config_TileBlocks.FindFirstLine(x => x.TileSpriteName == go_name)?.BlockObject;
+        if (tile_obj_name == null) 
+        {
+            Debug.LogError("不能存在的墙壁类型：" + go_name);
+        }
 
         GameObject new_obj = Resources.Load<GameObject>("GameObjectPrefabs/" + tile_obj_name);
 
