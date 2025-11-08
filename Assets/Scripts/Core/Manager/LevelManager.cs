@@ -11,6 +11,7 @@ using Assets.Scripts.AI;
 using UnityEngine.Tilemaps;
 using System;
 using System.Linq;
+using static UnityEditor.Progress;
 
 namespace Assets.Scripts.Core
 {
@@ -36,7 +37,9 @@ namespace Assets.Scripts.Core
         Bullet,
         Ingredient,
         Dish,
-        SpawnRoot
+        SpawnRoot,
+        TeamMate,
+        Block,
     }
 
 
@@ -145,6 +148,16 @@ namespace Assets.Scripts.Core
             }
         }
 
+        public void RegCharacterAsType(CharacterCtrlBase newsp , InGameCharacterType characterType)
+        {
+            newsp.MyObjectLayer = characterType;
+            if (!Character_Dict.ContainsKey(characterType))
+            {
+                Character_Dict.Add(characterType, new List<CharacterCtrlBase>());
+            }
+            Character_Dict[characterType].Add(newsp);
+        }
+
         public T_CHar SpawnCharacterByID<T_CHar>(int ID , SkillUseInfo call_by_skill = null) where T_CHar : CharacterCtrlBase
         {
             GameCharacters g_config = GameTableConfig.Instance.Config_GameCharacters.FindFirstLine(x => x.ObjectID == ID);
@@ -163,25 +176,25 @@ namespace Assets.Scripts.Core
             if (newobj != null)
             {
                 GameObject sp_obj = Instantiate(newobj, LevelManager.Instance.LevelObjectsRoot);
-                if (!Character_Dict.ContainsKey(characterType))
-                {
-                    Character_Dict.Add(characterType , new List<CharacterCtrlBase>());
-                }
+                
                 T_CHar newsp = sp_obj.GetComponent<T_CHar>();
                 foreach (int buff in g_config.InitModifier)
                 {
 
                     SkillDispatchCenter.Instance.AddModifierToCharacter(newsp, -1, buff);
                 }
-                Character_Dict[characterType].Add(newsp);
+                
+                RegCharacterAsType(newsp , characterType);  
                 newsp.MyGameObjectID = ID;
-                newsp.MyObjectLayer = characterType;
+                
 
                 if(characterType is InGameCharacterType.Tower || characterType is InGameCharacterType.Enemy)
                 {
-                    UI_PlayerHUD.instance.InitCharacterFollowHUD(newsp, characterType); 
+                    UI_PlayerHUD.instance.InitCharacterFollowHUD(newsp, characterType);
                 }
 
+                int dish_t = GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.GameCharacter == ID)?.DishID ?? 0;
+                newsp.dishID = dish_t;
 
                 return newsp;
             }
@@ -276,6 +289,8 @@ namespace Assets.Scripts.Core
             
             GoNextRound();
             UI_PlayerHUD.instance.UpdateRecipe();
+
+            //SpawnCharacterByID<PlayerCharacterCtrl>(2001);
         }
 
         /// <summary>

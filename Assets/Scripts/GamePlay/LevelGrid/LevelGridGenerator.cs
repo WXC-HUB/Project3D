@@ -58,6 +58,8 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
         GameObject new_obj = Resources.Load<GameObject>("GameObjectPrefabs/" + tile_obj_name);
 
         GameObject sp_obj = Instantiate(new_obj, LevelManager.Instance.LevelObjectsRoot);
+
+        LevelManager.Instance.RegCharacterAsType(sp_obj.GetComponent<LevelGridTileObject>(), InGameCharacterType.Block);
         sp_obj.transform.position = objpos;
 
         if (tile_dictionary.ContainsKey(position))

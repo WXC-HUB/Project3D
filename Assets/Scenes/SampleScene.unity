@@ -7642,7 +7642,9 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
   corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 30
   TargetRotation: 0
   nowAttachList: []

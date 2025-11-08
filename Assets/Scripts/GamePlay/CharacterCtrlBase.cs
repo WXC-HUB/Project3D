@@ -34,6 +34,7 @@ public class CharacterCtrlBase : MonoBehaviour
     public bool isReadyForNextRound = false;        
 
     public bool isAttachedToOther = false;
+    public int dishID;
 
     /// <summary>
     /// 尸体预制体，敌人死亡后会生成此预制体供子弹继续追踪
