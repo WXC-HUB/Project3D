@@ -53,17 +53,11 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
 
         Vector3 objpos = tilemap.GetCellCenterWorld(position);
 
-        string tile_obj_name = GameTableConfig.Instance.Config_TileBlocks.FindFirstLine(x => x.TileSpriteName == go_name)?.BlockObject;
-        if (tile_obj_name == null) 
-        {
-            Debug.LogError("²»ÄÜ´æÔÚµÄÇ½±ÚÀàÐÍ£º" + go_name);
-        }
+        string tile_obj_name = GameTableConfig.Instance.Config_TileBlocks.FindFirstLine(x => x.TileSpriteName == go_name).BlockObject;
 
         GameObject new_obj = Resources.Load<GameObject>("GameObjectPrefabs/" + tile_obj_name);
 
         GameObject sp_obj = Instantiate(new_obj, LevelManager.Instance.LevelObjectsRoot);
-
-        LevelManager.Instance.RegCharacterAsType(sp_obj.GetComponent<LevelGridTileObject>(), InGameCharacterType.Block);
         sp_obj.transform.position = objpos;
 
         if (tile_dictionary.ContainsKey(position))
@@ -194,7 +188,13 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
                 SpawnRoots this_config = sp.sp_config.Find( x => x.RoundID == LevelManager.Instance.NowRoundID );
                 if (this_config != null)
                 {
-                    if (sp.spawn_timer > this_config.SpawnGap && sp.spawn_cnt < this_config.EnemyNum)
+                    // ä¿®å¤ï¼šå¦‚æžœEnemyNumä¸º0ï¼Œç›´æŽ¥æ ‡è®°ä¸ºå°±ç»ªï¼Œä¸é˜»å¡žæ³¢æ¬¡æŽ¨è¿›
+                    if (this_config.EnemyNum == 0)
+                    {
+                        sp.bind_character.isReadyForNextRound = true;
+                        sp.isSpawnGoOn = false;
+                    }
+                    else if (sp.spawn_timer > this_config.SpawnGap && sp.spawn_cnt < this_config.EnemyNum)
                     {
                         PlayerCharacterCtrl sp_chr = LevelManager.Instance.SpawnCharacterByID<PlayerCharacterCtrl>(this_config.EnemyID);
 
@@ -244,21 +244,21 @@ public class LevelGridGenerator : MonoSingleton<LevelGridGenerator>
 
     public List< List<string>> getLayerByFileName(string fileName)
     {
-        // 1. ´ÓResourcesÎÄ¼þ¼Ð¼ÓÔØCSVÎÄ¼þ
+        // 1. ï¿½ï¿½Resourcesï¿½Ä¼ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½CSVï¿½Ä¼ï¿½
         TextAsset csvFile = Resources.Load<TextAsset>(fileName);
 
-        // 2. ·Ö¸îÐÐ²¢³õÊ¼»¯¶þÎ¬Êý×é
+        // 2. ï¿½Ö¸ï¿½ï¿½Ð²ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½
         string[] lines = csvFile.text.Split('\n');
         List<List<string>> dataList = new List<List<string>>();
 
-        // 3. ´¦ÀíÃ¿Ò»ÐÐÊý¾Ý
+        // 3. ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < lines.Length; i++)
         {
-            // ÒÆ³ý¿ÉÄÜµÄ»Ø³µ·û²¢¼ì²é¿ÕÐÐ
+            // ï¿½Æ³ï¿½ï¿½ï¿½ï¿½ÜµÄ»Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             string line = lines[i].TrimEnd('\r', '\n');
             if (string.IsNullOrEmpty(line)) continue;
 
-            // ·Ö¸îÁÐ
+            // ï¿½Ö¸ï¿½ï¿½ï¿½
             List<string> columns = line.Split(',').ToList();
             columns.RemoveAt(0);
             dataList.Add(columns);

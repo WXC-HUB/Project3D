@@ -20,6 +20,7 @@
 204,烤鱼,Dish,GO_Dish_Grilled_Fish,0
 205,土豆咖喱牛腩,Dish,GO_Dish_Potato_curry_beef_brisket,0
 206,葱鸡腿,Dish,GO_Dish_Scallion_Chicken_Drumsticks,0
+207,满汉全席,Dish,,0
 10,散射防御塔,Tower,CC_Object_Tower_Scatter,12002|12004
 11,减速防御塔,Tower,CC_Object_Tower_Slow,12003|12004
 20,散射子弹,Bullet,CC_Bullet_Scatter,8002
