@@ -98,7 +98,7 @@
 8002,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|18,碰撞时造成18点伤害
 8002,3,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
 8003,1,AddSimpleDect,bool_set|IsFollowTarget|true,设置跟随状态
-8003,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|18,碰撞时造成18点伤害
+8003,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|36,碰撞时造成18点伤害
 8003,3,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
 12004,1,AddSimpleDect,int_set|Damage_Shoot|1,设置防御塔攻击力为1
 16001,1,ListenGameEvent,CharacterCastSkill|ShootToTarget|5|MainCharacter|AimTarget,子弹生成
@@ -107,4 +107,4 @@
 16002,2,ListenGameEvent,CharacterHitTarget|DoDamage|BeHitCharacter|1,碰撞时造成伤害
 16002,3,ListenGameEvent,CharacterHitTarget|AddModifier|16003|BeHitCharacter|1,碰撞时添加减速Buff
 16002,4,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
-16003,1,AddSimpleDect,float_add|MaxSpeed|-0.5,添加减速Buff
+16003,1,AddSimpleDect,float_add|MaxSpeed|-0.25,添加减速Buff
