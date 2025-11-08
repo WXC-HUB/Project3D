@@ -125,10 +125,8 @@ public class Character_Int : CharacterAttribute<int>
         List<Character_DECT_Int_Add> add_list = Character_DECT_Int_Add.getAllDects(myctrl.gameObject, attribute_name);
         List<Character_DECT_Int_Mul> mul_list = Character_DECT_Int_Mul.getAllDects(myctrl.gameObject, attribute_name);
 
-        if (set_list.Count > 0)
-        {
-            return set_list[set_list.Count - 1].effect_factor;
-        }
+        // 修复：如果有Set组件，使用Set值作为基础值，然后在此基础上应用Add和Mul
+        int base_value = (set_list.Count > 0) ? set_list[set_list.Count - 1].effect_factor : real_value;
 
         int add_value = 0;
         int mul_value = 1;
@@ -142,7 +140,7 @@ public class Character_Int : CharacterAttribute<int>
             mul_value += item.effect_factor;
         }
 
-        return real_value * mul_value + add_value;
+        return base_value * mul_value + add_value;
 
     }
 }
