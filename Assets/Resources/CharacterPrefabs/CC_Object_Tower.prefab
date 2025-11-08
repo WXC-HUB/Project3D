@@ -137,8 +137,6 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
-  MyTileDir:
-    real_value: {x: 1, y: 0}
   dishID: 0
   corpsePrefab: {fileID: 0}
   hasDroppedIngredient: 0
