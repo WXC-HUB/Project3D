@@ -117,7 +117,7 @@ public class CharacterCtrlBase : MonoBehaviour
 
 
 
-    public Character_Int Damage_Shoot = new Character_Int("Damage_Shoot", 1);
+    public Character_Float Damage_Shoot = new Character_Float("Damage_Shoot", 1f);
 
 
 
@@ -386,7 +386,23 @@ public class CharacterCtrlBase : MonoBehaviour
         }
         else
         {
-            int new_dmg = skillUseInfo == null ? damage : damage * skillUseInfo.dispatcher.Damage_Shoot.GetValue();
+            // 使用浮点数计算伤害，最后转为整数
+            int new_dmg;
+            if (skillUseInfo == null)
+            {
+                new_dmg = damage;
+            }
+            else
+            {
+                float attackPower = skillUseInfo.dispatcher.Damage_Shoot.GetValue();
+                float calculatedDamage = damage * attackPower;
+                new_dmg = Mathf.FloorToInt(calculatedDamage); // 向下取整转为整数
+                
+                // 输出伤害日志
+                string attackerName = skillUseInfo.dispatcher.gameObject.name;
+                Debug.Log($"💥 [{attackerName}] 造成伤害: {damage}(基础) × {attackPower:F2}(攻击力) = {calculatedDamage:F2} ⌊向下取整⌋ {new_dmg}点 → [{gameObject.name}] HP: {NowHP} → {NowHP - new_dmg}");
+            }
+            
             this.NowHP -= new_dmg;
         }
 
