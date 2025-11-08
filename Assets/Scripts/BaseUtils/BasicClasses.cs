@@ -73,9 +73,12 @@ namespace Assets.Scripts.BaseUtils
         public static Vector2 getNewMoveSpeedAfterCircleHit2D(Vector2 MoveSpeed, RaycastHit2D hitInfo)
         {
             Vector2 rot_input = MoveSpeed;
-            rot_input = Vector2.Reflect(rot_input, hitInfo.normal);
+            //rot_input = Vector2.Reflect(rot_input, hitInfo.normal);
 
-            return rot_input * 0.1f;
+            Vector2 normalizedNormal = hitInfo.normal.normalized;
+            rot_input = rot_input - Vector2.Dot(rot_input, normalizedNormal) * normalizedNormal;
+
+            return rot_input;// * 0.1f;
         }
 
         public static Vector2 getMoveSpeedAfterHit( float mass_go , Vector2 v_go , float mass_be , Vector2 v_be , RaycastHit2D hitInfo)
