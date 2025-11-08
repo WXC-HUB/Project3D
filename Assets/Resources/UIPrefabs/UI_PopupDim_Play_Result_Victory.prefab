@@ -5497,7 +5497,7 @@ GameObject:
   - component: {fileID: 2613375856842363964}
   - component: {fileID: -8670292390291782291}
   m_Layer: 0
-  m_Name: PopupDim_Play_Result_Victory
+  m_Name: UI_PopupDim_Play_Result_Victory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

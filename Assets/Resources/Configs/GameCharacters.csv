@@ -25,3 +25,4 @@
 11,减速防御塔,Tower,CC_Object_Tower_Slow,12003|12004
 20,散射子弹,Bullet,CC_Bullet_Scatter,8002
 21,减速子弹,Bullet,CC_Bullet_Slow,8003|14002
+2001,AI队友,TeamMate,CC_AI_TeamMate,0

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4236058453323769573}
   - component: {fileID: -2901337992741861027}
-  - component: {fileID: -2335206086183734227}
+  - component: {fileID: 7195042134551836194}
   m_Layer: 0
-  m_Name: GO_Wall_Chef_1
+  m_Name: GO_Wall_Chef_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,8 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 283021030519014009}
-  - {fileID: 41386455025420560}
+  - {fileID: 6045499522050525124}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -53,7 +52,7 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &-2335206086183734227
+--- !u!114 &7195042134551836194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,7 +61,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7174053309766763496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a75a9c6a323a7489c0b8816e712775, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fb226a96ebbed94397ec1b8eed09f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -131,92 +130,7 @@ MonoBehaviour:
     real_value: 1
   Damage_Shoot:
     real_value: 1
-  CookType:
-    real_value: 1
-  NowRecipeID: 0
-  NowRecipeTime: 0
-  MaxRecipeTime: 0
-  ShowMaxRecipeTime: 0
-  NowRecipeAddedDish: 
---- !u!1001 &317441504399353234
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 4236058453323769573}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_RootOrder
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.23128933
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.23128934
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.23128933
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-      propertyPath: m_Name
-      value: wall_decorated
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
---- !u!4 &283021030519014009 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6d1f6d318d8b8c549b2f34463c9da315, type: 3}
-  m_PrefabInstance: {fileID: 317441504399353234}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &511635468877623035
+--- !u!1001 &6084174760435048495
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -230,15 +144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.44074342
+      value: 0.45702803
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4407434
+      value: 0.457028
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.44074342
+      value: 0.45702803
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
       propertyPath: m_LocalPosition.x
@@ -282,15 +196,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
       propertyPath: m_Name
-      value: kitchencounter_straight_B
+      value: kitchencounter_straight_B (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
---- !u!4 &41386455025420560 stripped
+--- !u!4 &6045499522050525124 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e2b9d82e50e00aa44a051217b0dcd0da, type: 3}
-  m_PrefabInstance: {fileID: 511635468877623035}
+  m_PrefabInstance: {fileID: 6084174760435048495}
   m_PrefabAsset: {fileID: 0}

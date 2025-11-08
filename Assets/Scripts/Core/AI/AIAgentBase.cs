@@ -9,6 +9,8 @@ using UnityEngine;
 using Defective.JSON;
 using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
+using Assets.Scripts.BaseUtils;
+using static Spine.Unity.Examples.SpineboyFootplanter;
 
 namespace Assets.Scripts.AI
 {
@@ -46,6 +48,8 @@ namespace Assets.Scripts.AI
 
         public int followPath = 101;
 
+        public Dictionary<CharacterCtrlBase, List<Vector3Int>> toCharacterPath = new Dictionary<CharacterCtrlBase, List<Vector3Int>>();
+        public CharacterCtrlBase nowFollowTarget;
         private Vector3 GridToWorld(Vector3Int gridPos)
         {
             if ( tilemap != null)
@@ -72,12 +76,27 @@ namespace Assets.Scripts.AI
             transform.position = GridToWorld(path[0]);
             currentWorldPos = transform.position;
             
-            spawnRootInfo = root;
 
             // 如果路径只有一个点，直接设置到目标位置
             if (path.Count > 1)
             {
                 currentWorldPos = GridToWorld(path[1]);
+            }
+        }
+
+        private void doFollowRoot()
+        {
+            // 计算移动
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                currentWorldPos,
+                 bindCharacterCtrl.MaxSpeed.GetValue() * Time.deltaTime
+            );
+            // 检查是否到达当前目标点
+            if (Vector3.Distance(transform.position, currentWorldPos) < 0.01f)
+            {
+                // 移动到下一个路径点
+                MoveToNextPoint();
             }
         }
 
@@ -130,7 +149,41 @@ namespace Assets.Scripts.AI
                 {
                     mCharacterDict.Add(toDic, resCtrl);
                 }
-            }else if (name == "FollowPath")
+            }
+            else if (name == "GetPathToCharacter")
+            {
+                string toCharKey = properties[0];
+                if (mCharacterDict.ContainsKey(toCharKey))
+                {
+
+                    if (toCharacterPath.TryAdd(mCharacterDict[toCharKey] ,Pathfinding.GetClosetoCharacter(this.gameObject , mCharacterDict[toCharKey].gameObject , tilemap)))
+                    {
+                        toCharacterPath[mCharacterDict[toCharKey]] = Pathfinding.GetClosetoCharacter(this.gameObject, mCharacterDict[toCharKey].gameObject, tilemap);
+                    }
+                }
+            }
+            else if (name == "MoveToCharacter")
+            {
+                string toCharKey = properties[0];
+                if( nowFollowTarget != mCharacterDict[toCharKey])
+                {
+                    tilemap = LevelGridGenerator.Instance.tilemap;
+                    path = toCharacterPath[mCharacterDict[toCharKey]];
+                    transform.position = GridToWorld(path[0]);
+                    currentWorldPos = transform.position;
+
+
+                    // 如果路径只有一个点，直接设置到目标位置
+                    if (path.Count > 1)
+                    {
+                        currentWorldPos = GridToWorld(path[1]);
+                    }
+                }
+
+                doFollowRoot();
+
+            }
+            else if (name == "FollowPath")
             {
                 if( spawnRootInfo == null)
                 {
@@ -138,21 +191,10 @@ namespace Assets.Scripts.AI
                     if(LevelGridGenerator.Instance.spawnroot_dictionay.TryGetValue(followPath , out sp))
                     {
                         SetFollowPath(sp);
-                        
                     }
                 }
-                // 计算移动
-                transform.position = Vector3.MoveTowards(
-                    transform.position,
-                    currentWorldPos,
-                     bindCharacterCtrl.MaxSpeed.GetValue() * Time.deltaTime
-                );
-                // 检查是否到达当前目标点
-                if (Vector3.Distance(transform.position, currentWorldPos) < 0.01f)
-                {
-                    // 移动到下一个路径点
-                    MoveToNextPoint();
-                }
+
+                doFollowRoot();
             }
             else if ( name == "AttackTarget")
             {
@@ -201,6 +243,14 @@ namespace Assets.Scripts.AI
             else if (name == "HasCharacter")
             {
                 return mCharacterDict.ContainsKey(properties[0]) && mCharacterDict[properties[0]] != null;
+            }
+            else if  (name == "HasPathToTarget")
+            {
+                return mCharacterDict.ContainsKey(properties[0]) && toCharacterPath.ContainsKey(mCharacterDict[ properties[0] ]);
+            }
+            else if (name == "IsCharacterAttached")
+            {
+                return mCharacterDict.ContainsKey(properties[0]) && (mCharacterDict[properties[0]].isAttachedToOther == false);
             }
             else if(name == "NearPos")
             {

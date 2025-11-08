@@ -34,6 +34,7 @@ public class CharacterCtrlBase : MonoBehaviour
     public bool isReadyForNextRound = false;        
 
     public bool isAttachedToOther = false;
+    public int dishID;
 
     /// <summary>
     /// 尸体预制体，敌人死亡后会生成此预制体供子弹继续追踪
@@ -252,6 +253,7 @@ public class CharacterCtrlBase : MonoBehaviour
                 //直接反射
                 this.rb.position = PhysicUtils.getNewPositionAfterCircleHit2D(this.rb, hit);
                 this.rb.velocity = PhysicUtils.getNewMoveSpeedAfterCircleHit2D(this.rb , hit);
+               
 
                 Game2D_GamePlayEvent beCollideEvent = new Game2D_GamePlayEvent(EventType_Game2DPlayEvent.CharacterDoCollide, this.gameObject);
                 beCollideEvent.doCharacter = this;
