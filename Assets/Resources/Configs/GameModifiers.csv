@@ -88,6 +88,7 @@
 13001,1,ListenGameEvent,CharacterCastSkill|ShootToTarget|20|MainCharacter|AimTarget,散射攻击：发射散射子弹
 13001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|13001|MainCharacter,散射攻击：技能使用后驱散
 13001,3,AddSimpleDect,float_add|Reduce_MP_PerSecond|-50,每秒回血Buff
+13002,1,AddSimpleDect,,永久攻击力增加+5buff
 14001,1,ListenGameEvent,CharacterCastSkill|ShootToTarget|21|MainCharacter|AimTarget,减速攻击：发射减速子弹
 14001,2,ListenGameEvent,CharacterCastSkill|DispelModifier|14001|MainCharacter,减速攻击：技能使用后驱散
 14002,1,ListenGameEvent,CharacterDoCollide|SpawnField|11|HitPointX|HitPointY,减速子弹：碰撞时产生减速场地
