@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Core;
@@ -119,7 +120,12 @@ public class CharacterCtrlBase : MonoBehaviour
 
     public Character_Float Damage_Shoot = new Character_Float("Damage_Shoot", 1f);
 
-
+    // 攻击CD相关属性
+    public Character_Float mAttackCD_Cur = new Character_Float("mAttackCD_Cur", -1);
+    public Character_Float mAttackCDReduce = new Character_Float("mAttackCDReduce", 1);
+    public Character_Float mAttackCD = new Character_Float("mAttackCD", 1);
+    public Character_Int myAttackSkillID = new Character_Int("myAttackSkillID", 5);
+    public Character_Float AttackRange = new Character_Float("AttackRange", 10);
 
     // Start is called before the first frame update
     protected void Start()
@@ -179,6 +185,13 @@ public class CharacterCtrlBase : MonoBehaviour
         canAttack.TakeEffect(this);
 
         Damage_Shoot.TakeEffect(this);
+
+        // 初始化攻击CD相关属性
+        mAttackCD_Cur.TakeEffect(this);
+        mAttackCDReduce.TakeEffect(this);
+        mAttackCD.TakeEffect(this);
+        myAttackSkillID.TakeEffect(this);
+        AttackRange.TakeEffect(this);
 
         MyTileDir.TakeEffect(this); 
     }
@@ -376,6 +389,13 @@ public class CharacterCtrlBase : MonoBehaviour
             UpdateAllInput();
         }
 
+        // 更新攻击CD
+        if (mAttackCD_Cur.real_value > 0)
+        {
+            mAttackCD_Cur.real_value -= mAttackCDReduce.GetValue() * Time.deltaTime;
+            mAttackCD_Cur.real_value = Math.Max(0, mAttackCD_Cur.real_value);
+        }
+
     }
 
     public void TakeDamage(int damage , SkillUseInfo skillUseInfo = null)
@@ -569,7 +589,7 @@ public class CharacterCtrlBase : MonoBehaviour
 
         // 掉落概率检查
         float dropChance = 1f;
-        if (Random.value > dropChance)
+        if (UnityEngine.Random.value > dropChance)
         {
             // Debug.Log("敌人死亡：未掉落食材（概率未命中）");
             return;
@@ -670,7 +690,7 @@ public class CharacterCtrlBase : MonoBehaviour
         }
 
         // 生成随机值
-        int randomValue = Random.Range(0, totalWeight);
+        int randomValue = UnityEngine.Random.Range(0, totalWeight);
 
         // 根据权重选择
         int cumulativeWeight = 0;
