@@ -17,28 +17,12 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
 
     public Animator spriteAnimator;
 
-    public Character_Float mAttackCD_Cur = new Character_Float("mAttackCD_Cur", -1);
-    public Character_Float mAttackCDReduce = new Character_Float("mAttackCDReduce", 1);
-    public Character_Float mAttackCD = new Character_Float("mAttackCD", 0);
-
-    public Character_Int myAttackSkillID = new Character_Int("myAttackSkillID", 7);
-    public Character_Float AttackRange = new Character_Float("AttackRange", 10);
-
-
-
     // Update is called once per frame
     private void Update()
     {
         base.Update();
 
         UpdateAnimationStates();
-
-        if (mAttackCD_Cur.real_value > 0)
-        {
-            mAttackCD_Cur.real_value -= mAttackCDReduce.GetValue() * Time.deltaTime;
-            mAttackCD_Cur.real_value = Math.Max(0, mAttackCD_Cur.real_value);
-        }
-
     }
 
 
@@ -92,16 +76,6 @@ public class PlayerCharacterCtrl : CharacterCtrlBase
 
         IsFOVLock.TakeEffect(this);
         targetCameraFOV.TakeEffect(this);
-
-        myAttackSkillID.TakeEffect(this);
-
-        mAttackCD_Cur.TakeEffect(this);
-        mAttackCD.TakeEffect(this);
-        mAttackCDReduce.TakeEffect(this);
-
-        AttackRange.TakeEffect(this);
-
-
     }
 
     public void CancelUseSkill(SkillUseInfo skillUseInfo)

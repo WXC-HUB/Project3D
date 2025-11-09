@@ -109,3 +109,4 @@
 16002,3,ListenGameEvent,CharacterHitTarget|AddModifier|16003|BeHitCharacter|1,碰撞时添加减速Buff
 16002,4,ListenGameEvent,CharacterHitTarget|DoDamage|DoHitCharacter|9999,碰撞时摧毁自身
 16003,1,AddSimpleDect,float_add|MaxSpeed|-0.25,添加减速Buff
+13004,1,AddSimpleDect,float_add|mAttackCDReduce|10.5,食材Buff：攻击速度+1050%
