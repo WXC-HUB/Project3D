@@ -50,6 +50,7 @@ namespace Assets.Scripts.AI
 
         public Dictionary<CharacterCtrlBase, List<Vector3Int>> toCharacterPath = new Dictionary<CharacterCtrlBase, List<Vector3Int>>();
         public CharacterCtrlBase nowFollowTarget;
+        Animator myanimator;
         private Vector3 GridToWorld(Vector3Int gridPos)
         {
             if ( tilemap != null)
@@ -106,7 +107,7 @@ namespace Assets.Scripts.AI
         {
             sensor = this.GetComponent<AISensorBase>();
             bindCharacterCtrl = this.GetComponent<CharacterCtrlBase>();
-
+            myanimator = this.GetComponentInChildren<Animator>(); 
             //speed = bindCharacterCtrl.MaxSpeed.GetValue();
             
         }
@@ -205,6 +206,11 @@ namespace Assets.Scripts.AI
                     if (characterCtrlBase != null)
                     {
                         (bindCharacterCtrl as PlayerCharacterCtrl).Attack(characterCtrlBase);
+
+                        if(myanimator != null)
+                        {
+                            myanimator.SetTrigger("Attack");
+                        }
                     }
                     
                 }
