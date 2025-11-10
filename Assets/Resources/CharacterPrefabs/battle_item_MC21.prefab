@@ -1460,7 +1460,7 @@ Transform:
   - {fileID: 5496159714008653607}
   - {fileID: 6171142399792824359}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &-160394692819286645
 MonoBehaviour:
@@ -2654,6 +2654,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1157428523486898886}
   - component: {fileID: 430408836285542560}
+  - component: {fileID: 275960603608569249}
   m_Layer: 0
   m_Name: Arrows
   m_TagString: Untagged
@@ -2703,6 +2704,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &275960603608569249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7048115708853333468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492fa4346c323b642ad8238c05ec9da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7048592065473695249
 GameObject:
   m_ObjectHideFlags: 0
