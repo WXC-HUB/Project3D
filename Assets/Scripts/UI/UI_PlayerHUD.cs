@@ -339,7 +339,9 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
         //    this.nodeDics["m_FollowPlayerRoot"].transform.position
         //        = Camera.main.WorldToScreenPoint(this.observe_CharacterCtrl.transform.position);
         //}
-        
+
+        this.nodeDics["m_Text_CurRound"].GetComponent<Text>().text = string.Format("{0}/{1}", LevelManager.Instance.NowRoundID, LevelManager.Instance.MaxRoundID);
+        this.nodeDics["m_Text_CurHP"].GetComponent<Text>().text = string.Format("{0}/{1}", observe_CharacterCtrl.NowHP, observe_CharacterCtrl.MaxHP.GetValue());
 
 
         UpdatePlayerDate();

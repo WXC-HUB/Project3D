@@ -454,6 +454,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MC21
       objectReference: {fileID: 0}
+    - target: {fileID: 6616087276062179192, guid: 86ebe045344c04b45b80dec820d85bed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6655098897533309161, guid: 86ebe045344c04b45b80dec820d85bed, type: 3}
       propertyPath: m_RootOrder
       value: 0
