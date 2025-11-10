@@ -74,8 +74,8 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
             if (toDoRecipe != null) 
             {
                 LoadImageToUI(GameUtils.FindChildInTransform(newobj.transform, "m_Sprite_DishResult").GetComponent<Image>(), getDishImageByID(toDoRecipe.CookResult));
-
-                LoadImageToUI(GameUtils.FindChildInTransform(newobj.transform, "m_Sprite_CookType").GetComponent<Image>(), toDoRecipe.cookTypeIconPath);
+                Debug.Log(GameUtils.FindChildInTransform(newobj.transform, "m_Sprite_CookType_cook"));
+                LoadImageToUI(GameUtils.FindChildInTransform(newobj.transform, "m_Sprite_CookType_cook").GetComponent<Image>(), toDoRecipe.cookTypeIconPath);
 
                 var new_from_obj_item = GameUtils.FindChildInTransform(newobj.transform, "m_ItemFrame02");
                 var new_from_obj_parent = GameUtils.FindChildInTransform(newobj.transform, "m_Grid_FromDish");
@@ -167,6 +167,23 @@ public class UI_PlayerHUD : BaseUI<UI_PlayerHUD>
 
     public void UpdatePlayerDate()
     {
+        this.nodeDics["m_Player_food_icon"].transform.position = Camera.main.WorldToScreenPoint(observe_CharacterCtrl.transform.position);
+        if(observe_CharacterCtrl.nowAttachList.Count > 0 &&
+                observe_CharacterCtrl.nowAttachList[0].dishID > 0)
+        {
+            this.nodeDics["m_Player_food_icon"].SetActive(true);
+
+            LoadImageToUI(
+                this.nodeDics["m_Player_food_icon_Content"].GetComponent<Image>(),
+                GameTableConfig.Instance.Config_Dish.FindFirstLine(x => x.DishID == observe_CharacterCtrl.nowAttachList[0].dishID).IconPath
+                );
+        }
+        else
+        {
+            this.nodeDics["m_Player_food_icon"].SetActive(false);
+        }
+        
+
         List<CharacterCtrlBase> to_del = new List<CharacterCtrlBase>();
         foreach (var item in player_follow_dics_hp) 
         {

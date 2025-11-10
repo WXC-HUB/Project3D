@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989075070077352446}
-  m_LocalRotation: {x: -0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4511947002060231692
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -102,7 +102,12 @@ MonoBehaviour:
   rb: {fileID: 0}
   col2D: {fileID: 0}
   MyGameObjectID: 0
+  MyObjectLayer: 0
+  isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
+  corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
@@ -135,6 +140,8 @@ MonoBehaviour:
     real_value: 10
   doHitPower:
     real_value: 10
+  DestroyOnDie:
+    real_value: 1
   isFixedPosition:
     real_value: 0
   usePhysic:
@@ -148,6 +155,26 @@ MonoBehaviour:
     real_value: 0
   followTarget: {fileID: 0}
   from_char: {fileID: 0}
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
+    real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
+  mAttackCD_Cur:
+    real_value: -1
+  mAttackCDReduce:
+    real_value: 1
+  mAttackCD:
+    real_value: 1
+  myAttackSkillID:
+    real_value: 5
+  AttackRange:
+    real_value: 10
 --- !u!58 &311163044544395548
 CircleCollider2D:
   m_ObjectHideFlags: 0

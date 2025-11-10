@@ -53,7 +53,9 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
   corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
   MoveSpeed_a: 2
   TargetRotation: 0
   nowAttachList: []
@@ -111,6 +113,16 @@ MonoBehaviour:
     real_value: 1
   Damage_Shoot:
     real_value: 1
+  mAttackCD_Cur:
+    real_value: -1
+  mAttackCDReduce:
+    real_value: 1
+  mAttackCD:
+    real_value: 1
+  myAttackSkillID:
+    real_value: 5
+  AttackRange:
+    real_value: 10
 --- !u!58 &311163044544395548
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -199,7 +211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c07857bba8e3634c87d9e5532e5a70b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.343
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c07857bba8e3634c87d9e5532e5a70b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -207,7 +219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c07857bba8e3634c87d9e5532e5a70b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.589
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c07857bba8e3634c87d9e5532e5a70b, type: 3}
       propertyPath: m_LocalRotation.w
