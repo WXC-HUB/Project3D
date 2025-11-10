@@ -13,6 +13,8 @@ public class PlayerInput : CharacterInputBase
 
     public bool HaveSelectTarget = false;
     private float JudgeSelectRange = 0.5f;
+
+    public Animator walkAnim = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -190,7 +192,8 @@ public class PlayerInput : CharacterInputBase
     void Update()
     {
         base.Update();
-        TestSelect();   
+        TestSelect(); 
+        walkAnim.SetBool("IsWalking" , characterCtrl.TryInputDir.GetValue().magnitude > 0); 
         //处理Item选中
     }
 }
