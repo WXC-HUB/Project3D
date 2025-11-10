@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3150016773991055754}
+  - component: {fileID: -8217746223617745396}
   m_Layer: 0
   m_Name: battle_item_MC11
   m_TagString: Untagged
@@ -221,8 +222,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403360272361309935}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.096260175, y: -0.018506708, z: -0.00360484}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -263,8 +264,102 @@ Transform:
   - {fileID: 6432654227301822585}
   - {fileID: 5525226149596208492}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &-8217746223617745396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403360272361309935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f8b4e11e697f042ba59cf0ee5e3bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  col2D: {fileID: 0}
+  MyGameObjectID: 0
+  MyObjectLayer: 0
+  isReadyForNextRound: 0
+  isAttachedToOther: 0
+  dishID: 0
+  corpsePrefab: {fileID: 0}
+  hasDroppedIngredient: 0
+  MoveSpeed_a: 2
+  TargetRotation: 0
+  nowAttachList: []
+  isAlive:
+    real_value: 1
+  LinerDrag:
+    real_value: 0
+  MaxSpeed:
+    real_value: 4
+  EnableMoveInput:
+    real_value: 1
+  IgnoreSpeedLimit:
+    real_value: 0
+  TryInputDir:
+    real_value: {x: 0, y: 0}
+  TryAimRotDir:
+    real_value: {x: 0, y: 0}
+  MaxHP:
+    real_value: 30
+  NowHP: 0
+  isInvincible:
+    real_value: 0
+  Mass:
+    real_value: 1
+  beHitDamage:
+    real_value: 0
+  doHitDamage:
+    real_value: 1
+  beHitPower:
+    real_value: 10
+  doHitPower:
+    real_value: 10
+  DestroyOnDie:
+    real_value: 1
+  isFixedPosition:
+    real_value: 0
+  usePhysic:
+    real_value: 1
+  canBeGrabed:
+    real_value: 0
+  grabDistance:
+    real_value: 1
+  Init_Modifier_List: 
+  IsFollowTarget:
+    real_value: 0
+  followTarget: {fileID: 0}
+  from_char: {fileID: 0}
+  MaxMP:
+    real_value: 30
+  NowMP: 0
+  Reduce_MP_PerSecond:
+    real_value: 0
+  have_reduce_MP: 0
+  canAttack:
+    real_value: 1
+  Damage_Shoot:
+    real_value: 1
+  mAttackCD_Cur:
+    real_value: -1
+  mAttackCDReduce:
+    real_value: 1
+  mAttackCD:
+    real_value: 0
+  myAttackSkillID:
+    real_value: 7
+  AttackRange:
+    real_value: 10
+  MySelectTarget: {x: 0, y: 0, z: 0}
+  IsFOVLock:
+    real_value: 0
+  targetCameraFOV:
+    real_value: 10
+  spriteAnimator: {fileID: 0}
 --- !u!1 &569217797840293783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2273,6 +2368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4929257679822940840}
   - component: {fileID: 3269190962335002385}
+  - component: {fileID: 962459200560283452}
   m_Layer: 0
   m_Name: Arrows
   m_TagString: Untagged
@@ -2288,7 +2384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5739511150116130654}
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.58, y: -0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2322,6 +2418,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &962459200560283452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5739511150116130654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492fa4346c323b642ad8238c05ec9da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6369194527905100714
 GameObject:
   m_ObjectHideFlags: 0

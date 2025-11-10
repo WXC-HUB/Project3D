@@ -171,6 +171,7 @@ namespace Assets.Scripts.Core
             
             string enemy_obj_name = g_config.BindPrefab;
             InGameCharacterType characterType = (InGameCharacterType)Enum.Parse(typeof(InGameCharacterType) , g_config.ObjectType);
+            Debug.Log("CharacterPrefabs/" + enemy_obj_name);
             GameObject newobj = Resources.Load<GameObject>("CharacterPrefabs/" + enemy_obj_name);
 
             if (newobj != null)

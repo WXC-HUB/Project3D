@@ -1,5 +1,5 @@
 ﻿ObjectID,ObjectName,ObjectType,BindPrefab,InitModifier
-5,减速子弹,Bullet,CC_Bullet_1,16002
+5,普通子弹,Bullet,battle_item_MC21,16002
 2,基础防御塔,Tower,CC_Object_Tower,12001|12004
 3,基础子弹,Bullet,CC_Bullet_1,8002
 4,空Character作为SpawenRoot,SpawnRoot,GO_SpawnRoot_1,0
@@ -24,4 +24,4 @@
 10,散射防御塔,Tower,CC_Object_Tower_Scatter,12002|12004
 11,减速防御塔,Tower,CC_Object_Tower_Slow,12003|12004
 20,散射子弹,Bullet,CC_Bullet_Scatter,8002
-21,减速子弹,Bullet,CC_Bullet_Slow,8003|14002
+21,减速子弹,Bullet,battle_item_MC21,8003|14002

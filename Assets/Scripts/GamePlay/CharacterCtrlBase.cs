@@ -38,6 +38,7 @@ public class CharacterCtrlBase : MonoBehaviour
     Character_Vector2 MyTileDir = new Character_Vector2("MyTileDir" , Vector2.up);
     public int dishID;
 
+    AimAtTarget a_to_target;
     public Vector2 getTileDir()
     {
         return MyTileDir.GetValue();
@@ -193,7 +194,9 @@ public class CharacterCtrlBase : MonoBehaviour
         myAttackSkillID.TakeEffect(this);
         AttackRange.TakeEffect(this);
 
-        MyTileDir.TakeEffect(this); 
+        MyTileDir.TakeEffect(this);
+
+        a_to_target = this.GetComponentInChildren<AimAtTarget>();
     }
 
 
@@ -231,6 +234,11 @@ public class CharacterCtrlBase : MonoBehaviour
         {
             if(this.followTarget != null)
             {
+                if(a_to_target != null)
+                {
+                    a_to_target.aimAt(this.followTarget.transform);
+                }
+                
 
                 Vector3 target_pos = this.followTarget.transform.position;
                 Vector3 move_len = target_pos - transform.position;
