@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 989075070077352446}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6817200255402561059}
@@ -115,6 +115,7 @@ MonoBehaviour:
   MyObjectLayer: 0
   isReadyForNextRound: 0
   isAttachedToOther: 0
+  dishID: 0
   corpsePrefab: {fileID: 0}
   hasDroppedIngredient: 0
   MoveSpeed_a: 2
@@ -174,6 +175,16 @@ MonoBehaviour:
     real_value: 1
   Damage_Shoot:
     real_value: 1
+  mAttackCD_Cur:
+    real_value: -1
+  mAttackCDReduce:
+    real_value: 1
+  mAttackCD:
+    real_value: 1
+  myAttackSkillID:
+    real_value: 5
+  AttackRange:
+    real_value: 10
 --- !u!1001 &6417971409053919688
 PrefabInstance:
   m_ObjectHideFlags: 0
