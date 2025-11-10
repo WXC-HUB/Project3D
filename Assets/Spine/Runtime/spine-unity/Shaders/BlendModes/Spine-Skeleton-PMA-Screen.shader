@@ -44,10 +44,11 @@ Shader "Spine/Blend Modes/Skeleton PMA Screen" {
 			Name "Normal"
 
 			CGPROGRAM
-			#pragma shader_feature _ _STRAIGHT_ALPHA_INPUT
+			//#pragma shader_feature _ _STRAIGHT_ALPHA_INPUT
 			#pragma vertex vert
 			#pragma fragment frag
 			#include "UnityCG.cginc"
+			#include "../CGIncludes/Spine-Common.cginc"
 			uniform sampler2D _MainTex;
 			uniform float4 _Color;
 
@@ -67,16 +68,16 @@ Shader "Spine/Blend Modes/Skeleton PMA Screen" {
 				VertexOutput o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = v.uv;
-				o.vertexColor = v.vertexColor * float4(_Color.rgb * _Color.a, _Color.a); // Combine a PMA version of _Color with vertexColor.
+				o.vertexColor = PMAGammaToTargetSpace(v.vertexColor) * float4(_Color.rgb * _Color.a, _Color.a); // Combine a PMA version of _Color with vertexColor.
 				return o;
 			}
 
 			float4 frag (VertexOutput i) : SV_Target {
 				float4 texColor = tex2D(_MainTex, i.uv);
 
-				#if defined(_STRAIGHT_ALPHA_INPUT)
+				//#if defined(_STRAIGHT_ALPHA_INPUT)
 				texColor.rgb *= texColor.a;
-				#endif
+				//#endif
 
 				return (texColor * i.vertexColor);
 			}
