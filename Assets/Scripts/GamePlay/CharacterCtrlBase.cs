@@ -434,7 +434,7 @@ public class CharacterCtrlBase : MonoBehaviour
             this.NowHP -= new_dmg;
         }
 
-        if(this.NowHP < 0)
+        if(this.NowHP <= 0)
         {
             // 检查是否是玩家角色死亡
             if (LevelManager.Instance != null && this == LevelManager.Instance.MyHero)
@@ -444,6 +444,7 @@ public class CharacterCtrlBase : MonoBehaviour
             }
             else
             {
+                this.NowHP = Mathf.Max(0, this.NowHP);
                 this.Die(DeathCause.Killed, skillUseInfo);
             }
         }
@@ -536,6 +537,11 @@ public class CharacterCtrlBase : MonoBehaviour
         {
             // 到达终点，扣除基地血量
             OnEnemyReachedEnd();
+        }
+
+        if (LevelManager.Instance != null && MyObjectLayer == InGameCharacterType.Enemy)
+        {
+            LevelManager.Instance.NotifyEnemyRemoved(this, cause);
         }
 
         GameObject.Destroy(gameObject);

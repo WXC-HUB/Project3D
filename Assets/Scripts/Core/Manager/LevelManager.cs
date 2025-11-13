@@ -79,6 +79,9 @@ namespace Assets.Scripts.Core
 
         public CharacterCtrlBase MyHero;
 
+        private int aliveEnemyCount = 0;
+        private bool isLevelEnded = false;
+
 
         public void AddRoundNextFlag(CharacterCtrlBase ch , int MaxID)
         {
@@ -88,6 +91,11 @@ namespace Assets.Scripts.Core
 
         public void GoNextRound()
         {
+            if (isLevelEnded || !isRoundGameStart)
+            {
+                return;
+            }
+
             // 防止延迟调用时 Instance 已被销毁
             if (LevelGridGenerator.Instance == null)
             {
@@ -101,37 +109,52 @@ namespace Assets.Scripts.Core
 
         public bool TestNextRound()
         {
-            if (!this.isRoundGameStart)
+            if (!isRoundGameStart || isLevelEnded)
             {
                 return false;
             }
 
-            // 过滤掉已被销毁的对象
-            if(RoundNextFlag.All( x => x != null && x.isReadyForNextRound))
-            {
-                if (LevelGridGenerator.Instance == null)
-                {
-                    Debug.LogWarning("TestNextRound: LevelGridGenerator.Instance is null");
-                    return false;
-                }
+            bool allSpawnRootsReady = RoundNextFlag.All(x => x == null || x.isReadyForNextRound);
 
-                Invoke("GoNextRound", 5f);
-                LevelGridGenerator.Instance.GoNextRound();
-                if(NowRoundID > MaxRoundID)
-                {
-                    LevelWin();
-                }
-                
+            if (!allSpawnRootsReady)
+            {
+                return false;
+            }
+
+            if (LevelGridGenerator.Instance == null)
+            {
+                Debug.LogWarning("TestNextRound: LevelGridGenerator.Instance is null");
+                return false;
+            }
+
+            if (NowRoundID >= MaxRoundID)
+            {
+                TryHandleLevelCompletion();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            Invoke(nameof(GoNextRound), 5f);
+            LevelGridGenerator.Instance.GoNextRound();
+
+            return true;
         }
 
         public void LevelWin()
         {
+            if (isLevelEnded)
+            {
+                return;
+            }
+
+            isLevelEnded = true;
+            isRoundGameStart = false;
+            CancelInvoke(nameof(GoNextRound));
+
+            if (LevelGridGenerator.Instance != null)
+            {
+                LevelGridGenerator.Instance.StartSpawn(false);
+            }
+
             Debug.Log("游戏胜利！");
 	/*
             if (UI_GameState.instance != null)
@@ -146,6 +169,20 @@ UI_PlayerHUD.instance.gameObject.SetActive(false);
 
         public void LevelLose()
         {
+            if (isLevelEnded)
+            {
+                return;
+            }
+
+            isLevelEnded = true;
+            isRoundGameStart = false;
+            CancelInvoke(nameof(GoNextRound));
+
+            if (LevelGridGenerator.Instance != null)
+            {
+                LevelGridGenerator.Instance.StartSpawn(false);
+            }
+
             Debug.Log("游戏失败！");
 /*
             if (UI_GameState.instance != null)
@@ -199,6 +236,11 @@ UI_PlayerHUD.instance.gameObject.SetActive(false);
                 RegCharacterAsType(newsp , characterType);  
                 newsp.MyGameObjectID = ID;
                 
+                if (characterType == InGameCharacterType.Enemy)
+                {
+                    NotifyEnemySpawned(newsp);
+                }
+
 
                 if(characterType is InGameCharacterType.Tower || characterType is InGameCharacterType.Enemy)
                 {
@@ -228,9 +270,74 @@ UI_PlayerHUD.instance.gameObject.SetActive(false);
             }
         }
 
-        private void Awake()
+        private void ResetLevelState()
+        {
+            aliveEnemyCount = 0;
+            isLevelEnded = false;
+            CancelInvoke(nameof(GoNextRound));
+        }
+
+        public void NotifyEnemySpawned(CharacterCtrlBase enemy)
+        {
+            if (enemy == null || isLevelEnded)
+            {
+                return;
+            }
+
+            aliveEnemyCount = Mathf.Max(0, aliveEnemyCount);
+            aliveEnemyCount += 1;
+        }
+
+        public void NotifyEnemyRemoved(CharacterCtrlBase enemy, DeathCause cause)
+        {
+            if (enemy == null)
+            {
+                return;
+            }
+
+            _ = cause;
+
+            if (aliveEnemyCount > 0)
+            {
+                aliveEnemyCount -= 1;
+            }
+            else
+            {
+                aliveEnemyCount = 0;
+            }
+
+            TryHandleLevelCompletion();
+        }
+
+        private void TryHandleLevelCompletion()
+        {
+            if (isLevelEnded || !isRoundGameStart)
+            {
+                return;
+            }
+
+            if (aliveEnemyCount > 0)
+            {
+                return;
+            }
+
+            if (NowRoundID == 0)
+            {
+                return;
+            }
+
+            bool allSpawnRootsFinished = RoundNextFlag.Count == 0 || RoundNextFlag.All(x => x == null || x.isReadyForNextRound);
+
+            if (NowRoundID >= MaxRoundID && allSpawnRootsFinished)
+            {
+                LevelWin();
+            }
+        }
+
+        protected new void Awake()
         {
             base.Awake();
+            ResetLevelState();
 
             InitLevelEventManager();
             InitLevelEventQueue();
@@ -286,6 +393,8 @@ UI_PlayerHUD.instance.gameObject.SetActive(false);
 
         void StartMyGame()
         {
+            ResetLevelState();
+
             LevelGridGenerator.Instance.LoadLevelByID(1);
             isRoundGameStart = true;
             
