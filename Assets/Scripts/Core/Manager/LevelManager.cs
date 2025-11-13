@@ -133,19 +133,30 @@ namespace Assets.Scripts.Core
         public void LevelWin()
         {
             Debug.Log("游戏胜利！");
+	/*
             if (UI_GameState.instance != null)
             {
                 UI_GameState.instance.ShowVictory();
             }
+*/
+if (UI_PopupDim_Play_Result_Victory.instance == null)	UIManager.Instance.CreateUIByName<UI_PopupDim_Play_Result_Victory>("UI_PopupDim_Play_Result_Victory");
+UI_VirtualInput.instance.gameObject.SetActive(false);
+UI_PlayerHUD.instance.gameObject.SetActive(false);
         }
 
         public void LevelLose()
         {
             Debug.Log("游戏失败！");
+/*
             if (UI_GameState.instance != null)
             {
                 UI_GameState.instance.ShowDefeat();
             }
+*/
+
+if (UI_PopupDim_Play_Result_Defeat.instance == null)	UIManager.Instance.CreateUIByName<UI_PopupDim_Play_Result_Defeat>("UI_PopupDim_Play_Result_Defeat");
+UI_VirtualInput.instance.gameObject.SetActive(false);
+UI_PlayerHUD.instance.gameObject.SetActive(false);
         }
 
         public void RegCharacterAsType(CharacterCtrlBase newsp , InGameCharacterType characterType)
