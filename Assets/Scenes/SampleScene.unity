@@ -10551,6 +10551,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pizzabox_stacked (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d081687958009a4591f1a61d039a581, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
