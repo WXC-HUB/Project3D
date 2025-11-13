@@ -11,7 +11,7 @@ using Assets.Scripts.AI;
 using UnityEngine.Tilemaps;
 using System;
 using System.Linq;
-using static UnityEditor.Progress;
+// using static UnityEditor.Progress;
 
 namespace Assets.Scripts.Core
 {
