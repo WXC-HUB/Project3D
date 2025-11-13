@@ -5496,6 +5496,7 @@ GameObject:
   - component: {fileID: 9160803870086521994}
   - component: {fileID: 2613375856842363964}
   - component: {fileID: -8670292390291782291}
+  - component: {fileID: 1230369858500842783}
   m_Layer: 0
   m_Name: UI_PopupDim_Play_Result_Victory
   m_TagString: Untagged
@@ -5524,7 +5525,7 @@ RectTransform:
   - {fileID: 3158494729703023011}
   - {fileID: 8070779937511395233}
   m_Father: {fileID: 0}
-  m_RootOrder: 47
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5549,7 +5550,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -5594,6 +5595,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1230369858500842783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419170899337636184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5829be55964c2f547b79be3842a284cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7659160058340323201
 GameObject:
   m_ObjectHideFlags: 0

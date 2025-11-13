@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 6058018715132741548}
   - component: {fileID: 776556574368889175}
   - component: {fileID: 1982018948837959250}
+  - component: {fileID: -3662273460934105079}
   m_Layer: 0
   m_Name: UI_PopupDim_Play_Result_Defeat
   m_TagString: Untagged
@@ -796,6 +797,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-3662273460934105079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234420416592264431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7cf53e20ff53044b5059b9f3e80c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1248807983113499572
 GameObject:
   m_ObjectHideFlags: 0
